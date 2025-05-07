@@ -36,6 +36,6 @@ public class ConnectionOracle {
         //String jdbcUrl = "jdbc:oracle:thin:@localhost:1521:orcl";
         // Tạo và trả về kết nối
         //Connection con =DriverManager.getConnection(jdbcUrl, username, password);
-        return  con;
+        return  con; 
     }
 }

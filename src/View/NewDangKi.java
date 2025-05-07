@@ -87,7 +87,7 @@ public class NewDangKi extends JFrame {
         add(phoneField, gbc);
 
         // BUTTON
-        saveButton = new JButton("Lưu");
+        saveButton = new JButton("Đăng ký");
         gbc.gridx = 1;
         gbc.gridy++;
         gbc.anchor = GridBagConstraints.CENTER;
