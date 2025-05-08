@@ -1,0 +1,17 @@
+{
+    "java.project.sourcePaths": ["src/main/java"],
+    "java.project.outputPath": "target/classes",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "lib/ojdbc17.jar"
+    ],
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.configuration.maven.userSettings": "",
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-1.8",
+            "path": "C:\\Program Files\\Java\\jdk1.8.0_xxx",
+            "default": true
+        }
+    ]
+} 

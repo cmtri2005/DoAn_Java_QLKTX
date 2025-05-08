@@ -1,23 +1,64 @@
-import javax.imageio.ImageIO; // Thêm dòng này
+package View;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.io.IOException; // Thêm nếu chưa có
-  public class BackgroundPanel extends JPanel {
+import java.io.IOException;
+import java.net.URL;
+import java.security.SecureRandom;
+import java.sql.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Base64;
 
-  private Image backgroundImage;
 
-  // Some code to initialize the background image.
-  // Here, we use the constructor to load the image. This
-  // can vary depending on the use case of the panel.
-  public BackgroundPanel(String fileName) throws IOException {
-    backgroundImage = ImageIO.read(new File(fileName));
-  }
+class BackgroundPanel extends JPanel {
+    private Image backgroundImage;
 
-  public void paintComponent(Graphics g) {
-    super.paintComponent(g);
+    public BackgroundPanel(String resourcePath) {
+        if (resourcePath == null) {
+            setBackground(Color.LIGHT_GRAY);
+            return;
+        }
+        
+        try {
+            // Try URL first
+            if (resourcePath.startsWith("http") || resourcePath.startsWith("file:")) {
+                backgroundImage = ImageIO.read(new URL(resourcePath));
+            } else {
+                // Try as file path
+                backgroundImage = ImageIO.read(new File(resourcePath));
+            }
+            
+            if (backgroundImage == null) {
+                System.err.println("Failed to load background image from: " + resourcePath);
+                setBackground(Color.LIGHT_GRAY);
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading background image: " + e.getMessage());
+            BackgroundPanel fallbackPanel = new BackgroundPanel(null);
+        }
+    }
 
-    // Draw the background image.
-    g.drawImage(backgroundImage, 0, 0, this);
-  }
-}    
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (backgroundImage != null) {
+            // Scale image to fit panel while maintaining aspect ratio
+            int width = getWidth();
+            int height = getHeight();
+            double imageRatio = (double) backgroundImage.getWidth(null) / backgroundImage.getHeight(null);
+            double panelRatio = (double) width / height;
+
+            if (panelRatio > imageRatio) {
+                height = (int) (width / imageRatio);
+            } else {
+                width = (int) (height * imageRatio);
+            }
+
+            g.drawImage(backgroundImage, 0, 0, width, height, this);
+        }
+    }
+}

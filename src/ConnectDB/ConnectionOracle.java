@@ -1,41 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-//package ConnectDB;
-//import java.sql.Connection;
-//import java.sql.SQLException;
-//import java.sql.DriverManager;
 package ConnectDB;
-import java.sql.*;
-/**
- *
- * @author Admin
- */
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class ConnectionOracle {
-//throws ClassNotFoundException, SQLException
-  //  private static Connection con;
+    private static final String HOSTNAME = "localhost";
+    private static final String SID = "orcl";
+    private static final String USERNAME = "QUANLYKTX";
+    private static final String PASSWORD = "Admin123";
+    
     public static Connection getConnectionOracle() throws ClassNotFoundException, SQLException {
-        Connection con =null;
-        String hostname = "localhost";
-        String sid = "orcl";
-        String username = "qlusertk";
-        String password = "Admin123";
-        String jdbcUrl = "jdbc:oracle:thin:@" + hostname + ":1521:"+sid;
-        // Đăng ký driver
+        String jdbcUrl = String.format("jdbc:oracle:thin:@%s:1521:%s", HOSTNAME, SID);
         Class.forName("oracle.jdbc.driver.OracleDriver");
-        try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            //ConnectionOracle con =DriverManager.getConnection(jdbcUrl,username, password);
-             con =DriverManager.getConnection(jdbcUrl, username, password);
-       } catch (Exception e) {
-            e.printStackTrace();
+        return DriverManager.getConnection(jdbcUrl, USERNAME, PASSWORD);
+    }
+    
+    public static void closeConnection(Connection conn) {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                System.err.println("Error closing connection: " + e.getMessage());
+            }
         }
-        
-        // Tạo connection string (sửa lại chỗ này)
-        //String jdbcUrl = "jdbc:oracle:thin:@localhost:1521:orcl";
-        // Tạo và trả về kết nối
-        //Connection con =DriverManager.getConnection(jdbcUrl, username, password);
-        return  con; 
     }
 }
