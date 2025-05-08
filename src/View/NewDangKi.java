@@ -15,6 +15,7 @@ public class NewDangKi extends JFrame {
     private JTextField phoneField;
 
     private JButton saveButton;
+    private JButton cancelButton;
 
     public NewDangKi() {
         setTitle("Thêm tài khoản");
@@ -85,17 +86,46 @@ public class NewDangKi extends JFrame {
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
         add(phoneField, gbc);
-
-        // BUTTON
+        
+        //BUTTON REGISTER AND CANCEL
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,20,0));
         saveButton = new JButton("Đăng ký");
-        gbc.gridx = 1;
+        cancelButton = new JButton("Thoát");
+        buttonPanel.add(saveButton);
+        buttonPanel.add(cancelButton);
+        //
+        gbc.gridx = 0;
         gbc.gridy++;
+        gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        add(saveButton, gbc);
-
+        add(buttonPanel,gbc);
         saveButton.addActionListener(e -> saveAccount());
-    }
+        cancelButton.addActionListener(e -> dispose());
 
+    }
+    private void showError(String message){
+        JOptionPane.showMessageDialog(this,message,"Lỗi",JOptionPane.ERROR_MESSAGE);
+    }
+    private boolean checkInputs(String username, String password, String fullName, 
+                                 String email, String cccd, String phone){
+        if(password.length() < 8){
+            showError("Mật khẩu phải có ít nhất 8 ký tự");
+            return false;
+        }
+        if (!email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            showError("Email không hợp lệ");
+            return false;
+        }
+        if (!cccd.matches("\\d{12}")) {
+            showError("CCCD phải có đúng 12 số");
+            return false;
+        }
+        if (!phone.matches("^\\d{10,15}$")) {
+            showError("Số điện thoại không hợp lệ (10-15 số)");
+            return false;
+        }
+        return true;
+    }
     private void saveAccount() {
         String username = usernameField.getText().trim();
         String rawPassword = new String(passwordField.getPassword());
@@ -109,7 +139,9 @@ public class NewDangKi extends JFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin.", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        if(!checkInputs(username,rawPassword,fullName,email,cccd,phone)){
+            return;
+        }
         try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
             String sql = "INSERT INTO ACCOUNT (USER_NAME, PASSWORD_HASH, FULL_NAME, EMAIL, CCCD, PHONE_NUM) " +
                          "VALUES (?, ?, ?, ?, ?, ?)";
