@@ -6,7 +6,10 @@ package View.dashboard;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -35,7 +38,7 @@ public class HomeAdmin extends javax.swing.JFrame {
 
         bg = new javax.swing.JPanel();
         sidepane = new javax.swing.JPanel();
-        btn_them = new javax.swing.JPanel();
+        btn_data = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btn_sinhvien = new javax.swing.JPanel();
@@ -63,38 +66,43 @@ public class HomeAdmin extends javax.swing.JFrame {
         sidepane.setBackground(new java.awt.Color(153, 153, 255));
         sidepane.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btn_them.setBackground(new java.awt.Color(102, 102, 255));
-        btn_them.setPreferredSize(new java.awt.Dimension(285, 60));
+        btn_data.setBackground(new java.awt.Color(102, 102, 255));
+        btn_data.setPreferredSize(new java.awt.Dimension(285, 60));
+        btn_data.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Click(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Cơ Sở Dữ Liệu");
 
-        javax.swing.GroupLayout btn_themLayout = new javax.swing.GroupLayout(btn_them);
-        btn_them.setLayout(btn_themLayout);
-        btn_themLayout.setHorizontalGroup(
-            btn_themLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_themLayout.createSequentialGroup()
+        javax.swing.GroupLayout btn_dataLayout = new javax.swing.GroupLayout(btn_data);
+        btn_data.setLayout(btn_dataLayout);
+        btn_dataLayout.setHorizontalGroup(
+            btn_dataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_dataLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(40, Short.MAX_VALUE))
         );
-        btn_themLayout.setVerticalGroup(
-            btn_themLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_themLayout.createSequentialGroup()
+        btn_dataLayout.setVerticalGroup(
+            btn_dataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_dataLayout.createSequentialGroup()
                 .addContainerGap(12, Short.MAX_VALUE)
-                .addGroup(btn_themLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_themLayout.createSequentialGroup()
+                .addGroup(btn_dataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_dataLayout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_themLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_dataLayout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(17, 17, 17))))
         );
 
-        sidepane.add(btn_them, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 310, 60));
+        sidepane.add(btn_data, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 310, 60));
 
         btn_sinhvien.setBackground(new java.awt.Color(102, 102, 255));
         btn_sinhvien.setPreferredSize(new java.awt.Dimension(285, 60));
@@ -328,6 +336,28 @@ public class HomeAdmin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void Click(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Click
+        // TODO add your handling code here:
+        btn_data.setBackground(new Color(71,60,139));
+        JFrame newFrame=new JFrame("Đây là test");
+        newFrame.setSize(300,200);
+        newFrame.setLocationRelativeTo(null);
+        newFrame.add(new JLabel("Đây là cửa sổ dữ liệu", SwingConstants.CENTER));
+        
+        
+        newFrame.addWindowListener(new java.awt.event.WindowAdapter(){
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e){
+                btn_data.setBackground(new Color(102,102,255));
+            }
+            
+            
+        });
+        
+        newFrame.setVisible(true);
+        
+    }//GEN-LAST:event_Click
+
     /**
      * @param args the command line arguments
      */
@@ -368,10 +398,10 @@ public class HomeAdmin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Picture;
     private javax.swing.JPanel bg;
+    private javax.swing.JPanel btn_data;
     private javax.swing.JPanel btn_dichvu;
     private javax.swing.JPanel btn_phong;
     private javax.swing.JPanel btn_sinhvien;
-    private javax.swing.JPanel btn_them;
     private javax.swing.JPanel btn_trangchu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
