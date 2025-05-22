@@ -5,12 +5,16 @@
 package RegisterRoom;
 
 import View.DKyPhong.dkyphong;
+import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import oracle.jdbc.internal.ResultSetCache;
 import java.sql.*;
+import javax.swing.UIManager;
+import com.formdev.flatlaf.FlatLightLaf;
+
 
 /**
  *
@@ -401,11 +405,30 @@ public ChonChiTiet(String tenToa,String loaiPhong, String gioiTinh) {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-    dkyphong dkFrame=new dkyphong();
+        
+        
+        
+        int selectedRow = jTable1.getSelectedRow();
+    
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng để đăng ký!");
+            return;
+        }
+    
+    // Lấy dữ liệu từ 5 cột của hàng được chọn
+        String toa = jTable1.getValueAt(selectedRow, 0).toString();       // Cột 1: Tòa
+        String loaiPhong = jTable1.getValueAt(selectedRow, 1).toString(); // Cột 2: Loại phòng
+        int tang = (int) jTable1.getValueAt(selectedRow, 2);      // Cột 3: Tầng
+        String phong = jTable1.getValueAt(selectedRow, 3).toString();      // Cột 4: Phòng
+        int choTrong = (int) jTable1.getValueAt(selectedRow, 4);   // Cột 5: Số chỗ trống
+        
+        
+        
+        dkyphong dkFrame=new dkyphong(toa,loaiPhong,tang,phong,choTrong);
         dkFrame.setVisible(true);
         dkFrame.setLocationRelativeTo(null);
         
-        this.dispose();        
+        this.dispose();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -478,7 +501,12 @@ public ChonChiTiet(String tenToa,String loaiPhong, String gioiTinh) {
         }
         //</editor-fold>
         //</editor-fold>
-
+                        try {
+            // Cài theme FlatLaf sáng
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (Exception ex) {
+            System.err.println("Không thể cài FlatLaf");
+        }
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

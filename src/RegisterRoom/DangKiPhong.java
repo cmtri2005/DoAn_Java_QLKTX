@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import oracle.jdbc.internal.ResultSetCache;
 import java.sql.*;
+import com.formdev.flatlaf.FlatLightLaf;
+import javax.swing.UIManager;
+
 
 /**
  *
@@ -234,7 +237,12 @@ private void loadLoaiPhongComboBox() {
             java.util.logging.Logger.getLogger(DangKiPhong.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+           try {
+            // Cài theme FlatLaf sáng
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (Exception ex) {
+            System.err.println("Không thể cài FlatLaf");
+        }
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

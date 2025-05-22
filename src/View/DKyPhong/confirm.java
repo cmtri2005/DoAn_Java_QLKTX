@@ -4,6 +4,12 @@
  */
 package View.DKyPhong;
 
+import java.awt.Image;
+import java.io.File;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  *
  * @author NguyenTri
@@ -31,6 +37,7 @@ public class confirm extends javax.swing.JFrame {
         information = new javax.swing.JLabel();
         image = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
+        labelFile = new javax.swing.JLabel();
         lb_ten = new javax.swing.JLabel();
         tf_ten = new javax.swing.JTextField();
         lb_gioitinh = new javax.swing.JLabel();
@@ -58,6 +65,7 @@ public class confirm extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Thông tin đăng ký phòng");
@@ -76,11 +84,11 @@ public class confirm extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 180, Short.MAX_VALUE)
+            .addComponent(labelFile, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 190, Short.MAX_VALUE)
+            .addComponent(labelFile, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
         );
 
         lb_ten.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -192,6 +200,13 @@ public class confirm extends javax.swing.JFrame {
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel18.setText("Phòng 8 sinh viên");
 
+        jButton1.setText("Upload");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout Panel2Layout = new javax.swing.GroupLayout(Panel2);
         Panel2.setLayout(Panel2Layout);
         Panel2Layout.setHorizontalGroup(
@@ -211,7 +226,9 @@ public class confirm extends javax.swing.JFrame {
                     .addGroup(Panel2Layout.createSequentialGroup()
                         .addGap(265, 265, 265)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(298, 298, 298))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(Panel2Layout.createSequentialGroup()
                         .addGap(56, 56, 56)
                         .addGroup(Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,8 +292,12 @@ public class confirm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(Panel2Layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(Panel2Layout.createSequentialGroup()
+                                .addGap(82, 82, 82)
+                                .addComponent(jButton1)))
+                        .addGap(18, 18, 18)
                         .addComponent(lb_ten)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(tf_ten, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -326,14 +347,11 @@ public class confirm extends javax.swing.JFrame {
                         .addComponent(lb_sdt)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(tf_sdt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(Panel2Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(Panel2Layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addComponent(confirm, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(256, Short.MAX_VALUE))
+                        .addGap(41, 41, 41)
+                        .addGroup(Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(confirm, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(245, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
@@ -392,6 +410,30 @@ public class confirm extends javax.swing.JFrame {
         
     }//GEN-LAST:event_backActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+         JFileChooser fileChooser= new JFileChooser();
+        FileNameExtensionFilter imageFilter=new FileNameExtensionFilter("hinh anh", "jpg","png");
+        fileChooser.setFileFilter(imageFilter);
+        fileChooser.setMultiSelectionEnabled(false);
+        
+        int x=fileChooser.showDialog(this, "Chon file");
+        if(x==JFileChooser.APPROVE_OPTION){
+            File f=fileChooser.getSelectedFile();
+            
+            //lableFile.setIcon(new ImageIcon(f.getAbsolutePath()));
+            ImageIcon icon = new ImageIcon(f.getAbsolutePath());
+            Image img=icon.getImage();
+            
+            int width=labelFile.getWidth();
+            int height=labelFile.getHeight();
+            
+            Image scaledImg = img.getScaledInstance(width, height,Image.SCALE_SMOOTH );
+            labelFile.setIcon(new ImageIcon(scaledImg));
+            
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -436,6 +478,7 @@ public class confirm extends javax.swing.JFrame {
     private javax.swing.JLabel image2;
     private javax.swing.JLabel inform_school;
     private javax.swing.JLabel information;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -444,6 +487,7 @@ public class confirm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JLabel labelFile;
     private javax.swing.JLabel lb_date;
     private javax.swing.JLabel lb_email;
     private javax.swing.JLabel lb_gioitinh;
