@@ -10,10 +10,6 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 
-/**
- *
- * @author trica
- */
 public class ServicePanel extends JPanel {
     private JTable ServiceTable;
     private DefaultTableModel tableModel;
@@ -69,6 +65,5 @@ public class ServicePanel extends JPanel {
             JOptionPane.showMessageDialog(this,"Lỗi khi tải dữ liệu" + e.getMessage(),"Lỗi",JOptionPane.ERROR_MESSAGE);
         }
     }
-    //
-    
+    //   
 }

@@ -15,7 +15,7 @@ public class ConnectionOracle {
         Class.forName("oracle.jdbc.driver.OracleDriver");
         return DriverManager.getConnection(jdbcUrl, USERNAME, PASSWORD);
     }
-    
+
     public static void closeConnection(Connection conn) {
         if (conn != null) {
             try {

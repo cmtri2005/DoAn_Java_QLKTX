@@ -65,7 +65,7 @@ public class StudentPanel extends JPanel {
                 row.add(rs.getString("HOTEN"));
                 row.add(rs.getString("NGAYSINH"));
                 row.add(rs.getString("CCCD"));
-                row.add(rs.getString("SDT"));
+                row.add(rs.getString("SĐT"));
                 row.add(rs.getString("MATRUONG"));
                 row.add(rs.getString("MAPHONG"));
                 row.add(rs.getString("TINHTRANG"));
