@@ -1,11 +1,12 @@
-package ConnectDB;
+package View;
 
+import ConnectDB.ConnectionUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
 public class DangKyDichVu {
-    public boolean themDangKyDichVu(String maDK, String maDV, String maSV, Date ngayDangKy, String trangThai) {
+    public boolean themDangKyDichVu(String maDK, String maDV, String maSV, Date ngayDangKy, String trangThai) throws ClassNotFoundException {
          if (maDK == null || maDK.trim().isEmpty() ||
             maDV == null || maDV.trim().isEmpty() ||
             maSV == null || maSV.trim().isEmpty() ||
@@ -22,7 +23,7 @@ public class DangKyDichVu {
         }
         String sql = "INSERT INTO DANGKYDICHVU (MADK, MADV, MASV, NGAYDANGKY, TRANGTHAI) VALUES (?, ?, ?, ?, ?)";
         
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = ConnectionUtils.getMyConnectionOracle();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setString(1, maDK);
