@@ -1,10 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class NewDangKi extends JFrame {
+public class NewDangKi extends javax.swing.JFrame {
 
     private JTextField usernameField;
     private JPasswordField passwordField;
@@ -14,140 +16,269 @@ public class NewDangKi extends JFrame {
     private JTextField phoneField;
     private JTextField masvField;
     private JComboBox<String> schoolComboBox;
+    private JCheckBox showPasswordCheckBox;
 
     private JButton saveButton;
     private JButton cancelButton;
 
     public NewDangKi() {
         setTitle("Đăng ký tài khoản");
-        setSize(450, 400);
+        setSize(700, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new GridBagLayout());
+        
+        // Use a modern look and feel
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Main panel with gradient background
+        JPanel mainPanel = new JPanel(new BorderLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+                Color color1 = new Color(240, 248, 255); // AliceBlue
+                Color color2 = new Color(173, 216, 230); // LightBlue
+                GradientPaint gp = new GradientPaint(0, 0, color1, getWidth(), getHeight(), color2);
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        setContentPane(mainPanel);
+
+        // Header panel
+        JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        headerPanel.setOpaque(false);
+        JLabel titleLabel = new JLabel("ĐĂNG KÝ TÀI KHOẢN SINH VIÊN");
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        titleLabel.setForeground(new Color(0, 51, 102)); // Dark blue
+        headerPanel.add(titleLabel);
+        mainPanel.add(headerPanel, BorderLayout.NORTH);
+
+        // Form panel with card-like appearance
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setOpaque(false);
+        formPanel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
+            BorderFactory.createEmptyBorder(25, 25, 25, 25)
+        ));
+        formPanel.setBackground(new Color(255, 255, 255, 200)); // Semi-transparent white
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(8, 8, 8, 8);
-        
-        //SET BACKGROUND IMAGE
-        JLabel backgroundLabel = new JLabel();
-        java.net.URL imageURL = getClass().getResource("/icon/background_sign_up");
-        if(imageURL == null){
-            backgroundLabel.setText("Background image not found!");
-            backgroundLabel.setForeground(Color.RED);
-        }
-        else{
-            ImageIcon backgroundIcon = new ImageIcon(imageURL);
-            backgroundLabel.setIcon(backgroundIcon);
-        }
-        
-        
-//        ImageIcon backgroundIcon = new ImageIcon(getClass().getResource("/icon/background_sign_up.png"));
-//        if (backgroundIcon.getImage() == null) {
-//            backgroundLabel.setText("Background image not found!");
-//            backgroundLabel.setForeground(Color.RED);
-//        } else {
-//            backgroundLabel.setIcon(backgroundIcon);
-//        }
-        
-        
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.WEST;
+
+        // Font settings
+        Font labelFont = new Font("Segoe UI", Font.PLAIN, 14);
+        Font fieldFont = new Font("Segoe UI", Font.PLAIN, 14);
+        Color labelColor = new Color(60, 60, 60);
+
         // USERNAME
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.EAST;
-        add(new JLabel("Tên đăng nhập:"), gbc);
-        usernameField = new JTextField(20);
+        JLabel usernameLabel = createStyledLabel("Tên đăng nhập:", labelFont, labelColor);
+        formPanel.add(usernameLabel, gbc);
+        
+        usernameField = createStyledTextField(20, fieldFont);
+        usernameField.setToolTipText("Từ 4-20 ký tự, không chứa ký tự đặc biệt");
         gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        add(usernameField, gbc);
+        formPanel.add(usernameField, gbc);
 
         // PASSWORD
         gbc.gridx = 0;
         gbc.gridy++;
-        gbc.anchor = GridBagConstraints.EAST;
-        add(new JLabel("Mật khẩu:"), gbc);
+        JLabel passwordLabel = createStyledLabel("Mật khẩu:", labelFont, labelColor);
+        formPanel.add(passwordLabel, gbc);
+        
+        JPanel passwordPanel = new JPanel(new BorderLayout());
+        passwordPanel.setOpaque(false);
         passwordField = new JPasswordField(20);
+        passwordField.setFont(fieldFont);
+        passwordField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(200, 200, 200)),
+            BorderFactory.createEmptyBorder(5, 5, 5, 5)
+         ));
+        passwordField.setToolTipText("Ít nhất 8 ký tự, bao gồm chữ và số");
+        passwordPanel.add(passwordField, BorderLayout.CENTER);
+        
+        showPasswordCheckBox = new JCheckBox("Hiện mật khẩu");
+        styleCheckbox(showPasswordCheckBox);
+        showPasswordCheckBox.addActionListener(e -> {
+            passwordField.setEchoChar(showPasswordCheckBox.isSelected() ? '\0' : '•');
+        });
+        passwordPanel.add(showPasswordCheckBox, BorderLayout.SOUTH);
+        
         gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        add(passwordField, gbc);
+        formPanel.add(passwordPanel, gbc);
 
         // FULL NAME
         gbc.gridx = 0;
         gbc.gridy++;
-        gbc.anchor = GridBagConstraints.EAST;
-        add(new JLabel("Họ và tên:"), gbc);
-        fullNameField = new JTextField(20);
+        JLabel fullNameLabel = createStyledLabel("Họ và tên:", labelFont, labelColor);
+        formPanel.add(fullNameLabel, gbc);
+        fullNameField = createStyledTextField(20, fieldFont);
         gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        add(fullNameField, gbc);
+        formPanel.add(fullNameField, gbc);
 
         // EMAIL
         gbc.gridx = 0;
         gbc.gridy++;
-        gbc.anchor = GridBagConstraints.EAST;
-        add(new JLabel("Email:"), gbc);
-        emailField = new JTextField(20);
+        JLabel emailLabel = createStyledLabel("Email:", labelFont, labelColor);
+        formPanel.add(emailLabel, gbc);
+        emailField = createStyledTextField(20, fieldFont);
+        emailField.setToolTipText("Ví dụ: example@domain.com");
         gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        add(emailField, gbc);
+        formPanel.add(emailField, gbc);
 
         // CCCD
         gbc.gridx = 0;
         gbc.gridy++;
-        gbc.anchor = GridBagConstraints.EAST;
-        add(new JLabel("CCCD:"), gbc);
-        cccdField = new JTextField(20);
+        JLabel cccdLabel = createStyledLabel("CCCD:", labelFont, labelColor);
+        formPanel.add(cccdLabel, gbc);
+        cccdField = createStyledTextField(20, fieldFont);
+        cccdField.setToolTipText("12 chữ số");
         gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        add(cccdField, gbc);
+        formPanel.add(cccdField, gbc);
 
         // PHONE
         gbc.gridx = 0;
         gbc.gridy++;
-        gbc.anchor = GridBagConstraints.EAST;
-        add(new JLabel("Số điện thoại:"), gbc);
-        phoneField = new JTextField(20);
+        JLabel phoneLabel = createStyledLabel("Số điện thoại:", labelFont, labelColor);
+        formPanel.add(phoneLabel, gbc);
+        phoneField = createStyledTextField(20, fieldFont);
+        phoneField.setToolTipText("10-15 chữ số");
         gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        add(phoneField, gbc);
+        formPanel.add(phoneField, gbc);
 
         // MASV
         gbc.gridx = 0;
         gbc.gridy++;
-        gbc.anchor = GridBagConstraints.EAST;
-        add(new JLabel("Mã sinh viên:"), gbc);
-        masvField = new JTextField(20);
+        JLabel masvLabel = createStyledLabel("Mã sinh viên:", labelFont, labelColor);
+        formPanel.add(masvLabel, gbc);
+        masvField = createStyledTextField(20, fieldFont);
+        masvField.setToolTipText("SV theo sau là 5 chữ số (VD: SV12345)");
         gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        add(masvField, gbc);
+        formPanel.add(masvField, gbc);
 
         // SCHOOL
         gbc.gridx = 0;
         gbc.gridy++;
-        gbc.anchor = GridBagConstraints.EAST;
-        add(new JLabel("Mã trường:"), gbc);
+        JLabel schoolLabel = createStyledLabel("Mã trường:", labelFont, labelColor);
+        formPanel.add(schoolLabel, gbc);
         schoolComboBox = new JComboBox<>();
-        schoolComboBox.setPreferredSize(new Dimension(200, 20));
+        schoolComboBox.addItem("---Chọn mã trường---");
+        schoolComboBox.setFont(fieldFont);
+        schoolComboBox.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                return this;
+            }
+        });
+        schoolComboBox.setPreferredSize(new Dimension(250, 30));
         loadSchools();
         gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        add(schoolComboBox, gbc);
+        formPanel.add(schoolComboBox, gbc);
 
-        // BUTTON REGISTER AND CANCEL
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
-        saveButton = new JButton("Đăng ký");
-        cancelButton = new JButton("Thoát");
-        buttonPanel.add(saveButton);
-        buttonPanel.add(cancelButton);
+        // BUTTON PANEL
         gbc.gridx = 0;
         gbc.gridy++;
         gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.CENTER;
         gbc.anchor = GridBagConstraints.CENTER;
-        add(buttonPanel, gbc);
+        
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        buttonPanel.setOpaque(false);
+        
+        saveButton = createStyledButton("Đăng ký", new Color(34, 139, 34)); // ForestGreen
+        cancelButton = createStyledButton("Thoát", new Color(178, 34, 34)); // FireBrick
+        
+        buttonPanel.add(saveButton);
+        buttonPanel.add(cancelButton);
+        
+        formPanel.add(buttonPanel, gbc);
 
+        // Add form panel to main panel
+        mainPanel.add(formPanel, BorderLayout.CENTER);
+
+        // Footer with some info
+        JPanel footerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        footerPanel.setOpaque(false);
+        JLabel footerLabel = new JLabel("Hệ thống quản lý ký túc xá sinh viên - © 2023");
+        footerLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        footerLabel.setForeground(new Color(100, 100, 100));
+        footerPanel.add(footerLabel);
+        mainPanel.add(footerPanel, BorderLayout.SOUTH);
+
+        // Action listeners
         saveButton.addActionListener(e -> saveAccount());
-        cancelButton.addActionListener(e -> dispose());
+        cancelButton.addActionListener(e -> System.exit(0));
+        
+        // Add hover effects to buttons
+        addButtonHoverEffect(saveButton, new Color(50, 205, 50)); // LimeGreen
+        addButtonHoverEffect(cancelButton, new Color(220, 20, 60)); // Crimson
     }
 
+    private JLabel createStyledLabel(String text, Font font, Color color) {
+        JLabel label = new JLabel(text);
+        label.setFont(font);
+        label.setForeground(color);
+        return label;
+    }
+
+    private JTextField createStyledTextField(int columns, Font font) {
+        JTextField textField = new JTextField(columns);
+        textField.setFont(font);
+        textField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(200, 200, 200)),
+            BorderFactory.createEmptyBorder(5, 5, 5, 5)
+        ));
+        return textField;
+    }
+
+    private JButton createStyledButton(String text, Color bgColor) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        button.setBackground(bgColor);
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(bgColor.darker(), 1),
+            BorderFactory.createEmptyBorder(8, 20, 8, 20)
+        ));
+        return button;
+    }
+
+    private void styleCheckbox(JCheckBox checkBox) {
+        checkBox.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        checkBox.setOpaque(false);
+        checkBox.setFocusPainted(false);
+    }
+
+    private void addButtonHoverEffect(JButton button, Color hoverColor) {
+        Color originalColor = button.getBackground();
+        
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(hoverColor);
+                button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(originalColor);
+            }
+        });
+    }
+
+    // ... [Rest of your methods remain the same: showError, showSuccess, loadSchools, 
+    // validateInputs, checkUsernameExists, checkMasvExists, hashPassword, saveAccount, clearForm]
     private void showError(String message) {
         JOptionPane.showMessageDialog(this, message, "Lỗi", JOptionPane.ERROR_MESSAGE);
     }
@@ -345,6 +476,9 @@ public class NewDangKi extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new NewDangKi().setVisible(true));
+        SwingUtilities.invokeLater(() -> {
+            NewDangKi frame = new NewDangKi();
+            frame.setVisible(true);
+        });
     }
 }
