@@ -5,7 +5,13 @@
 package View.dashboard;
 
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JToggleButton;
 
 /**
@@ -14,11 +20,31 @@ import javax.swing.JToggleButton;
  */
 public class Home extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Home
-     */
+   
+
     public Home() {
         initComponents();
+         JPopupMenu popupMenu = new JPopupMenu();
+    JMenuItem menuGiatUi = new JMenuItem("Giặt Ủi");
+    JMenuItem menuInternet = new JMenuItem("Internet");
+    JMenuItem menuGuiXe = new JMenuItem("Gửi Xe");
+
+    popupMenu.add(menuGiatUi);
+    popupMenu.add(menuInternet);
+    popupMenu.add(menuGuiXe);
+    // Gắn sự kiện chuột cho JLabel
+    jLabel10.addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // Hiển thị menu tại vị trí click
+        popupMenu.show(jLabel10, e.getX(), e.getY());
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        jLabel10.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Hiệu ứng tay khi rê chuột
+    }
+});
     }
 
 
@@ -33,6 +59,8 @@ public class Home extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        popupMenu1 = new java.awt.PopupMenu();
+        menuItem1 = new java.awt.MenuItem();
         bg = new javax.swing.JPanel();
         sidepane = new javax.swing.JPanel();
         btn_them = new javax.swing.JPanel();
@@ -57,6 +85,16 @@ public class Home extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         Picture = new javax.swing.JLabel();
+
+        popupMenu1.setLabel("popupMenu1");
+
+        menuItem1.setLabel("Đăng kí phòng");
+        menuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItem1ActionPerformed(evt);
+            }
+        });
+        popupMenu1.add(menuItem1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -328,6 +366,10 @@ public class Home extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void menuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -388,6 +430,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
+    private java.awt.MenuItem menuItem1;
+    private java.awt.PopupMenu popupMenu1;
     private javax.swing.JPanel sidepane;
     // End of variables declaration//GEN-END:variables
 }

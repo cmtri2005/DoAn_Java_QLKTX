@@ -87,42 +87,36 @@
                               <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="image" min="-2" pref="570" max="-2" attributes="0"/>
-                                          <Component id="lb_ten" alignment="0" min="-2" pref="669" max="-2" attributes="0"/>
-                                          <Component id="tf_ten" alignment="0" min="-2" pref="570" max="-2" attributes="0"/>
-                                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                              <Component id="lb_sdt" alignment="0" pref="570" max="32767" attributes="0"/>
-                                              <Component id="tf_sdt" alignment="0" max="32767" attributes="0"/>
-                                          </Group>
-                                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                              <Component id="lb_email" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="tf_email" alignment="0" pref="570" max="32767" attributes="0"/>
-                                          </Group>
-                                          <Component id="tf_date" alignment="0" min="-2" pref="570" max="-2" attributes="0"/>
-                                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                              <Component id="lb_gioitinh" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="cb_gioitinh" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="lb_date" alignment="0" min="-2" pref="570" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="image" min="-2" pref="570" max="-2" attributes="0"/>
+                                  <Component id="lb_ten" alignment="0" min="-2" pref="669" max="-2" attributes="0"/>
+                                  <Component id="tf_ten" alignment="0" min="-2" pref="570" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="lb_sdt" alignment="0" pref="570" max="32767" attributes="0"/>
+                                      <Component id="tf_sdt" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="lb_email" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="tf_email" alignment="0" pref="570" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Component id="tf_date" alignment="0" min="-2" pref="570" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="lb_gioitinh" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="cb_gioitinh" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="lb_date" alignment="0" min="-2" pref="570" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="back" min="-2" pref="99" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <EmptySpace min="-2" pref="315" max="-2" attributes="0"/>
                                       <Component id="confirm" min="-2" pref="245" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                      <EmptySpace min="26" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="lb_mssv" alignment="1" max="32767" attributes="0"/>
@@ -214,7 +208,7 @@
                           <Component id="lb_email" min="-2" max="-2" attributes="0"/>
                           <Component id="lb_tentruong" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="tf_email" min="-2" pref="33" max="-2" attributes="0"/>
                           <Component id="tf_tentruong" min="-2" pref="33" max="-2" attributes="0"/>
@@ -307,6 +301,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="jTextField1"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tf_tenActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lb_gioitinh">
               <Properties>

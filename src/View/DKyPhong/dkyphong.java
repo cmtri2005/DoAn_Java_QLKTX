@@ -348,7 +348,7 @@ public class dkyphong extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        confirm confirmFrame=new confirm();
+        confirm confirmFrame=new confirm(this.toa,this.phong,this.loaiPhong);
         confirmFrame.setVisible(true);
         confirmFrame.setLocationRelativeTo(null);
         
