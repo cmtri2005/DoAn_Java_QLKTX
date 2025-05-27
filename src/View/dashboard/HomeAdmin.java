@@ -4,12 +4,22 @@
  */
 package View.dashboard;
 
+import Database_View.KTXManagementSystem;
+import Visualize.PhongChart;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -55,6 +65,9 @@ public class HomeAdmin extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        btn_baocao = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
@@ -76,7 +89,12 @@ public class HomeAdmin extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Cơ Sở Dữ Liệu");
+        jLabel2.setText("Quản Lý");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout btn_dataLayout = new javax.swing.GroupLayout(btn_data);
         btn_data.setLayout(btn_dataLayout);
@@ -245,6 +263,44 @@ public class HomeAdmin extends javax.swing.JFrame {
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
         sidepane.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 290, 10));
 
+        btn_baocao.setBackground(new java.awt.Color(102, 102, 255));
+        btn_baocao.setPreferredSize(new java.awt.Dimension(285, 60));
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel19.setText("Báo Cáo - Thống Kê");
+        jLabel19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel19MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout btn_baocaoLayout = new javax.swing.GroupLayout(btn_baocao);
+        btn_baocao.setLayout(btn_baocaoLayout);
+        btn_baocaoLayout.setHorizontalGroup(
+            btn_baocaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_baocaoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(40, Short.MAX_VALUE))
+        );
+        btn_baocaoLayout.setVerticalGroup(
+            btn_baocaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_baocaoLayout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addGroup(btn_baocaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_baocaoLayout.createSequentialGroup()
+                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_baocaoLayout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addGap(17, 17, 17))))
+        );
+
+        sidepane.add(btn_baocao, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 310, 60));
+
         jPanel1.setBackground(new java.awt.Color(153, 102, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 126));
 
@@ -268,7 +324,7 @@ public class HomeAdmin extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(45, 45, 45)
                     .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(233, Short.MAX_VALUE)))
+                    .addContainerGap(411, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,7 +336,7 @@ public class HomeAdmin extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(47, 47, 47)
                     .addComponent(jLabel17)
-                    .addContainerGap(106, Short.MAX_VALUE)))
+                    .addContainerGap(54, Short.MAX_VALUE)))
         );
 
         Picture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/hinhnen.png"))); // NOI18N
@@ -337,26 +393,80 @@ public class HomeAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Click(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Click
-        // TODO add your handling code here:
-        btn_data.setBackground(new Color(71,60,139));
-        JFrame newFrame=new JFrame("Đây là test");
-        newFrame.setSize(300,200);
-        newFrame.setLocationRelativeTo(null);
-        newFrame.add(new JLabel("Đây là cửa sổ dữ liệu", SwingConstants.CENTER));
-        
-        
-        newFrame.addWindowListener(new java.awt.event.WindowAdapter(){
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e){
-                btn_data.setBackground(new Color(102,102,255));
-            }
-            
-            
-        });
-        
-        newFrame.setVisible(true);
-        
+
     }//GEN-LAST:event_Click
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+
+            btn_data.setBackground(new Color(71, 60, 139));
+
+    try {
+        KTXManagementSystem manageFrame = new KTXManagementSystem();
+    
+        manageFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent e) {
+            btn_data.setBackground(new Color(102, 102, 255));
+        }
+    });
+    
+        manageFrame.setVisible(true);
+    } catch (ClassNotFoundException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Required classes not found: " + ex.getMessage(), 
+        "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked
+        // TODO add your handling code here:
+//                    btn_baocao.setBackground(new Color(71, 60, 139));
+//
+//                    PhongChart chartFrame = new PhongChart();
+//                    chartFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+//                        @Override
+//                        public void windowClosing(java.awt.event.WindowEvent e) {
+//                            btn_baocao.setBackground(new Color(102, 102, 255));
+//                        }
+//                    });
+//                    chartFrame.setVisible(true);                                    
+//        btn_baocao.setBackground(new Color(71, 60, 139));
+//
+//        PhongChart chartFrame = new PhongChart();
+//        
+//        JFrame frame = new JFrame("Biểu đồ thống kê phòng");
+//        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Chỉ đóng cửa sổ này thôi
+//        frame.setSize(800, 600);
+//    
+//        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+//        @Override
+//        public void windowClosing(java.awt.event.WindowEvent e) {
+//            btn_baocao.setBackground(new Color(102, 102, 255));
+//        }
+//    });
+//    
+//    try {
+//        DefaultCategoryDataset dataset = chartFrame.prepareDataset();
+//        JFreeChart barChart = ChartFactory.createBarChart(
+//            "Số lượng phòng ở mỗi loại phòng",
+//            "Loại phòng",
+//            "Số lượng phòng",
+//            dataset
+//        );
+//        ChartPanel chartPanel = new ChartPanel(barChart);
+//        chartPanel.setPreferredSize(new java.awt.Dimension(800, 600));
+//        frame.setContentPane(chartPanel);
+//    } catch ( ClassNotFoundException ex) {
+//        JOptionPane.showMessageDialog(this, 
+//            "Lỗi khi tạo biểu đồ: " + ex.getMessage(), 
+//            "Lỗi", JOptionPane.ERROR_MESSAGE);
+//    }   catch (SQLException ex) {
+//            Logger.getLogger(HomeAdmin.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    
+//    frame.setVisible(true);
+
+    }//GEN-LAST:event_jLabel19MouseClicked
 
     /**
      * @param args the command line arguments
@@ -398,6 +508,7 @@ public class HomeAdmin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Picture;
     private javax.swing.JPanel bg;
+    private javax.swing.JPanel btn_baocao;
     private javax.swing.JPanel btn_data;
     private javax.swing.JPanel btn_dichvu;
     private javax.swing.JPanel btn_phong;
@@ -408,6 +519,8 @@ public class HomeAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

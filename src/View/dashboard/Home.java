@@ -4,8 +4,10 @@
  */
 package View.dashboard;
 
+import RegisterRoom.DangKiPhong;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 
 /**
@@ -135,6 +137,11 @@ public class Home extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Phòng");
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout btn_phongLayout = new javax.swing.GroupLayout(btn_phong);
         btn_phong.setLayout(btn_phongLayout);
@@ -327,6 +334,20 @@ public class Home extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        // TODO add your handling code here:
+            btn_phong.setBackground(new Color(71, 60, 139));
+
+            DangKiPhong dkphongFrame = new DangKiPhong();
+            dkphongFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    btn_phong.setBackground(new Color(102, 102, 255));
+                }
+            });
+            dkphongFrame.setVisible(true);
+    }//GEN-LAST:event_jLabel6MouseClicked
 
     /**
      * @param args the command line arguments
