@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.security.NoSuchAlgorithmException;
+import View.Login;
 /**
  *
  * @author trica
@@ -39,7 +40,7 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         //
-        loadSchool();
+        loadSchoolData();
     }
 
     /**
@@ -328,7 +329,7 @@ public class SignUp extends javax.swing.JFrame {
                 .addContainerGap(72, Short.MAX_VALUE))
         );
 
-        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 470, 520));
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, 470, 520));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/dormitory-building-sky-cloud.jpg"))); // NOI18N
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 910, 560));
@@ -337,17 +338,17 @@ public class SignUp extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(486, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(216, 216, 216)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 911, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(268, 268, 268))
+                .addContainerGap(538, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(94, 94, 94)
+                .addGap(69, 69, 69)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(344, Short.MAX_VALUE))
+                .addContainerGap(423, Short.MAX_VALUE))
         );
 
         pack();
@@ -364,27 +365,28 @@ public class SignUp extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
     //
-    
-    
-    private void loadSchool(){
+    private void loadSchoolData() {
         schoolcode.removeAllItems();
-        schoolcode.addItem("---Chọn trường---");
-        try(Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()){
-            String sql = "SELECT MATRUONG FROM TRUONG ORDER BY MATRUONG";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+        schoolcode.addItem("--Chọn trường--");
+
+        try (Connection cnn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
+            String sql = "SELECT MATRUONG FROM TRUONG";
+            PreparedStatement pstmt = cnn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
-            while(rs.next()){
-                schoolcode.addItem(rs.getString("MATRUONG"));
+
+            while (rs.next()) {
+                String matruong = rs.getString("MATRUONG");
+                schoolcode.addItem(matruong);
             }
+
             rs.close();
             pstmt.close();
-        }catch(SQLException ex){  
-            showError("Lỗi khi tải danh sách trường" + ex.getMessage());
-        }catch(ClassNotFoundException ex){
-            showError("Không tìm thấy drive Oracle JDBC: " + ex.getMessage());
+        } catch (SQLException | ClassNotFoundException e) {
+            showError("Lỗi khi tải dữ liệu trường: " + e.getMessage());
         }
     }
     
+
     private void showError(String message){
         JOptionPane.showMessageDialog(this,message,"Lỗi",JOptionPane.ERROR_MESSAGE);
     }
@@ -412,7 +414,7 @@ public class SignUp extends javax.swing.JFrame {
         String phone = SDTInput.getText().trim();
         String cccd = CCCDInput.getText().trim();
         String studentId = MSSVInput.getText().trim();
-        if(schoolCode.equals("---Chọn trường---")){
+        if(schoolCode.equals("--Chọn trường--")){
             JOptionPane.showMessageDialog(this,"Vui lòng chọn mã trường","Lỗi",JOptionPane.ERROR_MESSAGE);
         }
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() ||
@@ -503,6 +505,11 @@ public class SignUp extends javax.swing.JFrame {
             CCCDInput.setText("");
             SDTInput.setText("");
             MSSVInput.setText("");  
+            //
+            Login login = new Login();
+            login.show();
+            dispose();
+            
         }catch(SQLIntegrityConstraintViolationException ex){
             try{
                 if (conn != null){
@@ -578,6 +585,7 @@ public class SignUp extends javax.swing.JFrame {
 
     private void schoolcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schoolcodeActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_schoolcodeActionPerformed
 
     /**
@@ -644,4 +652,16 @@ public class SignUp extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> schoolcode;
     private javax.swing.JTextField userNameInput;
     // End of variables declaration//GEN-END:variables
+
+    private static class resultLabel {
+
+        private static void setText(String schoolcode) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        public resultLabel() {
+            //
+        }
+        
+    }
 }

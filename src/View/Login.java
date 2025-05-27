@@ -19,6 +19,9 @@ import java.sql.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import javax.swing.JOptionPane;
+import View.ThayDoiMatKhau;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -31,6 +34,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        setLocationRelativeTo(null);
         jLabel4.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -65,153 +69,115 @@ public class Login extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jPasswordField1 = new javax.swing.JPasswordField();
-        jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         LogInHandle = new java.awt.Button();
+        jButton1 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(240, 248, 255));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel3.setBackground(new java.awt.Color(102, 153, 255));
+        jPanel3.setBackground(new java.awt.Color(102, 102, 255));
         jPanel3.setPreferredSize(new java.awt.Dimension(910, 580));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
+        jPanel4.setMaximumSize(new java.awt.Dimension(3276, 3276));
+        jPanel4.setPreferredSize(new java.awt.Dimension(787, 500));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setForeground(new java.awt.Color(102, 102, 255));
         jLabel5.setText("ĐĂNG NHẬP");
+        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 79, -1, -1));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Tên đăng nhập:");
+        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Mật khẩu:");
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 109, -1));
 
         jTextField1.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField1.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField1.setCaretColor(new java.awt.Color(0, 0, 0));
+        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, 318, 46));
 
         jPasswordField1.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Quên mật khẩu?");
+        jPasswordField1.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel4.add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 240, 318, 48));
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Chưa có tài khoản?");
+        jPanel4.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(254, 380, 154, -1));
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Đăng ký");
+        jPanel4.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(414, 380, 76, -1));
 
-        LogInHandle.setBackground(new java.awt.Color(102, 153, 255));
+        LogInHandle.setBackground(new java.awt.Color(204, 204, 255));
         LogInHandle.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        LogInHandle.setForeground(new java.awt.Color(255, 255, 255));
         LogInHandle.setLabel("Đăng nhập");
         LogInHandle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LogInHandleActionPerformed(evt);
             }
         });
+        jPanel4.add(LogInHandle, new org.netbeans.lib.awtextra.AbsoluteConstraints(236, 918, 219, -1));
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addGap(303, 303, 303)
-                            .addComponent(jLabel3))
-                        .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addGap(29, 29, 29)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(LogInHandle, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jPasswordField1)
-                                    .addComponent(jTextField1)))))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(242, 242, 242)
-                        .addComponent(jLabel5)))
-                .addContainerGap(336, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(158, 158, 158)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(jLabel5)
-                        .addGap(40, 40, 40)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(50, 50, 50)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
-                .addComponent(jLabel3)
-                .addGap(29, 29, 29)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel4))
-                .addGap(39, 39, 39)
-                .addComponent(LogInHandle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(0, 0, 0));
+        jButton1.setText("Quên mật khẩu?");
+        jButton1.setBorderPainted(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 330, -1, -1));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(66, 66, 66)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(72, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
-        );
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/Icons8-Windows-8-Users-Name.24.png"))); // NOI18N
+        jPanel4.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 150, 20, 40));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(88, 88, 88)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(237, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(152, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
-        );
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/Pictogrammers-Material-Light-Eye-off.24.png"))); // NOI18N
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
+        jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 250, -1, 40));
+
+        jButton2.setBackground(new java.awt.Color(102, 102, 255));
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(0, 0, 0));
+        jButton2.setText("Đăng Nhập");
+        jPanel4.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 430, 160, -1));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Iconarchive-Essential-Buildings-School.256.png"))); // NOI18N
+        jPanel4.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 120, 250, 170));
+
+        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(64, 49, -1, -1));
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
     private void showError(String message){
         JOptionPane.showMessageDialog(this,message,"Lỗi",JOptionPane.ERROR_MESSAGE);
     }
@@ -281,35 +247,6 @@ public class Login extends javax.swing.JFrame {
                     openStudentDashboard(userId);
                     this.dispose();
                 }
-                //String enteredPasswordHash = hashPassword(password);
-
-//                if (storedPasswordHash.equals(enteredPasswordHash)) {
-//                    // Check if the user is a student**
-//                    PreparedStatement pstmtStudent = conn.prepareStatement("SELECT USER_ID FROM SINHVIEN WHERE USER_ID = ?");
-//                    pstmtStudent.setLong(1, userId);
-//                    ResultSet rsStudent = pstmtStudent.executeQuery();
-//
-//                    if (rsStudent.next()) {
-//                        // Successful login for a student**
-//                        JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
-//                        // Navigate to StudentDashboard (replace with your actual dashboard form)
-//                        //this.dispose(); // Close the login form
-//                        //new StudentDashboard().setVisible(true); // Open the student dashboard**
-//                    } else {
-//                        showError("Tài khoản không phải là sinh viên!");
-//                    }
-//                    rsStudent.close();
-//                    pstmtStudent.close();
-//                    //Mở giao diện tương ứng với role
-//                    if("admin".equals(role)){
-//                        openAdminDashboard();
-//                    }
-//                    else if("student".equals(role)){
-//                        openStudentDashboard(userId);
-//                    }
-//                } else {
-//                    showError("Tên đăng nhập hoặc mật khẩu không đúng!");
-//                }
             } else {
                 showError("Tên đăng nhập hoặc mật khẩu không đúng!");
             }
@@ -343,12 +280,41 @@ public class Login extends javax.swing.JFrame {
     
     }//GEN-LAST:event_LogInHandleActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Integer userId = SessionManager.getCurrentUserId();
+        if (userId == null) {
+            // Nếu chưa đăng nhập, yêu cầu nhập email để quên mật khẩu
+            EmailForm emailForm = new EmailForm();
+            emailForm.setVisible(true);
+            dispose();
+        } else {
+            // Nếu đã đăng nhập, mở trực tiếp ThayDoiMatKhau
+            ThayDoiMatKhau changePasswordForm = null;
+            try {
+                changePasswordForm = new ThayDoiMatKhau();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            changePasswordForm.setVisible(true);
+            dispose();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+    private boolean isPasswordVisible = false;
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        // To show password
+        if (!isPasswordVisible) {
+        // Show password
+        jPasswordField1.setEchoChar((char) 0); // Set echo char to 0 to show plain text
+        isPasswordVisible = true;
+        } else {
+            // Hide password
+            jPasswordField1.setEchoChar('*'); // Restore default masking character
+            isPasswordVisible = false;
+        }
+    }//GEN-LAST:event_jLabel3MouseClicked
+
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -356,18 +322,10 @@ public class Login extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Login().setVisible(true);
@@ -377,12 +335,16 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button LogInHandle;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPasswordField jPasswordField1;
