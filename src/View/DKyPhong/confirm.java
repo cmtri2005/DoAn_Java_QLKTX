@@ -26,22 +26,26 @@ public class confirm extends javax.swing.JFrame {
     private String phong;
     private String loaiPhong;
     private String cccd;
+    private String gioiTinh;
     /**
      * Creates new form confirm
      */
     public confirm() {
         initComponents();
     }
-    public confirm(String toa,String phong,String loaiPhong,String cccd) {
+    public confirm(String toa,String phong,String loaiPhong,String cccd,String gioiTinh) {
         this.toa=toa;
         this.phong=phong;
         this.loaiPhong=loaiPhong;
         this.cccd=cccd;
+        this.gioiTinh=gioiTinh;
+        System.out.println("confirm"+this.gioiTinh);
         initComponents();
         System.out.println("kvsjkffnvfnvbkjdfnb");
         jLabel16.setText(toa);
         jLabel17.setText(phong);
         jLabel18.setText(loaiPhong);
+        jTextField1.setText(this.gioiTinh);
         try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
         String sql = "SELECT s.hoten, s.ngaysinh, u.email, s.masv, s.sđt, s.matruong, t.tentruong " +
              "FROM sinhvien s " +
@@ -63,7 +67,7 @@ public class confirm extends javax.swing.JFrame {
             tf_sdt.setText(rs.getString("sđt"));
             tf_truong.setText(rs.getString("MATRUONG"));
             tf_tentruong.setText(rs.getString("TENTRUONG"));
-            
+            tf_date.setText(rs.getString("ngaysinh"));
         }
 
     } catch (SQLException | ClassNotFoundException ex) {
@@ -89,7 +93,6 @@ public class confirm extends javax.swing.JFrame {
         lb_ten = new javax.swing.JLabel();
         tf_ten = new javax.swing.JTextField();
         lb_gioitinh = new javax.swing.JLabel();
-        cb_gioitinh = new javax.swing.JComboBox<>();
         lb_date = new javax.swing.JLabel();
         tf_date = new javax.swing.JTextField();
         lb_email = new javax.swing.JLabel();
@@ -114,6 +117,7 @@ public class confirm extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Thông tin đăng ký phòng");
@@ -146,13 +150,6 @@ public class confirm extends javax.swing.JFrame {
 
         lb_gioitinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lb_gioitinh.setText("Giới tính");
-
-        cb_gioitinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cb_gioitinh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cb_gioitinhActionPerformed(evt);
-            }
-        });
 
         lb_date.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lb_date.setText("Ngày sinh");
@@ -255,6 +252,8 @@ public class confirm extends javax.swing.JFrame {
             }
         });
 
+        jTextField1.setText("jTextField1");
+
         javax.swing.GroupLayout Panel2Layout = new javax.swing.GroupLayout(Panel2);
         Panel2.setLayout(Panel2Layout);
         Panel2Layout.setHorizontalGroup(
@@ -280,6 +279,10 @@ public class confirm extends javax.swing.JFrame {
                         .addGap(56, 56, 56)
                         .addGroup(Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(Panel2Layout.createSequentialGroup()
+                                .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(confirm, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(Panel2Layout.createSequentialGroup()
                                 .addGroup(Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(image, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lb_ten, javax.swing.GroupLayout.PREFERRED_SIZE, 669, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -293,13 +296,9 @@ public class confirm extends javax.swing.JFrame {
                                     .addComponent(tf_date, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(lb_gioitinh, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(cb_gioitinh, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lb_date, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(Panel2Layout.createSequentialGroup()
-                                .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(confirm, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(lb_date, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(26, 26, 26)
                 .addGroup(Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -360,10 +359,12 @@ public class confirm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(tf_truong, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(Panel2Layout.createSequentialGroup()
-                        .addGroup(Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cb_gioitinh, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tf_mssv, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tf_mssv, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(Panel2Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lb_date)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(tf_date, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -431,10 +432,6 @@ public class confirm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cb_gioitinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_gioitinhActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cb_gioitinhActionPerformed
 
     private void tf_mssvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_mssvActionPerformed
         // TODO add your handling code here:
@@ -537,7 +534,6 @@ public class confirm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Panel2;
     private javax.swing.JButton back;
-    private javax.swing.JComboBox<String> cb_gioitinh;
     private javax.swing.JButton confirm;
     private javax.swing.JLabel image;
     private javax.swing.JLabel image2;
@@ -552,6 +548,7 @@ public class confirm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel labelFile;
     private javax.swing.JLabel lb_date;
     private javax.swing.JLabel lb_email;

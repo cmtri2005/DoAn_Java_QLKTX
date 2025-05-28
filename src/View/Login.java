@@ -236,10 +236,10 @@ public class Login extends javax.swing.JFrame {
                 pstmtStudent.close();
 
                 // Open dashboard based on role
-                if ("Admin".equals(role)) {
+                if ("admin".equals(role)) {
                     openAdminDashboard();
                     this.dispose();
-                } else if ("Student".equals(role)) {
+                } else if ("student".equals(role)) {
                         openStudentDashboard(cccd);
                         this.dispose();
                 }
