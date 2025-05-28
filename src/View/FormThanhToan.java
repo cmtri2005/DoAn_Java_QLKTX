@@ -1,4 +1,5 @@
 package View;
+import View.dashboard.Home;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -7,6 +8,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import model.UserSession;
 public class FormThanhToan extends JFrame {
     private JLabel lblThongTin;
     private JLabel lblQrCode;
@@ -50,20 +52,23 @@ public class FormThanhToan extends JFrame {
             }
             JOptionPane.showMessageDialog(this, "Thanh toán thành công!");
             dispose();
+            String cccd = UserSession.getCccd();
+        Home homeframe = new Home(cccd);
+        homeframe.setVisible(true);
         });
         add(pnlThongTin, BorderLayout.NORTH);
         add(pnlQr, BorderLayout.CENTER);
         add(btnXacNhan, BorderLayout.SOUTH);
     }
-    public static void main(String[] args) {
-             try {
-    com.formdev.flatlaf.FlatLightLaf.setup(); 
-} catch (Exception ex) {
-    ex.printStackTrace();
-}
-        SwingUtilities.invokeLater(() -> {
-            new FormThanhToan("20123456", "Nguyễn Văn A", "Sân bóng đá", "3 giờ", "150000", null)
-                    .setVisible(true);
-        });
-    }
+//    public static void main(String[] args) {
+//             try {
+//    com.formdev.flatlaf.FlatLightLaf.setup(); 
+//} catch (Exception ex) {
+//    ex.printStackTrace();
+//}
+//        SwingUtilities.invokeLater(() -> {
+//            new FormThanhToan("20123456", "Nguyễn Văn A", "Sân bóng đá", "3 giờ", "150000", null)
+//                    .setVisible(true);
+//        });
+//    }
 }

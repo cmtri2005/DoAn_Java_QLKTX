@@ -24,6 +24,7 @@ import View.dashboard.Home;
 import View.dashboard.HomeAdmin;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.UserSession;
 
 /**
  *
@@ -219,6 +220,7 @@ public class Login extends javax.swing.JFrame {
                 //String storedPasswordHash = rs.getString("PASSWORD_HASH");
                 long userId = rs.getLong("USER_ID");
                 String cccd=rs.getString("CCCD");
+                UserSession.setCccd(cccd);
                 //Check if the user is a student
                 PreparedStatement pstmtStudent = conn.prepareStatement("SELECT USER_ID FROM SINHVIEN WHERE USER_ID = ?");
                 pstmtStudent.setLong(1, userId);

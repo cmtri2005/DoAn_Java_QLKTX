@@ -4,6 +4,7 @@
  */
 package View.DKyPhong;
 
+import View.FormThanhToan;
 import java.awt.Image;
 import java.io.File;
 import java.sql.Connection;
@@ -445,6 +446,24 @@ public class confirm extends javax.swing.JFrame {
 
     private void confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmActionPerformed
         // TODO add your handling code here:
+        try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
+    String sql = "UPDATE SINHVIEN SET TINHTRANG = 'Xem xét' WHERE MASV = ?";
+    PreparedStatement stmt = conn.prepareStatement(sql);
+    stmt.setString(1, tf_mssv.getText());
+    int rowsUpdated = stmt.executeUpdate();
+    
+    if (rowsUpdated > 0) {
+        System.out.println("Cập nhật tình trạng thành công!");
+    } else {
+        System.out.println("Không tìm thấy sinh viên cần cập nhật.");
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Lỗi khi cập nhật tình trạng: " + e.getMessage());
+}
+
+        new FormThanhToan(tf_mssv.getText(), tf_ten.getText(), jLabel18.getText(), "6 tháng", "10000000", null).setVisible(true);
+        
     }//GEN-LAST:event_confirmActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
