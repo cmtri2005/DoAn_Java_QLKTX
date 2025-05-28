@@ -5,9 +5,22 @@
 package View.dashboard;
 
 import RegisterRoom.DangKiPhong;
+import View.DangKyGiuXe;
+import View.DangKyInternetFrame;
+import View.DangKyTheThao;
+import Visualize.PhongChart;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.BorderFactory;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JToggleButton;
 
 /**
@@ -21,6 +34,75 @@ public class Home extends javax.swing.JFrame {
      */
     public Home() {
         initComponents();
+        Color menuBackground = new Color(153, 102, 255);  // tím nhạt
+        Color textColor = Color.BLACK;
+Font menuFont = new Font("Segoe UI", Font.PLAIN, 18);
+Dimension menuSize = new Dimension(150, 40);
+
+JMenuItem menuDichVu = new JMenuItem("Internet");
+menuDichVu.setBackground(menuBackground);
+menuDichVu.setForeground(textColor);
+menuDichVu.setFont(menuFont);
+menuDichVu.setPreferredSize(menuSize);
+
+JMenuItem menuDichVu2= new JMenuItem("Giữ xe");
+menuDichVu2.setBackground(menuBackground);
+menuDichVu2.setForeground(textColor);
+menuDichVu2.setFont(menuFont);
+menuDichVu2.setPreferredSize(menuSize);
+
+JMenuItem menuDichVu3 = new JMenuItem("Thể thao");
+menuDichVu3.setBackground(menuBackground);
+menuDichVu3.setForeground(textColor);
+menuDichVu3.setFont(menuFont);
+menuDichVu3.setPreferredSize(menuSize);
+
+JPopupMenu popupMenuDichVu = new JPopupMenu();
+popupMenuDichVu.setBackground(menuBackground);
+popupMenuDichVu.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+popupMenuDichVu.add(menuDichVu);
+popupMenuDichVu.add(menuDichVu2);
+popupMenuDichVu.add(menuDichVu3);
+
+jLabel10.addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // Hiển thị popup menu tại vị trí chuột trên jLabel10
+        popupMenuDichVu.show(jLabel10, e.getX(), e.getY());
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        jLabel10.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+});
+menuDichVu.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        DangKyInternetFrame internetFrame=new DangKyInternetFrame();
+        internetFrame.setVisible(true);
+        internetFrame.setLocationRelativeTo(null);
+        dispose();
+    }
+});
+menuDichVu2.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        DangKyGiuXe xeFrame=new DangKyGiuXe();
+        xeFrame.setVisible(true);
+        xeFrame.setLocationRelativeTo(null);
+        dispose();
+    }
+});
+menuDichVu3.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        DangKyTheThao theThaoFrame=new DangKyTheThao();
+        theThaoFrame.setVisible(true);
+        theThaoFrame.setLocationRelativeTo(null);
+        dispose();
+    }
+});
     }
 
 
