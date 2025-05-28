@@ -6,8 +6,14 @@ package View.DKyPhong;
 
 import java.awt.Image;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -15,14 +21,55 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author NguyenTri
  */
 public class confirm extends javax.swing.JFrame {
-
+    private String toa;
+    private String phong;
+    private String loaiPhong;
+    private String cccd;
     /**
      * Creates new form confirm
      */
     public confirm() {
         initComponents();
     }
+    public confirm(String toa,String phong,String loaiPhong,String cccd) {
+        this.toa=toa;
+        this.phong=phong;
+        this.loaiPhong=loaiPhong;
+        this.cccd=cccd;
+        initComponents();
+        System.out.println("kvsjkffnvfnvbkjdfnb");
+        jLabel16.setText(toa);
+        jLabel17.setText(phong);
+        jLabel18.setText(loaiPhong);
+        try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
+        String sql = "SELECT s.hoten, s.ngaysinh, u.email, s.masv, s.sđt, s.matruong, t.tentruong " +
+             "FROM sinhvien s " +
+             "JOIN user_ktx u ON s.user_id = u.user_id " +
+             "JOIN truong t ON s.matruong = t.matruong " +
+             "WHERE s.cccd = ?";
 
+        
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1,this.cccd);
+        ResultSet rs = stmt.executeQuery();
+       
+        
+        if (rs.next()) {
+            tf_ten.setText(rs.getString("hoten")); 
+            tf_date.setText(rs.getString("ngaysinh"));
+            tf_email.setText(rs.getString("email"));
+            tf_mssv.setText(rs.getString("MASV"));
+            tf_sdt.setText(rs.getString("sđt"));
+            tf_truong.setText(rs.getString("MATRUONG"));
+            tf_tentruong.setText(rs.getString("TENTRUONG"));
+            
+        }
+
+    } catch (SQLException | ClassNotFoundException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + ex.getMessage());
+    }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -344,9 +391,9 @@ public class confirm extends javax.swing.JFrame {
                     .addGroup(Panel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lb_sdt)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tf_sdt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
+                        .addGap(47, 47, 47)
                         .addGroup(Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(confirm, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))))

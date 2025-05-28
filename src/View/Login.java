@@ -218,6 +218,7 @@ public class Login extends javax.swing.JFrame {
                 String role = rs.getString("ROLE_NAME");
                 //String storedPasswordHash = rs.getString("PASSWORD_HASH");
                 long userId = rs.getLong("USER_ID");
+                String cccd=rs.getString("CCCD");
                 //Check if the user is a student
                 PreparedStatement pstmtStudent = conn.prepareStatement("SELECT USER_ID FROM SINHVIEN WHERE USER_ID = ?");
                 pstmtStudent.setLong(1, userId);
@@ -236,8 +237,8 @@ public class Login extends javax.swing.JFrame {
                 if ("admin".equals(role)) {
                     openAdminDashboard();
                     this.dispose();
-                } else if ("Student".equals(role)) {
-                        openStudentDashboard();
+                } else if ("student".equals(role)) {
+                        openStudentDashboard(cccd);
                         this.dispose();
                 }
             } else {
@@ -267,9 +268,9 @@ public class Login extends javax.swing.JFrame {
                      JOptionPane.showMessageDialog(null, "Chào mừng Quản trị viên!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private void openStudentDashboard() {
+    private void openStudentDashboard(String cccd) {
                         JOptionPane.showMessageDialog(null, "Chào mừng sinh viên ", "Thành công", JOptionPane.INFORMATION_MESSAGE);
-                        Home homeframe = new Home();
+                        Home homeframe = new Home(cccd);
                         homeframe.setVisible(true);
     
     }//GEN-LAST:event_LogInHandleActionPerformed

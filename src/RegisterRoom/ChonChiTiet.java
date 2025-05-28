@@ -24,7 +24,7 @@ public class ChonChiTiet extends javax.swing.JFrame {
      private String tenToa ;
      private String loaiPhong ;
      private  String gioiTinh;
-     
+     private  String cccd;
     /**
      * Creates new form DangKiPhong
      */
@@ -32,11 +32,12 @@ public class ChonChiTiet extends javax.swing.JFrame {
 public ChonChiTiet() {
         initComponents();
     }
-public ChonChiTiet(String tenToa,String loaiPhong, String gioiTinh) {
+public ChonChiTiet(String tenToa,String loaiPhong, String gioiTinh,String cccd) {
     System.out.println(tenToa);
         this.tenToa=tenToa;
         this.loaiPhong=loaiPhong;
         this.gioiTinh=gioiTinh;
+        this.cccd=cccd;
         initComponents();
         jLabel2.setText(tenToa);
         jLabel5.setText(loaiPhong);
@@ -423,8 +424,8 @@ public ChonChiTiet(String tenToa,String loaiPhong, String gioiTinh) {
         int choTrong = (int) jTable1.getValueAt(selectedRow, 4);   // Cột 5: Số chỗ trống
         
         
-        
-        dkyphong dkFrame=new dkyphong(toa,loaiPhong,tang,phong,choTrong);
+        System.out.println("day la cccd "+this.cccd);
+        dkyphong dkFrame=new dkyphong(toa,loaiPhong,tang,phong,choTrong,this.cccd);
         dkFrame.setVisible(true);
         dkFrame.setLocationRelativeTo(null);
         

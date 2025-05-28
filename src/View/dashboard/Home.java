@@ -6,8 +6,17 @@ package View.dashboard;
 
 import RegisterRoom.DangKiPhong;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.BorderFactory;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JToggleButton;
 
 /**
@@ -15,14 +24,95 @@ import javax.swing.JToggleButton;
  * @author NguyenTri
  */
 public class Home extends javax.swing.JFrame {
-
+    private String cccd;
     /**
      * Creates new form Home
      */
     public Home() {
         initComponents();
+        // Tạo popup menu Đăng kí phòng
+Color menuBackground = new Color(153, 102, 255);  // tím nhạt
+Color textColor = Color.BLACK;
+        Font menuFont = new Font("Segoe UI", Font.PLAIN, 18);
+        Dimension menuSize = new Dimension(150, 40);
+
+        JMenuItem menuDangKiPhong = new JMenuItem("Đăng kí phòng");
+menuDangKiPhong.setBackground(menuBackground);
+menuDangKiPhong.setForeground(textColor);
+menuDangKiPhong.setFont(menuFont);
+menuDangKiPhong.setPreferredSize(menuSize);
+
+        JPopupMenu popupMenuPhong = new JPopupMenu();
+popupMenuPhong.setBackground(menuBackground);
+popupMenuPhong.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+popupMenuPhong.add(menuDangKiPhong);
+
+// Gắn sự kiện click chuột cho JLabel "Dịch Vụ" (jLabel10)
+jLabel6.addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // Hiển thị popup menu tại vị trí chuột trên jLabel10
+        popupMenuPhong.show(jLabel6, e.getX(), e.getY());
     }
 
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        jLabel6.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+});
+    menuDangKiPhong.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+         DangKiPhong dkFrame=new DangKiPhong(Home.this.cccd);
+        dkFrame.setVisible(true);
+        dkFrame.setLocationRelativeTo(null);
+        dispose();
+    }
+});
+    }
+    public Home(String cccd){
+        this.cccd=cccd;
+        initComponents();
+        // Tạo popup menu Đăng kí phòng
+Color menuBackground = new Color(153, 102, 255);  // tím nhạt
+Color textColor = Color.BLACK;
+        Font menuFont = new Font("Segoe UI", Font.PLAIN, 18);
+        Dimension menuSize = new Dimension(150, 40);
+
+        JMenuItem menuDangKiPhong = new JMenuItem("Đăng kí phòng");
+menuDangKiPhong.setBackground(menuBackground);
+menuDangKiPhong.setForeground(textColor);
+menuDangKiPhong.setFont(menuFont);
+menuDangKiPhong.setPreferredSize(menuSize);
+
+        JPopupMenu popupMenuPhong = new JPopupMenu();
+popupMenuPhong.setBackground(menuBackground);
+popupMenuPhong.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+popupMenuPhong.add(menuDangKiPhong);
+
+// Gắn sự kiện click chuột cho JLabel "Dịch Vụ" (jLabel10)
+jLabel6.addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // Hiển thị popup menu tại vị trí chuột trên jLabel10
+        popupMenuPhong.show(jLabel6, e.getX(), e.getY());
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        jLabel6.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+});
+    menuDangKiPhong.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+         DangKiPhong dkFrame=new DangKiPhong(Home.this.cccd);
+        dkFrame.setVisible(true);
+        dkFrame.setLocationRelativeTo(null);
+        dispose();
+    }
+});
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -336,17 +426,7 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-        // TODO add your handling code here:
-            btn_phong.setBackground(new Color(71, 60, 139));
-
-            DangKiPhong dkphongFrame = new DangKiPhong();
-            dkphongFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-                @Override
-                public void windowClosing(java.awt.event.WindowEvent e) {
-                    btn_phong.setBackground(new Color(102, 102, 255));
-                }
-            });
-            dkphongFrame.setVisible(true);
+       
     }//GEN-LAST:event_jLabel6MouseClicked
 
     /**

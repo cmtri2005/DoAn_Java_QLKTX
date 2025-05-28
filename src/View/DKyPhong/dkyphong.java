@@ -25,20 +25,20 @@ public class dkyphong extends javax.swing.JFrame {
         private int tang ;
         private String phong ;
         private int choTrong ;
-        
+       private String cccd;
 
     public dkyphong() {
         initComponents();
         
 
     }
-    public dkyphong(String toString,String loaiPhongString, int tangString, String phString, int chString){
+    public dkyphong(String toString,String loaiPhongString, int tangString, String phString, int chString,String cccd){
         this.toa=toString;
         this.loaiPhong=loaiPhongString;
         this.tang=tangString;
         this.phong=phString;
         this.choTrong=chString;
-        
+        this.cccd=cccd;
         
         initComponents();
         int succhua=0;
@@ -348,7 +348,7 @@ public class dkyphong extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        confirm confirmFrame=new confirm();
+        confirm confirmFrame=new confirm(toa,phong,loaiPhong,cccd);
         confirmFrame.setVisible(true);
         confirmFrame.setLocationRelativeTo(null);
         

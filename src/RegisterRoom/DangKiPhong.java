@@ -21,7 +21,7 @@ public class DangKiPhong extends javax.swing.JFrame {
      public String tenToa ;
      public String loaiPhong ;
      public  String gioiTinh;
-     
+     private String cccd;
     /**
      * Creates new form DangKiPhong
      */
@@ -30,7 +30,12 @@ public class DangKiPhong extends javax.swing.JFrame {
         loadToaToComboBox();
         loadLoaiPhongComboBox();
     }
-
+ public DangKiPhong(String cccd) {
+     this.cccd=cccd;
+        initComponents();
+        loadToaToComboBox();
+        loadLoaiPhongComboBox();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -141,7 +146,8 @@ public class DangKiPhong extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ChonChiTiet dkFrame=new ChonChiTiet(tenToa,loaiPhong,gioiTinh);
+
+        ChonChiTiet dkFrame=new ChonChiTiet(tenToa,loaiPhong,gioiTinh,cccd);
         dkFrame.setVisible(true);
         dkFrame.setLocationRelativeTo(null);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
