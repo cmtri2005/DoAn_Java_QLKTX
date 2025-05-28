@@ -6,14 +6,25 @@ package View.dashboard;
 
 import Database_View.KTXManagementSystem;
 import Visualize.PhongChart;
+import Visualize.PhongStatus;
+import Visualize.SinhVienChart;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import org.jfree.chart.ChartFactory;
@@ -32,6 +43,70 @@ public class HomeAdmin extends javax.swing.JFrame {
      */
     public HomeAdmin() {
         initComponents();
+        // Tạo popup menu Đăng kí phòng
+Color menuBackground = new Color(153, 102, 255);  // tím nhạt
+Color textColor = Color.BLACK;
+Font menuFont = new Font("Segoe UI", Font.PLAIN, 18);
+Dimension menuSize = new Dimension(150, 40);
+
+JMenuItem menuBaoCao = new JMenuItem("Chart 1");
+menuBaoCao.setBackground(menuBackground);
+menuBaoCao.setForeground(textColor);
+menuBaoCao.setFont(menuFont);
+menuBaoCao.setPreferredSize(menuSize);
+
+JMenuItem menuBaoCao2 = new JMenuItem("Chart 2");
+menuBaoCao2.setBackground(menuBackground);
+menuBaoCao2.setForeground(textColor);
+menuBaoCao2.setFont(menuFont);
+menuBaoCao2.setPreferredSize(menuSize);
+
+JMenuItem menuBaoCao3 = new JMenuItem("Chart 3");
+menuBaoCao3.setBackground(menuBackground);
+menuBaoCao3.setForeground(textColor);
+menuBaoCao3.setFont(menuFont);
+menuBaoCao3.setPreferredSize(menuSize);
+
+JPopupMenu popupMenuBaoCao = new JPopupMenu();
+popupMenuBaoCao.setBackground(menuBackground);
+popupMenuBaoCao.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+popupMenuBaoCao.add(menuBaoCao);
+popupMenuBaoCao.add(menuBaoCao2);
+popupMenuBaoCao.add(menuBaoCao3);
+
+jLabel19.addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // Hiển thị popup menu tại vị trí chuột trên jLabel10
+        popupMenuBaoCao.show(jLabel19, e.getX(), e.getY());
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        jLabel19.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+});
+menuBaoCao.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        PhongChart chart1= new PhongChart();
+        chart1.displayChart();
+    }
+});
+menuBaoCao2.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        PhongStatus chart2= new PhongStatus();
+        chart2.displayChart();
+    }
+});
+menuBaoCao3.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        SinhVienChart chart3= new SinhVienChart();
+        chart3.displayChart();
+    }
+});
     }
 
 

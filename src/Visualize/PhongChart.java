@@ -34,6 +34,14 @@ import org.jfree.chart.ui.RectangleInsets;
  * @author trica
  */
 public class PhongChart {
+
+    public void setVisible(boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void setLocationRelativeTo(Object object) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     public static class PHONG {
         private String maPhong;
         private String loaiPhong;
