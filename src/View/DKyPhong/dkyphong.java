@@ -26,20 +26,21 @@ public class dkyphong extends javax.swing.JFrame {
         private String phong ;
         private int choTrong ;
        private String cccd;
+       private String gioiTinh;
 
     public dkyphong() {
         initComponents();
         
 
     }
-    public dkyphong(String toString,String loaiPhongString, int tangString, String phString, int chString,String cccd){
+    public dkyphong(String toString,String loaiPhongString, int tangString, String phString, int chString,String cccd,String gioiTinh){
         this.toa=toString;
         this.loaiPhong=loaiPhongString;
         this.tang=tangString;
         this.phong=phString;
         this.choTrong=chString;
         this.cccd=cccd;
-        
+        this.gioiTinh=gioiTinh;
         initComponents();
         int succhua=0;
         try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
@@ -348,7 +349,7 @@ public class dkyphong extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        confirm confirmFrame=new confirm(toa,phong,loaiPhong,cccd);
+        confirm confirmFrame=new confirm(toa,phong,loaiPhong,cccd,this.gioiTinh);
         confirmFrame.setVisible(true);
         confirmFrame.setLocationRelativeTo(null);
         

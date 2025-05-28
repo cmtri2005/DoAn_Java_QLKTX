@@ -16,6 +16,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,7 +40,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
  * @author NguyenTri
  */
 public class HomeAdmin extends javax.swing.JFrame {
-
+    private String cccd;
     /**
      * Creates new form Home
      */
@@ -55,7 +58,7 @@ menuBaoCao.setForeground(textColor);
 menuBaoCao.setFont(menuFont);
 menuBaoCao.setPreferredSize(menuSize);
 
-JMenuItem menuBaoCao2 = new JMenuItem("Thống kê trạng phòng");
+JMenuItem menuBaoCao2 = new JMenuItem("Thống kê tình trạng phòng");
 menuBaoCao2.setBackground(menuBackground);
 menuBaoCao2.setForeground(textColor);
 menuBaoCao2.setFont(menuFont);
@@ -107,8 +110,118 @@ menuBaoCao3.addActionListener(new ActionListener() {
         chart3.displayChart();
     }
 });
+try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
+        String sql = "SELECT s.hoten " +
+             "FROM sinhvien s " +
+             "WHERE s.cccd = ?";
+
+        
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1,this.cccd);
+        ResultSet rs = stmt.executeQuery();
+       
+        
+        if (rs.next()) {
+            String name = rs.getString("hoten");
+            String loiChao= "Chào mừng bạn "+name+" đến với trang KTX!";
+            jLabel15.setText(loiChao);
+        }
+
+    } catch (SQLException | ClassNotFoundException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + ex.getMessage());
+    }
+    }
+        public HomeAdmin(String cccd) {
+            this.cccd=cccd;
+            initComponents();
+        
+        // Tạo popup menu Đăng kí phòng
+Color menuBackground = new Color(153, 102, 255);  // tím nhạt
+Color textColor = Color.BLACK;
+Font menuFont = new Font("Segoe UI", Font.PLAIN, 18);
+Dimension menuSize = new Dimension(250, 35);
+
+JMenuItem menuBaoCao = new JMenuItem("Thống kê số lượng phòng");
+menuBaoCao.setBackground(menuBackground);
+menuBaoCao.setForeground(textColor);
+menuBaoCao.setFont(menuFont);
+menuBaoCao.setPreferredSize(menuSize);
+
+JMenuItem menuBaoCao2 = new JMenuItem("Thống kê tình trạng phòng");
+menuBaoCao2.setBackground(menuBackground);
+menuBaoCao2.setForeground(textColor);
+menuBaoCao2.setFont(menuFont);
+menuBaoCao2.setPreferredSize(menuSize);
+
+JMenuItem menuBaoCao3 = new JMenuItem("Thống kê sinh viên");
+menuBaoCao3.setBackground(menuBackground);
+menuBaoCao3.setForeground(textColor);
+menuBaoCao3.setFont(menuFont);
+menuBaoCao3.setPreferredSize(menuSize);
+
+JPopupMenu popupMenuBaoCao = new JPopupMenu();
+popupMenuBaoCao.setBackground(menuBackground);
+popupMenuBaoCao.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+popupMenuBaoCao.add(menuBaoCao);
+popupMenuBaoCao.add(menuBaoCao2);
+popupMenuBaoCao.add(menuBaoCao3);
+
+jLabel19.addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // Hiển thị popup menu tại vị trí chuột trên jLabel10
+        popupMenuBaoCao.show(jLabel19, e.getX(), e.getY());
     }
 
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        jLabel19.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+});
+menuBaoCao.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        PhongChart chart1= new PhongChart();
+        chart1.displayChart();
+    }
+});
+menuBaoCao2.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        PhongStatus chart2= new PhongStatus();
+        chart2.displayChart();
+    }
+});
+menuBaoCao3.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        SinhVienChart chart3= new SinhVienChart();
+        chart3.displayChart();
+    }
+});
+try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
+        String sql = "SELECT s.hoten " +
+             "FROM sinhvien s " +
+             "WHERE s.cccd = ?";
+
+        
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1,this.cccd);
+        ResultSet rs = stmt.executeQuery();
+       
+        
+        if (rs.next()) {
+            String name = rs.getString("hoten");
+            String loiChao= "Chào mừng bạn "+name+" đến với trang KTX!";
+            jLabel15.setText(loiChao);
+        }
+
+    } catch (SQLException | ClassNotFoundException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + ex.getMessage());
+    }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

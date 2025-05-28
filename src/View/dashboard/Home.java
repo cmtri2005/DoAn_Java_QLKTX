@@ -9,6 +9,7 @@ import View.DangKyGiuXe;
 import View.DangKyInternetFrame;
 import View.DangKyTheThao;
 import Visualize.PhongChart;
+import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -17,11 +18,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JToggleButton;
+import javax.swing.UIManager;
 
 /**
  *
@@ -181,6 +187,29 @@ jLabel6.addMouseListener(new MouseAdapter() {
         dispose();
     }
 });
+    try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
+        String sql = "SELECT s.hoten " +
+             "FROM sinhvien s " +
+             "WHERE s.cccd = ?";
+
+        
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1,this.cccd);
+        ResultSet rs = stmt.executeQuery();
+       
+        
+        if (rs.next()) {
+            String name = rs.getString("hoten");
+            String loiChao= "Chào mừng bạn "+name+" đến với trang KTX!";
+            jLabel15.setText(loiChao);
+        }
+
+    } catch (SQLException | ClassNotFoundException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + ex.getMessage());
+    }
+    
+    
     }
 
     /**
@@ -524,7 +553,16 @@ jLabel6.addMouseListener(new MouseAdapter() {
             java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+                try {
+            // Cài theme FlatLaf sáng
+            UIManager.setLookAndFeel(new FlatLightLaf());
+            UIManager.setLookAndFeel(new FlatLightLaf());
+            UIManager.put("Button.arc", 10);
+            UIManager.put("Component.arc", 10);
+            UIManager.put("TextComponent.arc", 5);
+        } catch (Exception ex) {
+            System.err.println("Không thể cài FlatLaf");
+        }
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override

@@ -426,8 +426,8 @@ public ChonChiTiet(String tenToa,String loaiPhong, String gioiTinh,String cccd) 
         int choTrong = (int) jTable1.getValueAt(selectedRow, 4);   // Cột 5: Số chỗ trống
         
         
-        System.out.println("day la cccd "+this.cccd);
-        dkyphong dkFrame=new dkyphong(toa,loaiPhong,tang,phong,choTrong,this.cccd);
+        System.out.println("day la cccd va gioi tinh"+this.cccd+ this.gioiTinh);
+        dkyphong dkFrame=new dkyphong(toa,loaiPhong,tang,phong,choTrong,this.cccd,this.gioiTinh);
         dkFrame.setVisible(true);
         dkFrame.setLocationRelativeTo(null);
         
@@ -518,10 +518,7 @@ public ChonChiTiet(String tenToa,String loaiPhong, String gioiTinh,String cccd) 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                JFrame newChonChiTietFrame=new ChonChiTiet();
-                newChonChiTietFrame.setSize(1000, 600);
-                newChonChiTietFrame.setLocationRelativeTo(null);
-                newChonChiTietFrame.setVisible(true);
+                new ChonChiTiet().setVisible(true);
             }
         });
     }

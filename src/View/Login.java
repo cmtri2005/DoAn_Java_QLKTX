@@ -237,7 +237,7 @@ public class Login extends javax.swing.JFrame {
 
                 // Open dashboard based on role
                 if ("Admin".equals(role)) {
-                    openAdminDashboard();
+                    openAdminDashboard(cccd);
                     this.dispose();
                 } else if ("Student".equals(role)) {
                         openStudentDashboard(cccd);
@@ -264,8 +264,8 @@ public class Login extends javax.swing.JFrame {
             }
         }
  }
-    private void openAdminDashboard() {
-                     HomeAdmin adminDashboard = new HomeAdmin();
+    private void openAdminDashboard(String cccd) {
+                     HomeAdmin adminDashboard = new HomeAdmin(cccd);
                      adminDashboard.setVisible(true);
                      JOptionPane.showMessageDialog(null, "Chào mừng Quản trị viên!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
     }
