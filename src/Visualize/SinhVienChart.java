@@ -156,7 +156,7 @@ public class SinhVienChart{
 
   
             JFrame frame = new JFrame("Biểu đồ phân bố sinh viên theo trường");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.setSize(800, 600);
             frame.setLocationRelativeTo(null);
 

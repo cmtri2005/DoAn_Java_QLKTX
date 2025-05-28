@@ -187,7 +187,7 @@ public class PhongStatus {
 
             // Create and set up the window
             JFrame frame = new JFrame("Biểu đồ trạng thái phòng theo tòa");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.setSize(900, 600); // Slightly wider for more data
             frame.setLocationRelativeTo(null);
 

@@ -494,52 +494,6 @@ menuBaoCao3.addActionListener(new ActionListener() {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked
-        // TODO add your handling code here:
-//                    btn_baocao.setBackground(new Color(71, 60, 139));
-//
-//                    PhongChart chartFrame = new PhongChart();
-//                    chartFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-//                        @Override
-//                        public void windowClosing(java.awt.event.WindowEvent e) {
-//                            btn_baocao.setBackground(new Color(102, 102, 255));
-//                        }
-//                    });
-//                    chartFrame.setVisible(true);                                    
-//        btn_baocao.setBackground(new Color(71, 60, 139));
-//
-//        PhongChart chartFrame = new PhongChart();
-//        
-//        JFrame frame = new JFrame("Biểu đồ thống kê phòng");
-//        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Chỉ đóng cửa sổ này thôi
-//        frame.setSize(800, 600);
-//    
-//        frame.addWindowListener(new java.awt.event.WindowAdapter() {
-//        @Override
-//        public void windowClosing(java.awt.event.WindowEvent e) {
-//            btn_baocao.setBackground(new Color(102, 102, 255));
-//        }
-//    });
-//    
-//    try {
-//        DefaultCategoryDataset dataset = chartFrame.prepareDataset();
-//        JFreeChart barChart = ChartFactory.createBarChart(
-//            "Số lượng phòng ở mỗi loại phòng",
-//            "Loại phòng",
-//            "Số lượng phòng",
-//            dataset
-//        );
-//        ChartPanel chartPanel = new ChartPanel(barChart);
-//        chartPanel.setPreferredSize(new java.awt.Dimension(800, 600));
-//        frame.setContentPane(chartPanel);
-//    } catch ( ClassNotFoundException ex) {
-//        JOptionPane.showMessageDialog(this, 
-//            "Lỗi khi tạo biểu đồ: " + ex.getMessage(), 
-//            "Lỗi", JOptionPane.ERROR_MESSAGE);
-//    }   catch (SQLException ex) {
-//            Logger.getLogger(HomeAdmin.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    
-//    frame.setVisible(true);
 
     }//GEN-LAST:event_jLabel19MouseClicked
 
