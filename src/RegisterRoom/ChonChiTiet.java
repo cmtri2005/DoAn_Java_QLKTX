@@ -14,6 +14,8 @@ import oracle.jdbc.internal.ResultSetCache;
 import java.sql.*;
 import javax.swing.UIManager;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.Font;
+import javax.swing.JFrame;
 
 
 /**
@@ -101,7 +103,7 @@ public ChonChiTiet(String tenToa,String loaiPhong, String gioiTinh,String cccd) 
         getContentPane().add(filler2, new org.netbeans.lib.awtextra.AbsoluteConstraints(724, 347, -1, -1));
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1500, 535, 37, -1));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jButton1.setText("Tầng 1");
@@ -175,10 +177,6 @@ public ChonChiTiet(String tenToa,String loaiPhong, String gioiTinh,String cccd) 
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(570, 570, 570))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -207,7 +205,11 @@ public ChonChiTiet(String tenToa,String loaiPhong, String gioiTinh,String cccd) 
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(34, 34, 34)
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(594, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 6, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(501, 501, 501))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,7 +233,7 @@ public ChonChiTiet(String tenToa,String loaiPhong, String gioiTinh,String cccd) 
                 .addContainerGap(93, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 1130, 600));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1160, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -502,16 +504,24 @@ public ChonChiTiet(String tenToa,String loaiPhong, String gioiTinh,String cccd) 
         }
         //</editor-fold>
         //</editor-fold>
-                        try {
+        try {
             // Cài theme FlatLaf sáng
             UIManager.setLookAndFeel(new FlatLightLaf());
+            UIManager.setLookAndFeel(new FlatLightLaf());
+            UIManager.put("Button.arc", 10);
+            UIManager.put("Component.arc", 10);
+            UIManager.put("TextComponent.arc", 5);
         } catch (Exception ex) {
             System.err.println("Không thể cài FlatLaf");
         }
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ChonChiTiet().setVisible(true);
+                JFrame newChonChiTietFrame=new ChonChiTiet();
+                newChonChiTietFrame.setSize(1000, 600);
+                newChonChiTietFrame.setLocationRelativeTo(null);
+                newChonChiTietFrame.setVisible(true);
             }
         });
     }

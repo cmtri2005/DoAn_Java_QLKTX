@@ -47,21 +47,21 @@ public class HomeAdmin extends javax.swing.JFrame {
 Color menuBackground = new Color(153, 102, 255);  // tím nhạt
 Color textColor = Color.BLACK;
 Font menuFont = new Font("Segoe UI", Font.PLAIN, 18);
-Dimension menuSize = new Dimension(150, 40);
+Dimension menuSize = new Dimension(250, 35);
 
-JMenuItem menuBaoCao = new JMenuItem("Chart 1");
+JMenuItem menuBaoCao = new JMenuItem("Thống kê số lượng phòng");
 menuBaoCao.setBackground(menuBackground);
 menuBaoCao.setForeground(textColor);
 menuBaoCao.setFont(menuFont);
 menuBaoCao.setPreferredSize(menuSize);
 
-JMenuItem menuBaoCao2 = new JMenuItem("Chart 2");
+JMenuItem menuBaoCao2 = new JMenuItem("Thống kê trạng phòng");
 menuBaoCao2.setBackground(menuBackground);
 menuBaoCao2.setForeground(textColor);
 menuBaoCao2.setFont(menuFont);
 menuBaoCao2.setPreferredSize(menuSize);
 
-JMenuItem menuBaoCao3 = new JMenuItem("Chart 3");
+JMenuItem menuBaoCao3 = new JMenuItem("Thống kê sinh viên");
 menuBaoCao3.setBackground(menuBackground);
 menuBaoCao3.setForeground(textColor);
 menuBaoCao3.setFont(menuFont);
@@ -484,7 +484,7 @@ menuBaoCao3.addActionListener(new ActionListener() {
             btn_data.setBackground(new Color(102, 102, 255));
         }
     });
-    
+        manageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         manageFrame.setVisible(true);
     } catch (ClassNotFoundException ex) {
         ex.printStackTrace();
