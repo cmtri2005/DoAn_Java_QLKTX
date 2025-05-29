@@ -23,6 +23,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
@@ -181,7 +182,7 @@ jLabel6.addMouseListener(new MouseAdapter() {
     menuDangKiPhong.addActionListener(new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
-         DangKiPhong dkFrame=new DangKiPhong(Home.this.cccd);
+        DangKiPhong dkFrame=new DangKiPhong(Home.this.cccd);
         dkFrame.setVisible(true);
         dkFrame.setLocationRelativeTo(null);
         dispose();
@@ -208,7 +209,70 @@ jLabel6.addMouseListener(new MouseAdapter() {
         ex.printStackTrace();
         JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + ex.getMessage());
     }
-    
+        JMenuItem menuDichVu = new JMenuItem("Internet");
+menuDichVu.setBackground(menuBackground);
+menuDichVu.setForeground(textColor);
+menuDichVu.setFont(menuFont);
+menuDichVu.setPreferredSize(menuSize);
+
+JMenuItem menuDichVu2= new JMenuItem("Giữ xe");
+menuDichVu2.setBackground(menuBackground);
+menuDichVu2.setForeground(textColor);
+menuDichVu2.setFont(menuFont);
+menuDichVu2.setPreferredSize(menuSize);
+
+JMenuItem menuDichVu3 = new JMenuItem("Thể thao");
+menuDichVu3.setBackground(menuBackground);
+menuDichVu3.setForeground(textColor);
+menuDichVu3.setFont(menuFont);
+menuDichVu3.setPreferredSize(menuSize);
+
+JPopupMenu popupMenuDichVu = new JPopupMenu();
+popupMenuDichVu.setBackground(menuBackground);
+popupMenuDichVu.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+popupMenuDichVu.add(menuDichVu);
+popupMenuDichVu.add(menuDichVu2);
+popupMenuDichVu.add(menuDichVu3);
+
+jLabel10.addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // Hiển thị popup menu tại vị trí chuột trên jLabel10
+        popupMenuDichVu.show(jLabel10, e.getX(), e.getY());
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        jLabel10.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+});
+menuDichVu.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        DangKyInternetFrame internetFrame=new DangKyInternetFrame();
+        internetFrame.setVisible(true);
+        internetFrame.setLocationRelativeTo(null);
+        internetFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+});
+menuDichVu2.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        DangKyGiuXe xeFrame=new DangKyGiuXe();
+        xeFrame.setVisible(true);
+        xeFrame.setLocationRelativeTo(null);
+        xeFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+});
+menuDichVu3.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        DangKyTheThao theThaoFrame=new DangKyTheThao();
+        theThaoFrame.setVisible(true);
+        theThaoFrame.setLocationRelativeTo(null);
+        theThaoFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+});
     
     }
 
@@ -250,10 +314,10 @@ jLabel6.addMouseListener(new MouseAdapter() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        sidepane.setBackground(new java.awt.Color(153, 153, 255));
+        sidepane.setBackground(new java.awt.Color(153, 204, 255));
         sidepane.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btn_them.setBackground(new java.awt.Color(102, 102, 255));
+        btn_them.setBackground(new java.awt.Color(51, 102, 255));
         btn_them.setPreferredSize(new java.awt.Dimension(285, 60));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -286,7 +350,7 @@ jLabel6.addMouseListener(new MouseAdapter() {
 
         sidepane.add(btn_them, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 310, 60));
 
-        btn_sinhvien.setBackground(new java.awt.Color(102, 102, 255));
+        btn_sinhvien.setBackground(new java.awt.Color(51, 102, 255));
         btn_sinhvien.setPreferredSize(new java.awt.Dimension(285, 60));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -319,7 +383,7 @@ jLabel6.addMouseListener(new MouseAdapter() {
 
         sidepane.add(btn_sinhvien, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 310, -1));
 
-        btn_phong.setBackground(new java.awt.Color(102, 102, 255));
+        btn_phong.setBackground(new java.awt.Color(51, 102, 255));
         btn_phong.setPreferredSize(new java.awt.Dimension(285, 60));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -357,7 +421,7 @@ jLabel6.addMouseListener(new MouseAdapter() {
 
         sidepane.add(btn_phong, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 310, -1));
 
-        btn_trangchu.setBackground(new java.awt.Color(102, 102, 255));
+        btn_trangchu.setBackground(new java.awt.Color(51, 102, 255));
         btn_trangchu.setPreferredSize(new java.awt.Dimension(285, 60));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -390,7 +454,7 @@ jLabel6.addMouseListener(new MouseAdapter() {
 
         sidepane.add(btn_trangchu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 310, 60));
 
-        btn_dichvu.setBackground(new java.awt.Color(102, 102, 255));
+        btn_dichvu.setBackground(new java.awt.Color(51, 102, 255));
         btn_dichvu.setPreferredSize(new java.awt.Dimension(285, 60));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -424,7 +488,6 @@ jLabel6.addMouseListener(new MouseAdapter() {
         sidepane.add(btn_dichvu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 310, -1));
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("4T Dormitory");
         sidepane.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
 
@@ -432,15 +495,13 @@ jLabel6.addMouseListener(new MouseAdapter() {
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
         sidepane.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 290, 10));
 
-        jPanel1.setBackground(new java.awt.Color(153, 102, 255));
+        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 126));
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Introduction ...");
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("Welcome to 4T Dormitory");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

@@ -124,7 +124,7 @@ public class confirm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Thông tin đăng ký phòng");
 
-        Panel2.setBackground(new java.awt.Color(164, 211, 255));
+        Panel2.setBackground(new java.awt.Color(153, 204, 255));
 
         information.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         information.setText("1. Thông tin cá nhân");

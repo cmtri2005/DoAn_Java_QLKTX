@@ -22,8 +22,11 @@ import javax.swing.JOptionPane;
 import View.ThayDoiMatKhau;
 import View.dashboard.Home;
 import View.dashboard.HomeAdmin;
+import com.formdev.flatlaf.FlatLightLaf;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import model.UserSession;
 
 /**
@@ -85,7 +88,7 @@ public class Login extends javax.swing.JFrame {
         setBackground(new java.awt.Color(240, 248, 255));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel3.setBackground(new java.awt.Color(102, 102, 255));
+        jPanel3.setBackground(new java.awt.Color(0, 102, 255));
         jPanel3.setPreferredSize(new java.awt.Dimension(910, 580));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -316,7 +319,7 @@ public class Login extends javax.swing.JFrame {
         LogInHandleActionPerformed(evt);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws UnsupportedLookAndFeelException {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -327,7 +330,7 @@ public class Login extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-
+        UIManager.setLookAndFeel(new FlatLightLaf());
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Login().setVisible(true);

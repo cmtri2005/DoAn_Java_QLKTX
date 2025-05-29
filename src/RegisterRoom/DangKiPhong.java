@@ -254,18 +254,15 @@ private void loadLoaiPhongComboBox() {
            try {
             // Cài theme FlatLaf sáng
             UIManager.setLookAndFeel(new FlatLightLaf());
-            UIManager.put("Button.arc", 10); // Bo góc nút
-            UIManager.put("Component.arc", 10); // Bo góc combo box
-            UIManager.put("TextComponent.arc", 5); // Bo góc text field
         } catch (Exception ex) {
             System.err.println("Không thể cài FlatLaf");
         }
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                JFrame dkphong=new DangKiPhong();
-                dkphong.setLocationRelativeTo(null);
-                dkphong.setVisible(true);
+//                JFrame dkphong=new DangKiPhong();
+//                dkphong.setLocationRelativeTo(null);
+                new DangKiPhong().setVisible(true);
             }
         });
     }

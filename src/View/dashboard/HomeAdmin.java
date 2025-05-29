@@ -8,6 +8,7 @@ import Database_View.KTXManagementSystem;
 import Visualize.PhongChart;
 import Visualize.PhongStatus;
 import Visualize.SinhVienChart;
+import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -30,6 +31,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -264,10 +267,10 @@ try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        sidepane.setBackground(new java.awt.Color(153, 153, 255));
+        sidepane.setBackground(new java.awt.Color(153, 204, 255));
         sidepane.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btn_data.setBackground(new java.awt.Color(102, 102, 255));
+        btn_data.setBackground(new java.awt.Color(51, 102, 255));
         btn_data.setPreferredSize(new java.awt.Dimension(285, 60));
         btn_data.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -310,7 +313,7 @@ try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
 
         sidepane.add(btn_data, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 310, 60));
 
-        btn_sinhvien.setBackground(new java.awt.Color(102, 102, 255));
+        btn_sinhvien.setBackground(new java.awt.Color(51, 102, 255));
         btn_sinhvien.setPreferredSize(new java.awt.Dimension(285, 60));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -343,7 +346,7 @@ try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
 
         sidepane.add(btn_sinhvien, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 310, -1));
 
-        btn_phong.setBackground(new java.awt.Color(102, 102, 255));
+        btn_phong.setBackground(new java.awt.Color(51, 102, 255));
         btn_phong.setPreferredSize(new java.awt.Dimension(285, 60));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -376,7 +379,7 @@ try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
 
         sidepane.add(btn_phong, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 310, -1));
 
-        btn_trangchu.setBackground(new java.awt.Color(102, 102, 255));
+        btn_trangchu.setBackground(new java.awt.Color(51, 102, 255));
         btn_trangchu.setPreferredSize(new java.awt.Dimension(285, 60));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -409,7 +412,7 @@ try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
 
         sidepane.add(btn_trangchu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 310, 60));
 
-        btn_dichvu.setBackground(new java.awt.Color(102, 102, 255));
+        btn_dichvu.setBackground(new java.awt.Color(51, 102, 255));
         btn_dichvu.setPreferredSize(new java.awt.Dimension(285, 60));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -443,7 +446,6 @@ try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
         sidepane.add(btn_dichvu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 310, -1));
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("4T Dormitory");
         sidepane.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
 
@@ -451,7 +453,7 @@ try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
         sidepane.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 290, 10));
 
-        btn_baocao.setBackground(new java.awt.Color(102, 102, 255));
+        btn_baocao.setBackground(new java.awt.Color(51, 102, 255));
         btn_baocao.setPreferredSize(new java.awt.Dimension(285, 60));
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -489,15 +491,14 @@ try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
 
         sidepane.add(btn_baocao, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 310, 60));
 
-        jPanel1.setBackground(new java.awt.Color(153, 102, 255));
+        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 126));
 
+        jLabel15.setBackground(new java.awt.Color(255, 255, 255));
         jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Introduction ...");
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("Welcome to 4T Dormitory");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -613,7 +614,7 @@ try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws UnsupportedLookAndFeelException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -637,7 +638,7 @@ try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
         }
         //</editor-fold>
         //</editor-fold>
-
+        UIManager.setLookAndFeel(new FlatLightLaf());
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
