@@ -4,12 +4,12 @@
 Lời nói đầu, cho phép nhóm em gửi lời cảm ơn đến thầy **Vũ Minh Sang** đã giúp tụi em có những kiến thức nền tảng của ngôn ngữ lập trình Java và hỗ trợ tận tình những thiếu sót để nhóm em có thể hoàn thiện được đồ án môn học.
 
 ## Nhóm 4T Dormitory
-| MSSV | Họ tên | Đánh giá % |
-| :—– | :———- | :————– |
-| 23521635 | Cao Minh Trí | 25 |
-| 23521643 | Nguyễn Minh Trí | 25 |
-| 23521593 | Nguyễn Thanh Tín | 25 |
-| 23521528 | Nguyễn Ngọc Thông | 25 |
+| MSSV     | Họ tên             | Đánh giá % |
+|----------|--------------------|------------|
+| 23521635 | Cao Minh Trí       | 25         |
+| 23521643 | Nguyễn Minh Trí    | 25         |
+| 23521593 | Nguyễn Thanh Tín   | 25         |
+| 23521528 | Nguyễn Ngọc Thông  | 25         |
 
 ## Giới thiệu đồ án
 - Hiện nay, cùng với sự phát triển không ngừng của xã hội, số lượng sinh viên theo học tại các trường đại học, cao đẳng trên cả nước ngày càng gia tăng. Điều này kéo theo nhu cầu về chỗ ở trong ký túc xá cũng tăng cao, đòi hỏi công tác quản lý phải ngày càng chuyên nghiệp, hiệu quả và hiện đại hơn. Tuy nhiên, trên thực tế, nhiều ký túc xá vẫn đang vận hành theo phương pháp quản lý thủ công hoặc bán thủ công, gây ra nhiều khó khăn trong việc theo dõi thông tin sinh viên, phân bổ phòng ở, quản lý dịch vụ và giám sát hoạt động sinh hoạt hàng ngày.
