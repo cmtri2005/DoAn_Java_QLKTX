@@ -50,8 +50,8 @@ public class EmailForm extends javax.swing.JFrame {
 
     // Send OTP email
     private boolean sendOTPEmail(String recipientEmail, String otp) {
-        final String username = "tricaominh2005@gmail.com";
-        final String password = "tuol exax cyij hemd"; // Use app-specific password
+        final String username = "tri21723@gmail.com";
+        final String password = "vout zvnv ruwi zjyj"; // Use app-specific password
 
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
@@ -60,6 +60,7 @@ public class EmailForm extends javax.swing.JFrame {
         prop.put("mail.smtp.starttls.enable", "true");
         prop.put("mail.smtp.starttls.required", "true");
         prop.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         System.out.println("Attempting to send email to: " + recipientEmail);
         Session session = Session.getInstance(prop, new javax.mail.Authenticator() {
             @Override

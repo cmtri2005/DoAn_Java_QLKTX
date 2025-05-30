@@ -306,6 +306,7 @@ menuDichVu3.addActionListener(new ActionListener() {
         jLabel10 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        calendarPanel1 = new com.github.lgooddatepicker.components.CalendarPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
@@ -495,6 +496,9 @@ menuDichVu3.addActionListener(new ActionListener() {
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
         sidepane.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 290, 10));
 
+        calendarPanel1.setBackground(new java.awt.Color(153, 204, 255));
+        sidepane.add(calendarPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 310, 280));
+
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 126));
 
@@ -641,6 +645,7 @@ menuDichVu3.addActionListener(new ActionListener() {
     private javax.swing.JPanel btn_sinhvien;
     private javax.swing.JPanel btn_them;
     private javax.swing.JPanel btn_trangchu;
+    private com.github.lgooddatepicker.components.CalendarPanel calendarPanel1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel15;

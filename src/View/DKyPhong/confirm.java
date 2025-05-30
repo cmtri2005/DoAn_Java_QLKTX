@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -460,9 +461,8 @@ public class confirm extends javax.swing.JFrame {
     e.printStackTrace();
     JOptionPane.showMessageDialog(this, "Lỗi khi cập nhật tình trạng: " + e.getMessage());
 }
-
         new FormThanhToan(tf_mssv.getText(), tf_ten.getText(), jLabel18.getText(), "6 tháng", "10000000", null).setVisible(true);
-        
+        this.dispose();
     }//GEN-LAST:event_confirmActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed

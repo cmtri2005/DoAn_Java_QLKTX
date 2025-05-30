@@ -1,4 +1,5 @@
 package View;
+import View.DKyPhong.confirm;
 import View.dashboard.Home;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
@@ -55,6 +56,8 @@ public class FormThanhToan extends JFrame {
             String cccd = UserSession.getCccd();
         Home homeframe = new Home(cccd);
         homeframe.setVisible(true);
+        
+        
         });
         add(pnlThongTin, BorderLayout.NORTH);
         add(pnlQr, BorderLayout.CENTER);
