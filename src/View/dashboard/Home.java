@@ -8,6 +8,8 @@ import RegisterRoom.DangKiPhong;
 import View.DangKyGiuXe;
 import View.DangKyInternetFrame;
 import View.DangKyTheThao;
+import View.HopDong;
+import View.TheKTXSV;
 import Visualize.PhongChart;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
@@ -22,6 +24,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
@@ -29,6 +33,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JToggleButton;
 import javax.swing.UIManager;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import model.UserSession;
 
 /**
  *
@@ -36,6 +42,7 @@ import javax.swing.UIManager;
  */
 public class Home extends javax.swing.JFrame {
     private String cccd;
+    private String masv;
     /**
      * Creates new form Home
      */
@@ -145,12 +152,84 @@ menuDichVu3.addActionListener(new ActionListener() {
         dispose();
     }
 });
+        JMenuItem menuSV = new JMenuItem("Thẻ KTX");
+        menuSV.setBackground(menuBackground);
+        menuSV.setForeground(textColor);
+        menuSV.setFont(menuFont);
+        menuSV.setPreferredSize(menuSize);
+
+        JMenuItem menuSV2= new JMenuItem("Hợp Đồng");
+        menuSV2.setBackground(menuBackground);
+        menuSV2.setForeground(textColor);
+        menuSV2.setFont(menuFont);
+        menuSV2.setPreferredSize(menuSize);
+
+        JMenuItem menuSV3 = new JMenuItem("Hóa Đơn");
+        menuSV3.setBackground(menuBackground);
+        menuSV3.setForeground(textColor);
+        menuSV3.setFont(menuFont);
+        menuSV3.setPreferredSize(menuSize);
+
+        JPopupMenu popupMenuSV = new JPopupMenu();
+        popupMenuSV.setBackground(menuBackground);
+        popupMenuSV.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+        popupMenuSV.add(menuSV);
+        popupMenuSV.add(menuSV2);
+        popupMenuSV.add(menuSV3);
+
+jLabel4.addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        popupMenuSV.show(jLabel4, e.getX(), e.getY());
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        jLabel4.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+});
+menuSV.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        TheKTXSV theFrame = null;
+        try {
+            theFrame = new TheKTXSV(Home.this.masv);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        theFrame.setVisible(true);
+        theFrame.setLocationRelativeTo(null);
+        theFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+});
+menuSV2.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        HopDong hopdongFrame = null;
+        try {
+            hopdongFrame = new HopDong(Home.this.cccd);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        hopdongFrame.setVisible(true);
+        hopdongFrame.setLocationRelativeTo(null);
+        hopdongFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+});
+menuSV3.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+    }
+});
     }
     public Home(String cccd){
         this.cccd=cccd;
         initComponents();
         // Tạo popup menu Đăng kí phòng
-Color menuBackground = new Color(153, 102, 255);  // tím nhạt
+Color menuBackground = new Color(255, 255, 255);  // tím nhạt
 Color textColor = Color.BLACK;
         Font menuFont = new Font("Segoe UI", Font.PLAIN, 18);
         Dimension menuSize = new Dimension(150, 40);
@@ -188,6 +267,7 @@ jLabel6.addMouseListener(new MouseAdapter() {
         dispose();
     }
 });
+        System.out.println("CCCD: "+ this.cccd);
     try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
         String sql = "SELECT s.hoten " +
              "FROM sinhvien s " +
@@ -198,7 +278,6 @@ jLabel6.addMouseListener(new MouseAdapter() {
         stmt.setString(1,this.cccd);
         ResultSet rs = stmt.executeQuery();
        
-        
         if (rs.next()) {
             String name = rs.getString("hoten");
             String loiChao= "Chào mừng bạn "+name+" đến với trang KTX!";
@@ -273,6 +352,79 @@ menuDichVu3.addActionListener(new ActionListener() {
         theThaoFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 });
+
+        JMenuItem menuSV = new JMenuItem("Thẻ KTX");
+        menuSV.setBackground(menuBackground);
+        menuSV.setForeground(textColor);
+        menuSV.setFont(menuFont);
+        menuSV.setPreferredSize(menuSize);
+
+        JMenuItem menuSV2= new JMenuItem("Hợp Đồng");
+        menuSV2.setBackground(menuBackground);
+        menuSV2.setForeground(textColor);
+        menuSV2.setFont(menuFont);
+        menuSV2.setPreferredSize(menuSize);
+
+        JMenuItem menuSV3 = new JMenuItem("Hóa Đơn");
+        menuSV3.setBackground(menuBackground);
+        menuSV3.setForeground(textColor);
+        menuSV3.setFont(menuFont);
+        menuSV3.setPreferredSize(menuSize);
+
+        JPopupMenu popupMenuSV = new JPopupMenu();
+        popupMenuSV.setBackground(menuBackground);
+        popupMenuSV.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+        popupMenuSV.add(menuSV);
+        popupMenuSV.add(menuSV2);
+        popupMenuSV.add(menuSV3);
+
+jLabel4.addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        popupMenuSV.show(jLabel4, e.getX(), e.getY());
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        jLabel4.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+});
+menuSV.addActionListener(new ActionListener() {
+    String mssv1 = UserSession.getMssv();
+    public void actionPerformed(ActionEvent e) {
+        TheKTXSV theFrame = null;
+        try {
+            theFrame = new TheKTXSV(mssv1);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        theFrame.setVisible(true);
+        theFrame.setLocationRelativeTo(null);
+        theFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+});
+menuSV2.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        HopDong hopdongFrame = null;
+        try {
+            hopdongFrame = new HopDong(Home.this.cccd);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        hopdongFrame.setVisible(true);
+        hopdongFrame.setLocationRelativeTo(null);
+        hopdongFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+});
+menuSV3.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+    }
+});
     
     }
 
@@ -296,8 +448,8 @@ menuDichVu3.addActionListener(new ActionListener() {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btn_phong = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         btn_trangchu = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -307,6 +459,7 @@ menuDichVu3.addActionListener(new ActionListener() {
         jLabel16 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         calendarPanel1 = new com.github.lgooddatepicker.components.CalendarPanel();
+        jLabel11 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
@@ -318,11 +471,10 @@ menuDichVu3.addActionListener(new ActionListener() {
         sidepane.setBackground(new java.awt.Color(153, 204, 255));
         sidepane.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btn_them.setBackground(new java.awt.Color(51, 102, 255));
+        btn_them.setBackground(new java.awt.Color(255, 255, 255));
         btn_them.setPreferredSize(new java.awt.Dimension(285, 60));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Thêm");
 
         javax.swing.GroupLayout btn_themLayout = new javax.swing.GroupLayout(btn_them);
@@ -351,11 +503,12 @@ menuDichVu3.addActionListener(new ActionListener() {
 
         sidepane.add(btn_them, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 310, 60));
 
-        btn_sinhvien.setBackground(new java.awt.Color(51, 102, 255));
+        btn_sinhvien.setBackground(new java.awt.Color(255, 255, 255));
         btn_sinhvien.setPreferredSize(new java.awt.Dimension(285, 60));
 
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Icons8-Windows-8-Users-Guest.24.png"))); // NOI18N
+
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Sinh Viên");
 
         javax.swing.GroupLayout btn_sinhvienLayout = new javax.swing.GroupLayout(btn_sinhvien);
@@ -363,32 +516,30 @@ menuDichVu3.addActionListener(new ActionListener() {
         btn_sinhvienLayout.setHorizontalGroup(
             btn_sinhvienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_sinhvienLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         btn_sinhvienLayout.setVerticalGroup(
             btn_sinhvienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_sinhvienLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(12, 12, 12))
             .addGroup(btn_sinhvienLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(btn_sinhvienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_sinhvienLayout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_sinhvienLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(17, 17, 17))))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         sidepane.add(btn_sinhvien, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 310, -1));
 
-        btn_phong.setBackground(new java.awt.Color(51, 102, 255));
+        btn_phong.setBackground(new java.awt.Color(255, 255, 255));
         btn_phong.setPreferredSize(new java.awt.Dimension(285, 60));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Phòng");
         jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -396,37 +547,39 @@ menuDichVu3.addActionListener(new ActionListener() {
             }
         });
 
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Pictogrammers-Material-Bunk-bed.24.png"))); // NOI18N
+
         javax.swing.GroupLayout btn_phongLayout = new javax.swing.GroupLayout(btn_phong);
         btn_phong.setLayout(btn_phongLayout);
         btn_phongLayout.setHorizontalGroup(
             btn_phongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_phongLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         btn_phongLayout.setVerticalGroup(
             btn_phongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_phongLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addGroup(btn_phongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_phongLayout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_phongLayout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(17, 17, 17))))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6)
+                .addContainerGap(17, Short.MAX_VALUE))
+            .addGroup(btn_phongLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(12, 12, 12))
         );
 
         sidepane.add(btn_phong, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 310, -1));
 
-        btn_trangchu.setBackground(new java.awt.Color(51, 102, 255));
+        btn_trangchu.setBackground(new java.awt.Color(255, 255, 255));
         btn_trangchu.setPreferredSize(new java.awt.Dimension(285, 60));
 
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Steve-Zondicons-Home.24.png"))); // NOI18N
+
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Trang Chủ");
 
         javax.swing.GroupLayout btn_trangchuLayout = new javax.swing.GroupLayout(btn_trangchu);
@@ -434,32 +587,32 @@ menuDichVu3.addActionListener(new ActionListener() {
         btn_trangchuLayout.setHorizontalGroup(
             btn_trangchuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_trangchuLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(21, 21, 21)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         btn_trangchuLayout.setVerticalGroup(
             btn_trangchuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_trangchuLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addGroup(btn_trangchuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_trangchuLayout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_trangchuLayout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(17, 17, 17))))
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addComponent(jLabel8)
+                .addGap(17, 17, 17))
+            .addGroup(btn_trangchuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         sidepane.add(btn_trangchu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 310, 60));
 
-        btn_dichvu.setBackground(new java.awt.Color(51, 102, 255));
+        btn_dichvu.setBackground(new java.awt.Color(255, 255, 255));
         btn_dichvu.setPreferredSize(new java.awt.Dimension(285, 60));
 
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Custom-Icon-Design-Mono-General-2-Search.24.png"))); // NOI18N
+
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Dịch Vụ");
 
         javax.swing.GroupLayout btn_dichvuLayout = new javax.swing.GroupLayout(btn_dichvu);
@@ -467,37 +620,40 @@ menuDichVu3.addActionListener(new ActionListener() {
         btn_dichvuLayout.setHorizontalGroup(
             btn_dichvuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_dichvuLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         btn_dichvuLayout.setVerticalGroup(
             btn_dichvuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_dichvuLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
                 .addGroup(btn_dichvuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_dichvuLayout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_dichvuLayout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addGap(17, 17, 17))))
+                    .addGroup(btn_dichvuLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel10))
+                    .addGroup(btn_dichvuLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         sidepane.add(btn_dichvu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 310, -1));
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel16.setText("4T Dormitory");
-        sidepane.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+        sidepane.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, -1, -1));
 
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
         sidepane.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 290, 10));
 
         calendarPanel1.setBackground(new java.awt.Color(153, 204, 255));
-        sidepane.add(calendarPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 310, 280));
+        sidepane.add(calendarPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 460, 220, 200));
+
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Iconsmind-Outline-Hotel.24.png"))); // NOI18N
+        sidepane.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 30, 30));
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 126));
@@ -648,6 +804,7 @@ menuDichVu3.addActionListener(new ActionListener() {
     private com.github.lgooddatepicker.components.CalendarPanel calendarPanel1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;

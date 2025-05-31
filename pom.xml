@@ -24,9 +24,7 @@
 
     <build>
 <<<<<<< HEAD
-        <sourceDirectory>src</sourceDirectory>
-=======
->>>>>>> nthongtt
+        
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -40,10 +38,15 @@
                         <arg>--enable-preview</arg>
                         <arg>--enable-preview</arg>
                         <arg>--enable-preview</arg>
+                        <arg>--enable-preview</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
         </plugins>
+        <sourceDirectory>src</sourceDirectory>
+=======
+>>>>>>> nthongtt
+        
         <sourceDirectory>src/main/java</sourceDirectory>
     </build>
 </project> 

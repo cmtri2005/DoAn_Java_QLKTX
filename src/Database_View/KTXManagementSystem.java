@@ -81,7 +81,7 @@ class StudentPanel extends JPanel {
     private Connection connection;
     private DefaultTableModel tableModel;
     private JTable table;
-    private JTextField idField, nameField, dobField, cccdField, sdtField, roomIdField, searchField, tinhtrangField;
+    private JTextField idField, nameField, dobField, cccdField, sdtField, roomIdField, searchField;
     private JComboBox<String> searchCriteriaComboBox;
 
     public StudentPanel(Connection connection) {
@@ -103,7 +103,7 @@ class StudentPanel extends JPanel {
         // Search components
         JLabel searchLabel = new JLabel("Tìm kiếm:");
         searchField = new JTextField(15); // Sửa lỗi: gán vào biến instance
-        searchCriteriaComboBox = new JComboBox<>(new String[]{"Mã SV", "Họ Tên", "CCCD", "SĐT", "Mã Phòng","Tình Trạng"});
+        searchCriteriaComboBox = new JComboBox<>(new String[]{"Mã SV", "Họ Tên", "CCCD", "SĐT", "Mã Phòng"});
         JButton searchButton = new JButton("Tìm");
 
         styleButton(addButton);
@@ -131,7 +131,7 @@ class StudentPanel extends JPanel {
         add(toolBar, BorderLayout.NORTH);
 
         // Table to display student data
-        String[] columns = {"Mã SV", "Họ Tên", "Ngày Sinh", "CCCD", "SĐT", "Mã Phòng","Tình Trạng"};
+        String[] columns = {"Mã SV", "Họ Tên", "Ngày Sinh", "CCCD", "SĐT", "Mã Phòng"};
         tableModel = new DefaultTableModel(columns, 0);
         table = new JTable(tableModel);
         table.setRowHeight(25);
@@ -155,7 +155,7 @@ class StudentPanel extends JPanel {
         idField = new JTextField(15);
         JLabel nameLabel = new JLabel("Họ Tên:");
         nameField = new JTextField(15);
-        JLabel dobLabel = new JLabel("Ngày Sinh (YYYY-MM-DD):");
+        JLabel dobLabel = new JLabel("Ngày Sinh (YYYY-MM-dd):");
         dobField = new JTextField(15);
         JLabel cccdLabel = new JLabel("CCCD:");
         cccdField = new JTextField(15);
@@ -163,8 +163,6 @@ class StudentPanel extends JPanel {
         sdtField = new JTextField(15);
         JLabel roomIdLabel = new JLabel("Mã Phòng:");
         roomIdField = new JTextField(15);
-        JLabel tinhtrangLabel = new JLabel("Tình Trạng:");
-        tinhtrangField = new JTextField(15);
 
         styleLabel(idLabel);
         styleLabel(nameLabel);
@@ -172,14 +170,12 @@ class StudentPanel extends JPanel {
         styleLabel(cccdLabel);
         styleLabel(sdtLabel);
         styleLabel(roomIdLabel);
-        styleLabel(tinhtrangLabel);
         styleTextField(idField);
         styleTextField(nameField);
         styleTextField(dobField);
         styleTextField(cccdField);
         styleTextField(sdtField);
         styleTextField(roomIdField);
-        styleTextField(tinhtrangField);
 
         JButton saveButton = new JButton("Lưu");
         JButton cancelButton = new JButton("Hủy");
@@ -222,11 +218,6 @@ class StudentPanel extends JPanel {
         inputPanel.add(roomIdField, gbc);
         gbc.gridx = 0;
         gbc.gridy = 6;
-        inputPanel.add(tinhtrangLabel, gbc);
-        gbc.gridx = 1;
-        inputPanel.add(tinhtrangField, gbc);
-        gbc.gridx = 0;
-        gbc.gridy = 7;
         inputPanel.add(saveButton, gbc);
         gbc.gridx = 1;
         inputPanel.add(cancelButton, gbc);
@@ -297,7 +288,6 @@ class StudentPanel extends JPanel {
                 cccdField.setText(tableModel.getValueAt(selectedRow, 3).toString());
                 sdtField.setText(tableModel.getValueAt(selectedRow, 4).toString());
                 roomIdField.setText(tableModel.getValueAt(selectedRow, 5) != null ? tableModel.getValueAt(selectedRow, 5).toString() : "");
-                tinhtrangField.setText(tableModel.getValueAt(selectedRow, 6) != null ? tableModel.getValueAt(selectedRow, 6).toString() : "");
             }
         });
     }
@@ -327,7 +317,7 @@ class StudentPanel extends JPanel {
 
     private void loadStudents(String searchCriteria, String searchValue) {
         tableModel.setRowCount(0);
-        String query = "SELECT MASV, HOTEN, NGAYSINH, CCCD, SĐT, MAPHONG, TINHTRANG FROM SINHVIEN";
+        String query = "SELECT MASV, HOTEN, NGAYSINH, CCCD, SĐT, MAPHONG FROM SINHVIEN";
         boolean isSearch = !searchValue.isEmpty();
 
         if (isSearch) {
@@ -349,9 +339,6 @@ class StudentPanel extends JPanel {
                 case "Mã Phòng":
                     searchColumn = "MAPHONG";
                     break;
-                case "Tình Trạng":
-                    searchColumn = "TINHTRANG";
-                    break;
                 default:
                     searchColumn = "MASV";
             }
@@ -369,7 +356,6 @@ class StudentPanel extends JPanel {
                             rs.getString("CCCD"),
                             rs.getString("SĐT"),
                             rs.getString("MAPHONG"),
-                            rs.getString("TINHTRANG")
                         };
                         tableModel.addRow(row);
                     }
@@ -388,7 +374,6 @@ class StudentPanel extends JPanel {
                         rs.getString("CCCD"),
                         rs.getString("SĐT"),
                         rs.getString("MAPHONG"),
-                        rs.getString("TINHTRANG"),
                     };
                     tableModel.addRow(row);
                 }
@@ -416,7 +401,7 @@ class StudentPanel extends JPanel {
                     return false;
                 }
             } catch (ParseException ex) {
-                JOptionPane.showMessageDialog(this, "Ngày sinh không đúng định dạng (YYYY-MM-DD)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Ngày sinh không đúng định dạng (YYYY-MM-dd)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         }
@@ -427,7 +412,7 @@ class StudentPanel extends JPanel {
         }
         // Kiểm tra SĐT (10 số)
         if (!sdtField.getText().matches("\\d{10}")) {
-            JOptionPane.showMessageDialog(this, "SĐT phải là 10 số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "SDT phải là 10 số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         // Kiểm tra mã phòng (nếu có)
@@ -454,7 +439,7 @@ class StudentPanel extends JPanel {
     }
 
     private void addStudent() {
-        String query = "INSERT INTO SINHVIEN (MASV, HOTEN, NGAYSINH, CCCD, SĐT, MAPHONG, TINHTRANG) VALUES (?, ?, ?, ?, ?, ?,?)";
+        String query = "INSERT INTO SINHVIEN (MASV, HOTEN, NGAYSINH, CCCD, SĐT, MAPHONG) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, idField.getText());
             pstmt.setString(2, nameField.getText());
@@ -471,7 +456,6 @@ class StudentPanel extends JPanel {
             pstmt.setString(4, cccdField.getText());
             pstmt.setString(5, sdtField.getText());
             pstmt.setString(6, roomIdField.getText().isEmpty() ? null : roomIdField.getText());
-            pstmt.setString(7, tinhtrangField.getText().isEmpty() ? null : tinhtrangField.getText());
             pstmt.executeUpdate();
             JOptionPane.showMessageDialog(this, "Thêm sinh viên thành công!");
             loadStudents(searchCriteriaComboBox.getSelectedItem().toString(), searchField.getText().trim());
@@ -479,12 +463,12 @@ class StudentPanel extends JPanel {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Lỗi khi thêm sinh viên: " + getFriendlyErrorMessage(e), "Lỗi", JOptionPane.ERROR_MESSAGE);
         } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "Ngày sinh không đúng định dạng (YYYY-MM-DD)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ngày sinh không đúng định dạng (YYYY-MM-dd)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void editStudent() {
-        String query = "UPDATE SINHVIEN SET HOTEN = ?, NGAYSINH = ?, CCCD = ?, SĐT = ?, MAPHONG = ?, TINHTRANG=? WHERE MASV = ?";
+        String query = "UPDATE SINHVIEN SET HOTEN = ?, NGAYSINH = ?, CCCD = ?, SĐT = ?, MAPHONG = ? WHERE MASV = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, nameField.getText());
             // Parse and set NGAYSINH
@@ -500,9 +484,7 @@ class StudentPanel extends JPanel {
             pstmt.setString(3, cccdField.getText());
             pstmt.setString(4, sdtField.getText());
             pstmt.setString(5, roomIdField.getText().isEmpty() ? null : roomIdField.getText());
-            pstmt.setString(6, tinhtrangField.getText());
-            pstmt.setString(7, idField.getText());
-            
+            pstmt.setString(6, idField.getText());
             pstmt.executeUpdate();
             JOptionPane.showMessageDialog(this, "Sửa sinh viên thành công!");
             loadStudents(searchCriteriaComboBox.getSelectedItem().toString(), searchField.getText().trim());
@@ -510,7 +492,7 @@ class StudentPanel extends JPanel {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Lỗi khi sửa sinh viên: " + getFriendlyErrorMessage(e), "Lỗi", JOptionPane.ERROR_MESSAGE);
         } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "Ngày sinh không đúng định dạng (YYYY-MM-DD)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ngày sinh không đúng định dạng (YYYY-MM-dd)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -544,7 +526,7 @@ class StudentPanel extends JPanel {
         } else if (e.getErrorCode() == 1400) { // ORA-01400: không thể chèn NULL
             return "Vui lòng nhập đầy đủ các trường bắt buộc!";
         } else if (e.getErrorCode() == 1861) { // ORA-01861: literal does not match format string
-            return "Ngày sinh không đúng định dạng (YYYY-MM-DD)!";
+            return "Ngày sinh không đúng định dạng (YYYY-MM-dd)!";
         }
         return message;
     }
@@ -556,7 +538,6 @@ class StudentPanel extends JPanel {
         cccdField.setText("");
         sdtField.setText("");
         roomIdField.setText("");
-        tinhtrangField.setText("");
     }
 }
 
@@ -660,8 +641,10 @@ class RoomPanel extends JPanel {
 
         JButton saveButton = new JButton("Lưu");
         JButton cancelButton = new JButton("Hủy");
-        styleButton(saveButton);
-        styleButton(cancelButton);
+        saveButton.setBackground(new Color(255,255,255));
+        cancelButton.setBackground(new Color(255,255,255));
+        saveButton.setBackground(new Color(41, 128, 185));
+        cancelButton.setBackground(new Color(41,128,185));
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -965,7 +948,7 @@ class ContractPanel extends JPanel {
     private Connection connection;
     private DefaultTableModel tableModel;
     private JTable table;
-    private JTextField contractIdField, studentIdField, startDateField, endDateField, statusField, roomFeeField, depositField, insuranceFeeField, searchField;
+    private JTextField contractIdField, studentIdField, startDateField, endDateField, statusField, roomFeeField, depositField, insuranceFeeField, roomIdField, searchField;
     private JComboBox<String> searchCriteriaComboBox;
 
     public ContractPanel(Connection connection) {
@@ -988,7 +971,7 @@ class ContractPanel extends JPanel {
         JLabel searchLabel = new JLabel("Tìm kiếm:");
         searchField = new JTextField(15);
         searchCriteriaComboBox = new JComboBox<>(new String[]{"Mã Hợp Đồng", "Mã Sinh Viên", "Ngày Bắt Đầu",
-                "Ngày Kết Thúc", "Tình Trạng", "Phí Phòng", "Tiền Thế Chân", "Tiền BHYT"});
+                "Ngày Kết Thúc", "Tình Trạng", "Phí Phòng", "Tiền Thế Chân", "Tiền BHYT","Mã Phòng"});
         JButton searchButton = new JButton("Tìm");
 
         styleButton(addButton);
@@ -1017,7 +1000,7 @@ class ContractPanel extends JPanel {
 
         // Table to display contract data
         String[] columns = {"Mã Hợp Đồng", "Mã Sinh Viên", "Ngày Bắt Đầu", "Ngày Kết Thúc",
-                "Tình Trạng", "Phí Phòng", "Tiền Thế Chân", "Tiền BHYT"};
+                "Tình Trạng", "Phí Phòng", "Tiền Thế Chân", "Tiền BHYT","Mã Phòng"};
         tableModel = new DefaultTableModel(columns, 0);
         table = new JTable(tableModel);
         table.setRowHeight(25);
@@ -1041,9 +1024,9 @@ class ContractPanel extends JPanel {
         contractIdField = new JTextField(15);
         JLabel studentIdLabel = new JLabel("Mã Sinh Viên:");
         studentIdField = new JTextField(15);
-        JLabel startDateLabel = new JLabel("Ngày Bắt Đầu (YYYY-MM-DD):");
+        JLabel startDateLabel = new JLabel("Ngày Bắt Đầu (YYYY-MM-dd):");
         startDateField = new JTextField(15);
-        JLabel endDateLabel = new JLabel("Ngày Kết Thúc (YYYY-MM-DD):");
+        JLabel endDateLabel = new JLabel("Ngày Kết Thúc (YYYY-MM-dd):");
         endDateField = new JTextField(15);
         JLabel statusLabel = new JLabel("Tình Trạng:");
         statusField = new JTextField(15);
@@ -1053,6 +1036,8 @@ class ContractPanel extends JPanel {
         depositField = new JTextField(15);
         JLabel insuranceFeeLabel = new JLabel("Tiền BHYT:");
         insuranceFeeField = new JTextField(15);
+        JLabel roomIdLabel = new JLabel("Mã Phòng:");
+        roomIdField = new JTextField(15);
 
         styleLabel(contractIdLabel);
         styleLabel(studentIdLabel);
@@ -1062,6 +1047,7 @@ class ContractPanel extends JPanel {
         styleLabel(roomFeeLabel);
         styleLabel(depositLabel);
         styleLabel(insuranceFeeLabel);
+        styleLabel(roomIdLabel);
 
         styleTextField(contractIdField);
         styleTextField(studentIdField);
@@ -1071,11 +1057,14 @@ class ContractPanel extends JPanel {
         styleTextField(roomFeeField);
         styleTextField(depositField);
         styleTextField(insuranceFeeField);
-
+        styleTextField(roomIdField);
+        
         JButton saveButton = new JButton("Lưu");
         JButton cancelButton = new JButton("Hủy");
-        styleButton(saveButton);
-        styleButton(cancelButton);
+        saveButton.setBackground(new Color(255,255,255));
+        cancelButton.setBackground(new Color(255,255,255));
+        saveButton.setBackground(new Color(41, 128, 185));
+        cancelButton.setBackground(new Color(41,128,185));
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -1119,6 +1108,11 @@ class ContractPanel extends JPanel {
         inputPanel.add(insuranceFeeField, gbc);
         gbc.gridx = 0;
         gbc.gridy = 8;
+        inputPanel.add(roomIdLabel, gbc);
+        gbc.gridx = 1;
+        inputPanel.add(roomIdField, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 9;
         inputPanel.add(saveButton, gbc);
         gbc.gridx = 1;
         inputPanel.add(cancelButton, gbc);
@@ -1191,6 +1185,7 @@ class ContractPanel extends JPanel {
                 roomFeeField.setText(tableModel.getValueAt(selectedRow, 5) != null ? tableModel.getValueAt(selectedRow, 5).toString() : "");
                 depositField.setText(tableModel.getValueAt(selectedRow, 6) != null ? tableModel.getValueAt(selectedRow, 6).toString() : "");
                 insuranceFeeField.setText(tableModel.getValueAt(selectedRow, 7) != null ? tableModel.getValueAt(selectedRow, 7).toString() : "");
+                roomIdField.setText(tableModel.getValueAt(selectedRow, 8).toString());
             }
         });
     }
@@ -1220,7 +1215,7 @@ class ContractPanel extends JPanel {
 
     private void loadContracts(String searchCriteria, String searchValue) {
         tableModel.setRowCount(0);
-        String query = "SELECT MAHOPDONG, MASV, NGAYBATDAU, NGAYKETTHUC, TINHTRANG, PHIPHONG, TIENTHECHAN, TIENBHYT FROM HOPDONG";
+        String query = "SELECT MAHOPDONG, MASV, NGAYBATDAU, NGAYKETTHUC, TINHTRANG, PHIPHONG, TIENTHECHAN, TIENBHYT, MAPHONG FROM HOPDONG";
         boolean isSearch = !searchValue.isEmpty();
 
         if (isSearch) {
@@ -1253,6 +1248,9 @@ class ContractPanel extends JPanel {
                 case "Tiền BHYT":
                     searchColumn = "TIENBHYT";
                     break;
+                case "Mã Phòng":
+                    searchColumn = "MAPHONG";
+                    break;
                 default:
                     searchColumn = "MAHOPDONG";
             }
@@ -1262,9 +1260,9 @@ class ContractPanel extends JPanel {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     sdf.setLenient(false);
                     sdf.parse(searchValue);
-                    query += " WHERE " + searchColumn + " = TO_DATE(?, 'YYYY-MM-DD')";
+                    query += " WHERE " + searchColumn + " = TO_DATE(?, 'YYYY-MM-dd')";
                 } catch (ParseException e) {
-                    JOptionPane.showMessageDialog(this, "Ngày phải là định dạng hợp lệ (YYYY-MM-DD)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Ngày phải là định dạng hợp lệ (YYYY-MM-dd)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } else {
@@ -1287,7 +1285,8 @@ class ContractPanel extends JPanel {
                             rs.getString("TINHTRANG"),
                             rs.getDouble("PHIPHONG"),
                             rs.getDouble("TIENTHECHAN"),
-                            rs.getDouble("TIENBHYT")
+                            rs.getDouble("TIENBHYT"),
+                            rs.getString("MAPHONG")
                         };
                         tableModel.addRow(row);
                     }
@@ -1307,7 +1306,9 @@ class ContractPanel extends JPanel {
                         rs.getString("TINHTRANG"),
                         rs.getDouble("PHIPHONG"),
                         rs.getDouble("TIENTHECHAN"),
-                        rs.getDouble("TIENBHYT")
+                        rs.getDouble("TIENBHYT"),
+                        rs.getString("MAPHONG")
+                            
                     };
                     tableModel.addRow(row);
                 }
@@ -1337,14 +1338,14 @@ class ContractPanel extends JPanel {
                     return false;
                 }
             } catch (ParseException ex) {
-                JOptionPane.showMessageDialog(this, "Ngày bắt đầu không đúng định dạng (YYYY-MM-DD)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Ngày bắt đầu không đúng định dạng (YYYY-MM-dd)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         }
 
         if (!endDateField.getText().isEmpty()) {
             try {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 sdf.setLenient(false);
                 java.util.Date endDate = sdf.parse(endDateField.getText());
                 java.sql.Date sqlEndDate = new java.sql.Date(endDate.getTime());
@@ -1354,7 +1355,7 @@ class ContractPanel extends JPanel {
                     return false;
                 }
             } catch (ParseException ex) {
-                JOptionPane.showMessageDialog(this, "Ngày kết thúc không đúng định dạng (YYYY-MM-DD)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Ngày kết thúc không đúng định dạng (YYYY-MM-dd)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         }
@@ -1377,8 +1378,8 @@ class ContractPanel extends JPanel {
 
         // Kiểm tra TINHTRANG
         String statusValue = statusField.getText().trim();
-        if (!statusValue.equals("Còn hiệu lực") && !statusValue.equals("Hết hạn") && !statusValue.equals("Đã hủy")) {
-            JOptionPane.showMessageDialog(this, "Tình trạng phải là: 'Còn hiệu lực', 'Hết hạn', hoặc 'Đã hủy'!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        if (!statusValue.equals("Hiệu lực") && !statusValue.equals("Hết hạn") && !statusValue.equals("Đã hủy")) {
+            JOptionPane.showMessageDialog(this, "Tình trạng phải là: 'Hiệu lực', 'Hết hạn', hoặc 'Đã hủy'!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -1449,7 +1450,7 @@ class ContractPanel extends JPanel {
     }
 
     private void addContract() {
-        String query = "INSERT INTO HOPDONG (MAHOPDONG, MASV, NGAYBATDAU, NGAYKETTHUC, TINHTRANG, PHIPHONG, TIENTHECHAN, TIENBHYT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO HOPDONG (MAHOPDONG, MASV, NGAYBATDAU, NGAYKETTHUC, TINHTRANG, PHIPHONG, TIENTHECHAN, TIENBHYT,MAPHONG) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, contractIdField.getText());
             pstmt.setString(2, studentIdField.getText());
@@ -1490,6 +1491,7 @@ class ContractPanel extends JPanel {
             } else {
                 pstmt.setDouble(8, Double.parseDouble(insuranceFeeField.getText()));
             }
+            pstmt.setString(9, roomIdField.getText());
             pstmt.executeUpdate();
             JOptionPane.showMessageDialog(this, "Thêm hợp đồng thành công!");
             loadContracts(searchCriteriaComboBox.getSelectedItem().toString(), searchField.getText().trim());
@@ -1497,12 +1499,12 @@ class ContractPanel extends JPanel {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Lỗi khi thêm hợp đồng: " + getFriendlyErrorMessage(e), "Lỗi", JOptionPane.ERROR_MESSAGE);
         } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "Ngày không đúng định dạng (YYYY-MM-DD)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ngày không đúng định dạng (YYYY-MM-dd)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void editContract() {
-        String query = "UPDATE HOPDONG SET MASV = ?, NGAYBATDAU = ?, NGAYKETTHUC = ?, TINHTRANG = ?, PHIPHONG = ?, TIENTHECHAN = ?, TIENBHYT = ? WHERE MAHOPDONG = ?";
+        String query = "UPDATE HOPDONG SET MASV = ?, NGAYBATDAU = ?, NGAYKETTHUC = ?, TINHTRANG = ?, PHIPHONG = ?, TIENTHECHAN = ?, TIENBHYT = ?, MAPHONG = ? WHERE MAHOPDONG = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, studentIdField.getText());
             // NGAYBATDAU
@@ -1542,7 +1544,8 @@ class ContractPanel extends JPanel {
             } else {
                 pstmt.setDouble(7, Double.parseDouble(insuranceFeeField.getText()));
             }
-            pstmt.setString(8, contractIdField.getText());
+            pstmt.setString(8,roomIdField.getText());
+            pstmt.setString(9, contractIdField.getText());
             pstmt.executeUpdate();
             JOptionPane.showMessageDialog(this, "Sửa hợp đồng thành công!");
             loadContracts(searchCriteriaComboBox.getSelectedItem().toString(), searchField.getText().trim());
@@ -1550,7 +1553,7 @@ class ContractPanel extends JPanel {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Lỗi khi sửa hợp đồng: " + getFriendlyErrorMessage(e), "Lỗi", JOptionPane.ERROR_MESSAGE);
         } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "Ngày không đúng định dạng (YYYY-MM-DD)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ngày không đúng định dạng (YYYY-MM-dd)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -1586,7 +1589,7 @@ class ContractPanel extends JPanel {
                 return "Tình trạng không hợp lệ! Chỉ chấp nhận: 'Còn hiệu lực', 'Hết hạn', hoặc 'Đã hủy'.";
             }
         } else if (e.getErrorCode() == 1861) { // ORA-01861: literal does not match format string
-            return "Định dạng ngày không hợp lệ! Vui lòng nhập theo định dạng YYYY-MM-DD.";
+            return "Định dạng ngày không hợp lệ! Vui lòng nhập theo định dạng YYYY-MM-dd.";
         }
         return message;
     }
@@ -1600,6 +1603,7 @@ class ContractPanel extends JPanel {
         roomFeeField.setText("");
         depositField.setText("");
         insuranceFeeField.setText("");
+        roomIdField.setText("");
     }
 }
 
@@ -1698,8 +1702,10 @@ class ServicePanel extends JPanel {
 
         JButton saveButton = new JButton("Lưu");
         JButton cancelButton = new JButton("Hủy");
-        styleButton(saveButton);
-        styleButton(cancelButton);
+        saveButton.setBackground(new Color(255,255,255));
+        cancelButton.setBackground(new Color(255,255,255));
+        saveButton.setBackground(new Color(41, 128, 185));
+        cancelButton.setBackground(new Color(41,128,185));
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -2085,7 +2091,7 @@ class InvoicePanel extends JPanel {
         waterUsageField = new JTextField(15);
         JLabel waterPriceLabel = new JLabel("Đơn Giá Nước:");
         waterPriceField = new JTextField(15);
-        JLabel dueDateLabel = new JLabel("Hạn Thanh Toán (YYYY-MM-DD):");
+        JLabel dueDateLabel = new JLabel("Hạn Thanh Toán (YYYY-MM-dd):");
         dueDateField = new JTextField(15);
 
         styleLabel(invoiceIdLabel);
@@ -2107,8 +2113,10 @@ class InvoicePanel extends JPanel {
 
         JButton saveButton = new JButton("Lưu");
         JButton cancelButton = new JButton("Hủy");
-        styleButton(saveButton);
-        styleButton(cancelButton);
+        saveButton.setBackground(new Color(255,255,255));
+        cancelButton.setBackground(new Color(255,255,255));
+        saveButton.setBackground(new Color(41, 128, 185));
+        cancelButton.setBackground(new Color(41,128,185));
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -2279,9 +2287,9 @@ class InvoicePanel extends JPanel {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     sdf.setLenient(false);
                     sdf.parse(searchValue);
-                    query += " WHERE " + searchColumn + " = TO_DATE(?, 'YYYY-MM-DD')";
+                    query += " WHERE " + searchColumn + " = TO_DATE(?, 'YYYY-MM-dd')";
                 } catch (ParseException e) {
-                    JOptionPane.showMessageDialog(this, "Hạn thanh toán phải là ngày hợp lệ (YYYY-MM-DD)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Hạn thanh toán phải là ngày hợp lệ (YYYY-MM-dd)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } else {
@@ -2370,7 +2378,7 @@ class InvoicePanel extends JPanel {
                 return false;
             }
         } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "Hạn thanh toán không đúng định dạng (YYYY-MM-DD)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Hạn thanh toán không đúng định dạng (YYYY-MM-dd)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -2435,7 +2443,7 @@ class InvoicePanel extends JPanel {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Lỗi khi thêm hóa đơn: " + getFriendlyErrorMessage(e), "Lỗi", JOptionPane.ERROR_MESSAGE);
         } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "Hạn thanh toán không đúng định dạng (YYYY-MM-DD)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Hạn thanh toán không đúng định dạng (YYYY-MM-dd)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -2460,7 +2468,7 @@ class InvoicePanel extends JPanel {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Lỗi khi sửa hóa đơn: " + getFriendlyErrorMessage(e), "Lỗi", JOptionPane.ERROR_MESSAGE);
         } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "Hạn thanh toán không đúng định dạng (YYYY-MM-DD)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Hạn thanh toán không đúng định dạng (YYYY-MM-dd)!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -2494,7 +2502,7 @@ class InvoicePanel extends JPanel {
         } else if (e.getErrorCode() == 1400) { // ORA-01400: không thể chèn NULL
             return "Vui lòng nhập đầy đủ các trường bắt buộc!";
         } else if (e.getErrorCode() == 1861) { // ORA-01861: định dạng ngày không hợp lệ
-            return "Hạn thanh toán không đúng định dạng (YYYY-MM-DD)!";
+            return "Hạn thanh toán không đúng định dạng (YYYY-MM-dd)!";
         } else if (e.getErrorCode() == 2292) { // ORA-02292: vi phạm ràng buộc khóa ngoại khi xóa
             return "Không thể xóa hóa đơn này vì có dữ liệu liên quan!";
         }

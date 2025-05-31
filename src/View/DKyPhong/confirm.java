@@ -4,14 +4,23 @@
  */
 package View.DKyPhong;
 
+import ConnectDB.ConnectionUtils;
 import View.FormThanhToan;
+import View.dashboard.Home;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -19,6 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import model.UserSession;
 
 /**
  *
@@ -30,6 +40,7 @@ public class confirm extends javax.swing.JFrame {
     private String loaiPhong;
     private String cccd;
     private String gioiTinh;
+    private Connection connection;
     /**
      * Creates new form confirm
      */
@@ -461,8 +472,16 @@ public class confirm extends javax.swing.JFrame {
     e.printStackTrace();
     JOptionPane.showMessageDialog(this, "Lỗi khi cập nhật tình trạng: " + e.getMessage());
 }
+        try {
+            this.saveImageToDatabase();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(confirm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(confirm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         new FormThanhToan(tf_mssv.getText(), tf_ten.getText(), jLabel18.getText(), "6 tháng", "10000000", null).setVisible(true);
         this.dispose();
+        
     }//GEN-LAST:event_confirmActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
@@ -494,10 +513,67 @@ public class confirm extends javax.swing.JFrame {
             
             Image scaledImg = img.getScaledInstance(width, height,Image.SCALE_SMOOTH );
             labelFile.setIcon(new ImageIcon(scaledImg));
-            
-        }
+        } 
     }//GEN-LAST:event_jButton1ActionPerformed
+    private void saveImageToDatabase() throws ClassNotFoundException, SQLException {
+    if (labelFile.getIcon() == null) {
+        JOptionPane.showMessageDialog(this, "Không có ảnh để lưu", "Lỗi", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
 
+    try (Connection connection = ConnectionUtils.getMyConnectionOracle()) {
+        ImageIcon icon = (ImageIcon) labelFile.getIcon();
+        Image image = icon.getImage();
+        BufferedImage bufferedImage = new BufferedImage(
+            image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB
+        );
+        Graphics2D g2d = bufferedImage.createGraphics();
+        g2d.drawImage(image, 0, 0, null);
+        g2d.dispose();
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        boolean writeSuccess = ImageIO.write(bufferedImage, "png", baos);
+        if (!writeSuccess) {
+            JOptionPane.showMessageDialog(this, "Không thể lưu ảnh dưới định dạng JPG!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        byte[] imageBytes = baos.toByteArray();
+        String mssv = UserSession.getMssv();
+        if (mssv == null || mssv.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "MSSV không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Verify MSSV exists
+        String checkQuery = "SELECT COUNT(*) FROM SINHVIEN WHERE MASV = ?";
+        try (PreparedStatement checkStmt = connection.prepareStatement(checkQuery)) {
+            checkStmt.setString(1, mssv);
+            ResultSet rs = checkStmt.executeQuery();
+            rs.next();
+            if (rs.getInt(1) == 0) {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy sinh viên với MSSV: " + mssv, "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+
+        String query = "UPDATE SINHVIEN SET AVT = ? WHERE MASV = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setBytes(1, imageBytes);
+            pstmt.setString(2, mssv);
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(this, "Lưu ảnh thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Lưu ảnh thất bại! Không tìm thấy MSSV: " + mssv, "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Lỗi khi xử lý ảnh: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Lỗi SQL: " + e.getMessage() + "\nSQLState: " + e.getSQLState() + "\nErrorCode: " + e.getErrorCode(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+    }
+}
     /**
      * @param args the command line arguments
      */

@@ -53,9 +53,11 @@ public class FormThanhToan extends JFrame {
             }
             JOptionPane.showMessageDialog(this, "Thanh toán thành công!");
             dispose();
+            
             String cccd = UserSession.getCccd();
-        Home homeframe = new Home(cccd);
-        homeframe.setVisible(true);
+            Home homeframe = new Home(cccd);
+            homeframe.setVisible(true);
+            
         
         
         });
