@@ -9,6 +9,15 @@ import javax.swing.JSpinner;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import model.UserSession;
 
 public class DangKyTheThao extends javax.swing.JFrame {
     public DangKyTheThao() {
@@ -19,7 +28,244 @@ public class DangKyTheThao extends javax.swing.JFrame {
         pnlGioDangKy.setVisible(true);
         txtHoTen.setText("");
         txtMSSV.setText("");
+         String mssv1 = UserSession.getMssv();
+        loadLichSuDichVu(mssv1 );
+        
     }
+//    private void loadLSGym(String mssv1){
+//        DefaultTableModel model = (DefaultTableModel) tblDangKy.getModel();
+//        model.setRowCount(0);
+//        try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
+//            System.out.println(mssv1);
+//        String sql = "SELECT   EXTRACT(MONTH FROM NgayDangKy) AS thangBD,dv.mota,maphong,ngaydangky,ngayhethan,hoten, EXTRACT(MONTH FROM NgayHetHan) AS thangKT\n" +
+//"    FROM sinhvien v, dangkydichvu d ,dichvu dv\n" +
+//"    WHERE v.masv=d.masv AND dv.madv=d.madv and v.masv=? AND  dv.madv IN ('DV007')";
+//
+//        
+//        PreparedStatement stmt = conn.prepareStatement(sql);
+//        stmt.setString(1,mssv1);
+//        ResultSet rs = stmt.executeQuery();
+//       
+//         
+//        while (rs.next()) {
+//            String ngayBD=rs.getString("ngaydangky");
+//            String ngayKt=rs.getString("ngayhethan");
+//           int thangBD=rs.getInt("thangBD");
+//           int thangKT=rs.getInt("thangKT");
+//           String moTa=rs.getString("mota");
+//           String hoTen=rs.getString("hoten");
+//           String maPhong=rs.getString("maphong");
+//            int stt = model.getRowCount() + 1;
+//            int soThangdb=thangKT-thangBD;
+//    int donGia = 100000;
+//    int tongTien = donGia * soThangdb;
+//        
+// model.addRow(new Object[]{
+//        stt,
+//     hoTen,
+//     mssv1,
+//        moTa,
+//        soThangdb,
+//        tongTien,
+// });
+//
+//    }
+//    } catch (SQLException | ClassNotFoundException ex) {
+//        ex.printStackTrace();
+//        JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + ex.getMessage());
+//    }
+//    }
+//    private void loadLSTT(String mssv1) {
+//    DefaultTableModel model = (DefaultTableModel) tblDangKy.getModel();
+//    model.setRowCount(0);
+//
+//    try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
+//        System.out.println(mssv1);
+//        String sql = "SELECT dv.mota, maphong, ngaydangky, ngayhethan, hoten " +
+//                     "FROM sinhvien v, dangkydichvu d, dichvu dv " +
+//                     "WHERE v.masv = d.masv AND dv.madv = d.madv AND v.masv = ? " +
+//                     "AND dv.madv IN ('DV004','DV005','DV006')";
+//
+//        PreparedStatement stmt = conn.prepareStatement(sql);
+//        stmt.setString(1, mssv1);
+//        ResultSet rs = stmt.executeQuery();
+//
+//        while (rs.next()) {
+//            String ngayBDStr = rs.getString("ngaydangky");
+//            String ngayKtStr = rs.getString("ngayhethan");
+//
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // chuẩn cho Oracle DATE hoặc TIMESTAMP
+//            LocalDateTime ngayBD = LocalDateTime.parse(ngayBDStr.replace(' ', 'T'));
+//            LocalDateTime ngayKT = LocalDateTime.parse(ngayKtStr.replace(' ', 'T'));
+//
+//            // Tính số giờ giữa 2 mốc
+//            long soGio = Duration.between(ngayBD, ngayKT).toHours();
+//
+//            String moTa = rs.getString("mota");
+//            String hoTen = rs.getString("hoten");
+//            String maPhong = rs.getString("maphong");
+//            int stt = model.getRowCount() + 1;
+//
+//            int donGia = 10000; // đơn giá mỗi giờ (bạn có thể thay đổi)
+//            int tongTien = (int) (donGia * soGio);
+//
+//            model.addRow(new Object[]{
+//                stt,
+//                hoTen,
+//                mssv1,
+//                moTa,
+//                soGio,
+//                tongTien
+//            });
+//        }
+//    } catch (SQLException | ClassNotFoundException ex) {
+//        ex.printStackTrace();
+//        JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + ex.getMessage());
+//    }
+//}
+    private void loadLichSuDichVu(String mssv1) {
+    DefaultTableModel model = (DefaultTableModel) tblDangKy.getModel();
+    model.setRowCount(0);
+
+    try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
+        String sql = "SELECT dv.madv, dv.mota, maphong, ngaydangky, ngayhethan, hoten " +
+                     "FROM sinhvien v, dangkydichvu d, dichvu dv " +
+                     "WHERE v.masv = d.masv AND dv.madv = d.madv AND v.masv = ? " +
+                     "AND dv.madv IN ('DV004','DV005','DV006','DV007')";
+
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, mssv1);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            String madv = rs.getString("madv");
+            String moTa = rs.getString("mota");
+            String hoTen = rs.getString("hoten");
+            String maPhong = rs.getString("maphong");
+            String ngayBDStr = rs.getString("ngaydangky");
+            String ngayKTStr = rs.getString("ngayhethan");
+
+            LocalDateTime ngayBD = LocalDateTime.parse(ngayBDStr.replace(' ', 'T'));
+            LocalDateTime ngayKT = LocalDateTime.parse(ngayKTStr.replace(' ', 'T'));
+
+            long soLuong;
+            int donGia;
+            if (madv.equals("DV007")) { // GYM - tính số tháng
+                Period period = Period.between(ngayBD.toLocalDate(), ngayKT.toLocalDate());
+                soLuong = period.getMonths() + period.getYears() * 12;
+                donGia = 100000;
+            } else { // Thể thao khác - tính số giờ
+                soLuong = Duration.between(ngayBD, ngayKT).toHours();
+                donGia = 10000;
+            }
+
+            int tongTien = (int) (soLuong * donGia);
+            int stt = model.getRowCount() + 1;
+
+            model.addRow(new Object[]{
+                stt,
+                hoTen,
+                mssv1,
+                moTa,
+                soLuong,
+                tongTien
+            });
+        }
+
+    } catch (SQLException | ClassNotFoundException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + ex.getMessage());
+    }
+}
+
+
+
+    private void dangKyGym(String loaiDV) {
+     String maSV = txtMSSV.getText().trim();
+        String hoTen = txtHoTen.getText().trim();
+           int soThang = (int) pnlThangDangKy.getValue();
+    
+    
+    
+    String mssv1 = UserSession.getMssv();
+    
+    DefaultTableModel model = (DefaultTableModel) tblDangKy.getModel();
+
+
+    java.time.LocalDate ngayDK = java.time.LocalDate.now();
+    java.time.LocalDate ngayHetHan = ngayDK.plusMonths(soThang);
+    java.time.format.DateTimeFormatter fmt = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
+   
+            
+    try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
+         // tuỳ tên bảng bạn dùng
+        String sql = "INSERT INTO DANGKYDICHVU ( MaDV, MaSV, NgayDangKy,NgayHetHan, TrangThai) " +
+             "VALUES ( ?, ?, TO_DATE(?, 'dd/MM/yyyy'),TO_DATE(?, 'dd/MM/yyyy'), ?)";
+          System.out.println(loaiDV);
+    System.out.println(maSV);
+    System.out.println(fmt.format(ngayDK));
+    System.out.println(fmt.format(ngayHetHan));
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1,loaiDV);
+        stmt.setString(2,maSV);
+        stmt.setString(3,fmt.format(ngayDK));
+        stmt.setString(4,fmt.format(ngayHetHan));
+        stmt.setString(5,"Đăng ký thành công");
+        stmt.executeUpdate();
+
+
+       
+        
+        
+
+    } catch (SQLException | ClassNotFoundException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + ex.getMessage());
+    }
+        
+        loadLichSuDichVu(maSV);
+
+    
+    tblDangKy.scrollRectToVisible(tblDangKy.getCellRect(model.getRowCount() - 1, 0, true));
+}
+   private void dangKyTT(String loaiDV) {
+    String maSV = txtMSSV.getText().trim();
+    String hoTen = txtHoTen.getText().trim();
+
+    String selected = (String) pnlGioDangKy.getSelectedItem();
+    int soGio = Integer.parseInt(selected);
+    String mssv1 = UserSession.getMssv();
+
+    DefaultTableModel model = (DefaultTableModel) tblDangKy.getModel();
+
+    LocalDateTime ngayDK = LocalDateTime.now();
+    LocalDateTime ngayHetHan = ngayDK.plusHours(soGio);
+       DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+    try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
+        String sql = "INSERT INTO DANGKYDICHVU (MaDV, MaSV, NgayDangKy, NgayHetHan, TrangThai) " +
+                     "VALUES (?, ?, TO_DATE(?, 'dd/MM/yyyy HH24:MI'), TO_DATE(?, 'dd/MM/yyyy HH24:MI'), ?)";
+        System.out.println(loaiDV);
+        System.out.println(maSV);
+        System.out.println(fmt.format(ngayDK));
+        System.out.println(fmt.format(ngayHetHan));
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, loaiDV);
+        stmt.setString(2, maSV);
+        stmt.setString(3, fmt.format(ngayDK));
+        stmt.setString(4, fmt.format(ngayHetHan));
+        stmt.setString(5, "Đăng ký thành công");
+        stmt.executeUpdate();
+
+    } catch (SQLException | ClassNotFoundException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + ex.getMessage());
+    }
+
+    loadLichSuDichVu(mssv1);
+    tblDangKy.scrollRectToVisible(tblDangKy.getCellRect(model.getRowCount() - 1, 0, true));
+}
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -144,11 +390,11 @@ public class DangKyTheThao extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Họ và tên", "MSSV", "Dịch vụ", "Thời gian", "Giá"
+                "STT", "Họ và tên", "MSSV", "Dịch vụ", "Thời gian", "Giá"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -240,9 +486,21 @@ public class DangKyTheThao extends javax.swing.JFrame {
         if(loaiDV.equals("Gym")) {
     int thang = (Integer) pnlThangDangKy.getValue();
     giaTien = thang * 100000;
+    String loaiDVdb="DV007";
+            dangKyGym(loaiDVdb);
+    
 } else {
     int gio = Integer.parseInt(pnlGioDangKy.getSelectedItem().toString());
     giaTien = gio * 50000;  
+    String loaiDVdb2 = "";
+    if(loaiDV.equalsIgnoreCase("Sân bóng đá")){
+        loaiDVdb2="DV004";
+    }else if(loaiDV.equalsIgnoreCase("Sân bóng chuyền")){
+        loaiDVdb2="DV005";
+    }else if(loaiDV.equalsIgnoreCase("Sân cầu lông")){
+        loaiDVdb2="DV006";
+    }
+            dangKyTT(loaiDVdb2);
 }
 String giaTienStr = String.valueOf(giaTien);
 new FormThanhToan(maSV, hoTen, loaiDV, moTaThoiGian, String.valueOf(giaTien), null).setVisible(true);
@@ -258,23 +516,23 @@ if (loaiDV.equals("Gym")) {
 thoiGian = gio + " giờ";
 
     }//GEN-LAST:event_btnDangKyActionPerformed
- DefaultTableModel model = (DefaultTableModel) tblDangKy.getModel();
-    for (int i = 0; i < model.getRowCount(); i++) {
-        String existingMaSV = model.getValueAt(i, 1).toString();
-        if (maSV.equals(existingMaSV)) {
-            JOptionPane.showMessageDialog(this, "Sinh viên này đã đăng ký một dịch vụ.");
-            return;
-        }
-    }
-    for (int i = 0; i < model.getRowCount(); i++) {
-        String existingDV = model.getValueAt(i, 2).toString();
-        String existingTG = model.getValueAt(i, 3).toString();
-        if (loaiDV.equals(existingDV) && thoiGian.equals(existingTG)) {
-            JOptionPane.showMessageDialog(this, "Dịch vụ này đã có người đăng ký tại thời điểm này.");
-            return;
-        }
-    }
-    model.addRow(new Object[]{hoTen, maSV, loaiDV, thoiGian, giaTien});
+// DefaultTableModel model = (DefaultTableModel) tblDangKy.getModel();
+//    for (int i = 0; i < model.getRowCount(); i++) {
+//        String existingMaSV = model.getValueAt(i, 1).toString();
+//        if (maSV.equals(existingMaSV)) {
+//            JOptionPane.showMessageDialog(this, "Sinh viên này đã đăng ký một dịch vụ.");
+//            return;
+//        }
+//    }
+//    for (int i = 0; i < model.getRowCount(); i++) {
+//        String existingDV = model.getValueAt(i, 2).toString();
+//        String existingTG = model.getValueAt(i, 3).toString();
+//        if (loaiDV.equals(existingDV) && thoiGian.equals(existingTG)) {
+//            JOptionPane.showMessageDialog(this, "Dịch vụ này đã có người đăng ký tại thời điểm này.");
+//            return;
+//        }
+//    }
+//    model.addRow(new Object[]{hoTen, maSV, loaiDV, thoiGian, giaTien});
 }
     private void pnlGioDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pnlGioDangKyActionPerformed
         String selected = cmbDichVu.getSelectedItem().toString();

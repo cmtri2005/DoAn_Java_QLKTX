@@ -1,5 +1,12 @@
 package View;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.UserSession;
 public class DangKyGiuXe extends javax.swing.JFrame {
 
     private String soTien;
@@ -8,6 +15,8 @@ public class DangKyGiuXe extends javax.swing.JFrame {
         txtHoTen.setText("");
         txtMSSV.setText("");
         txtBienSoXe.setText("");
+        String mssv1 = UserSession.getMssv();
+        loadLS(mssv1);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -59,11 +68,11 @@ public class DangKyGiuXe extends javax.swing.JFrame {
 
             },
             new String [] {
-                "STT", "Ngày đăng ký", "Ngày thanh toán", "Số tháng", "Biển số", "Số tiền", " Ngày hết hạn "
+                "STT", "Ngày đăng ký", "Số tháng", "Biển số", "Số tiền", " Ngày hết hạn "
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Float.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Float.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -100,7 +109,7 @@ public class DangKyGiuXe extends javax.swing.JFrame {
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(6, 6, 6)
@@ -110,12 +119,13 @@ public class DangKyGiuXe extends javax.swing.JFrame {
                                         .addGap(67, 67, 67)
                                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtMSSV, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtMSSV, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtBienSoXe, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtBienSoXe, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,7 +134,7 @@ public class DangKyGiuXe extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(291, 291, 291)
                         .addComponent(jButton1)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,7 +169,92 @@ public class DangKyGiuXe extends javax.swing.JFrame {
     private void txtBienSoXeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBienSoXeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBienSoXeActionPerformed
+private void dangKyXE() {
+    String tenSV = txtHoTen.getText().trim();
+    String mssv = txtMSSV.getText().trim();
+//    int soThang =(int) jComboBox1.getSelectedItem();
+int soThang = Integer.parseInt(jComboBox1.getSelectedItem().toString());
 
+   String bienSo =txtBienSoXe.getText().trim();
+
+   int soTien =soThang*100000;
+    String mssv1 = UserSession.getMssv();
+    
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+
+    java.time.LocalDate ngayDK = java.time.LocalDate.now();
+    java.time.LocalDate ngayHetHan = ngayDK.plusMonths(soThang);
+    java.time.format.DateTimeFormatter fmt = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
+   
+            
+    try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
+         // tuỳ tên bảng bạn dùng
+        String sql = "INSERT INTO DANGKYXE ( biensoxe,phiguixe, MaSV, ngaydk,ngayhethan) " +
+             "VALUES ( ?, ?,?, TO_DATE(?, 'dd/MM/yyyy'),TO_DATE(?, 'dd/MM/yyyy'))";
+    System.out.println(mssv);
+    System.out.println(fmt.format(ngayDK));
+    System.out.println(fmt.format(ngayHetHan));
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1,bienSo);
+        stmt.setInt(2, soTien);
+        stmt.setString(3,mssv);
+        stmt.setString(4,fmt.format(ngayDK));
+        stmt.setString(5,fmt.format(ngayHetHan));
+        stmt.executeUpdate();
+
+
+       
+        
+        
+
+    } catch (SQLException | ClassNotFoundException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + ex.getMessage());
+    }
+//        loadLS(mssv1);
+   
+
+    
+    jTable1.scrollRectToVisible(jTable1.getCellRect(model.getRowCount() - 1, 0, true));
+}
+private void loadLS(String mssv1){ 
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
+            System.out.println(mssv1);
+        String sql = "select biensoxe, EXTRACT(MONTH FROM NgayHetHan) AS thangKT,EXTRACT(MONTH FROM Ngaydk) AS thangBD,NgayHetHan,Ngaydk,phiguixe,masv from dangkyxe where masv=? ";
+
+        
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1,mssv1);
+        ResultSet rs = stmt.executeQuery();
+       
+         
+        while (rs.next()) {
+            String ngayBD=rs.getString("ngaydk");
+            String ngayKt=rs.getString("ngayhethan");
+           int thangBD=rs.getInt("thangBD");
+           int thangKT=rs.getInt("thangKT");
+           String bienSoXe=rs.getString("biensoxe");
+            int stt = model.getRowCount() + 1;
+            int soThangdb=thangKT-thangBD;
+            int tongTien=soThangdb*100000;
+ model.addRow(new Object[]{
+        stt,
+        ngayBD,
+        soThangdb,
+        bienSoXe,
+        tongTien,
+        ngayKt
+ });
+
+    }
+    } catch (SQLException | ClassNotFoundException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + ex.getMessage());
+    }
+    }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     String hoTen = txtHoTen.getText();
     String mssv = txtMSSV.getText();
@@ -169,20 +264,12 @@ public class DangKyGiuXe extends javax.swing.JFrame {
     String bienSo = txtBienSoXe.getText();
     float soTien = soThang * 30_000f;
     String giaTien = String.valueOf(soTien);
+    dangKyXE();
+        loadLS(mssv);
     new FormThanhToan(mssv, hoTen, tenDichVu, moTaThoiGian, giaTien, null).setVisible(true);
-     java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-    java.util.Date ngayHienTai = new java.util.Date();
-    String ngayDangKy = sdf.format(ngayHienTai);
-    String ngayThanhToan = sdf.format(ngayHienTai);
+    
 
-    java.util.Calendar cal = java.util.Calendar.getInstance();
-    cal.setTime(ngayHienTai);
-    cal.add(java.util.Calendar.MONTH, soThang);
-    String ngayHetHan = sdf.format(cal.getTime());
-
-    javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
-    int stt = model.getRowCount() + 1;
-    model.addRow(new Object[]{stt, ngayDangKy, ngayThanhToan, soThang, bienSo, soTien, ngayHetHan});
+    
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

@@ -55,9 +55,11 @@ public class FormThanhToan extends JFrame {
             dispose();
             
             String cccd = UserSession.getCccd();
+
             Home homeframe = new Home(cccd);
             homeframe.setVisible(true);
             
+
         
         
         });

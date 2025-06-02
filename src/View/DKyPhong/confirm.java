@@ -169,6 +169,11 @@ public class confirm extends javax.swing.JFrame {
         lb_date.setText("Ngày sinh");
 
         tf_date.setText("jTextField2");
+        tf_date.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tf_dateActionPerformed(evt);
+            }
+        });
 
         lb_email.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lb_email.setText("Email");
@@ -574,6 +579,12 @@ public class confirm extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Lỗi SQL: " + e.getMessage() + "\nSQLState: " + e.getSQLState() + "\nErrorCode: " + e.getErrorCode(), "Lỗi", JOptionPane.ERROR_MESSAGE);
     }
 }
+
+    private void tf_dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_dateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tf_dateActionPerformed
+
+
     /**
      * @param args the command line arguments
      */

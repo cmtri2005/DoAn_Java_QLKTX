@@ -2,14 +2,19 @@
 package View;
 import javax.swing.table.DefaultTableModel;
 import com.formdev.flatlaf.FlatLightLaf;
+import model.UserSession;
+import java.sql.Connection;
+import java.sql.*;
+import javax.swing.JOptionPane;
 public class DangKyInternetFrame extends javax.swing.JFrame {
-
     public DangKyInternetFrame() {
         initComponents();
         txtTenSV.setText("");
         txtPhong.setText("");
         txtSoThang.setText("");
         txtMSSV.setText("");
+        String mssv1 = UserSession.getMssv();
+        loadLS(mssv1);
         
     }
     @SuppressWarnings("unchecked")
@@ -202,16 +207,29 @@ public class DangKyInternetFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPhongActionPerformed
 
     private void btnDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKyActionPerformed
-       dangKyInternet();
+       
        String maSV = txtMSSV.getText();
        String hoTen = txtTenSV.getText();
        String tenDichVu = cmbGoiCuoc.getSelectedItem().toString();
        String moTaThoiGian = txtSoThang.getText() + " tháng";
     int soThang = Integer.parseInt(txtSoThang.getText());
     int donGia = 0;
-    if (tenDichVu.contains("120k")) donGia = 120000;
-    else if (tenDichVu.contains("240k")) donGia = 240000;
-    else if (tenDichVu.contains("360k")) donGia = 360000;
+    String loaiDV="";
+    if (tenDichVu.contains("120k")) 
+    {
+        donGia = 120000;
+        loaiDV="DV001";
+    }
+    else if (tenDichVu.contains("240k")){
+        donGia = 240000;
+        loaiDV="DV002";
+    }
+    else if (tenDichVu.contains("360k")){
+        donGia = 360000;
+        loaiDV="DV003";
+    }
+        System.out.println(loaiDV);
+    dangKyInternet(loaiDV);
     int tongTien = donGia * soThang;
     String giaTien = String.valueOf(tongTien);
 new FormThanhToan(maSV, hoTen, tenDichVu, moTaThoiGian, giaTien, () -> {
@@ -226,11 +244,60 @@ new FormThanhToan(maSV, hoTen, tenDichVu, moTaThoiGian, giaTien, () -> {
     private void txtMSSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMSSVActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMSSVActionPerformed
-private void dangKyInternet() {
+    private void loadLS(String mssv1){
+        DefaultTableModel model = (DefaultTableModel) tblLichSuDangKy.getModel();
+        model.setRowCount(0);
+        try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
+            System.out.println(mssv1);
+        String sql = "SELECT   EXTRACT(MONTH FROM NgayDangKy) AS thangBD,dv.mota,maphong,ngaydangky,ngayhethan,hoten, EXTRACT(MONTH FROM NgayHetHan) AS thangKT\n " +
+"    FROM sinhvien v, dangkydichvu d ,dichvu dv\n " +
+"    WHERE v.masv=d.masv AND dv.madv=d.madv and v.masv=? and d.madv in ('DV001','DV002','DV003')";
+
+        
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1,mssv1);
+        ResultSet rs = stmt.executeQuery();
+       
+         
+        while (rs.next()) {
+            String ngayBD=rs.getString("ngaydangky");
+            String ngayKt=rs.getString("ngayhethan");
+           int thangBD=rs.getInt("thangBD");
+           int thangKT=rs.getInt("thangKT");
+           String moTa=rs.getString("mota");
+           String hoTen=rs.getString("hoten");
+           String maPhong=rs.getString("maphong");
+            int stt = model.getRowCount() + 1;
+            int soThangdb=thangKT-thangBD;
+    int donGia = 0;
+    if (moTa.contains("120k")) donGia = 120000;
+    else if (moTa.contains("240k")) donGia = 240000;
+    else if (moTa.contains("360k")) donGia = 360000;
+    int tongTien = donGia * soThangdb;
+        
+ model.addRow(new Object[]{
+        stt,
+        ngayBD,
+        moTa,
+        soThangdb,
+        maPhong,
+        hoTen,
+        tongTien,
+        ngayKt
+ });
+
+    }
+    } catch (SQLException | ClassNotFoundException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + ex.getMessage());
+    }
+    }
+    private void dangKyInternet(String loaiDV) {
     String tenSV = txtTenSV.getText().trim();
     String mssv = txtMSSV.getText().trim();
     String phong = txtPhong.getText().trim();
     String soThangStr = txtSoThang.getText().trim();
+   
     if (tenSV.isEmpty() || mssv.isEmpty() || phong.isEmpty() || soThangStr.isEmpty()) {
         javax.swing.JOptionPane.showMessageDialog(this,
             "Vui lòng nhập đầy đủ thông tin trước khi đăng ký!",
@@ -238,7 +305,7 @@ private void dangKyInternet() {
             javax.swing.JOptionPane.WARNING_MESSAGE);
         return;
     }
-    int soThang = 0;
+    int soThang=0;
     try {
         soThang = Integer.parseInt(soThangStr);
         if (soThang <= 0) {
@@ -251,32 +318,46 @@ private void dangKyInternet() {
             javax.swing.JOptionPane.ERROR_MESSAGE);
         return;
     }
+    
+    String mssv1 = UserSession.getMssv();
+    
     DefaultTableModel model = (DefaultTableModel) tblLichSuDangKy.getModel();
-    int stt = model.getRowCount() + 1;
-    String goiCuoc = (String) cmbGoiCuoc.getSelectedItem();
-    int donGia = 0;
-    if (goiCuoc.contains("120k")) donGia = 120000;
-    else if (goiCuoc.contains("240k")) donGia = 240000;
-    else if (goiCuoc.contains("360k")) donGia = 360000;
-    int tongTien = donGia * soThang;
+
 
     java.time.LocalDate ngayDK = java.time.LocalDate.now();
     java.time.LocalDate ngayHetHan = ngayDK.plusMonths(soThang);
     java.time.format.DateTimeFormatter fmt = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
+   
+            
+    try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
+         // tuỳ tên bảng bạn dùng
+        String sql = "INSERT INTO DANGKYDICHVU ( MaDV, MaSV, NgayDangKy,NgayHetHan, TrangThai) " +
+             "VALUES ( ?, ?, TO_DATE(?, 'dd/MM/yyyy'),TO_DATE(?, 'dd/MM/yyyy'), ?)";
+          System.out.println(loaiDV);
+    System.out.println(mssv);
+    System.out.println(fmt.format(ngayDK));
+    System.out.println(fmt.format(ngayHetHan));
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1,loaiDV);
+        stmt.setString(2,mssv);
+        stmt.setString(3,fmt.format(ngayDK));
+        stmt.setString(4,fmt.format(ngayHetHan));
+        stmt.setString(5,"Đăng ký thành công");
+        stmt.executeUpdate();
 
-    model.addRow(new Object[]{
-        stt,
-        fmt.format(ngayDK),
-        goiCuoc,
-        soThang,
-        phong,
-        tenSV,
-        tongTien,
-        fmt.format(ngayHetHan)
-    });
-    for (int i = 0; i < model.getRowCount(); i++) {
-        model.setValueAt(i + 1, i, 0);
+
+       
+        
+        
+
+    } catch (SQLException | ClassNotFoundException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + ex.getMessage());
     }
+        loadLS(mssv1);
+   
+
+    
     tblLichSuDangKy.scrollRectToVisible(tblLichSuDangKy.getCellRect(model.getRowCount() - 1, 0, true));
 }
     public static void main(String args[]) {
