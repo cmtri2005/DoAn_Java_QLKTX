@@ -8,6 +8,8 @@ import ConnectDB.ConnectionUtils;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -36,11 +38,11 @@ import org.jfree.chart.ui.RectangleInsets;
 public class PhongChart {
 
     public void setVisible(boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     public void setLocationRelativeTo(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
     public static class PHONG {
         private String maPhong;
@@ -63,7 +65,7 @@ public class PhongChart {
         public Integer getSucChua() { return sucChua; }
         public String getTrangThai() { return trangThai; }
 
-        // Setters (nếu cần)
+        // Setters 
         public void setMaPhong(String maPhong) { this.maPhong = maPhong; }
         public void setLoaiPhong(String loaiPhong) { this.loaiPhong = loaiPhong; }
         public void setMaToa(String maToa) { this.maToa = maToa; }
@@ -77,13 +79,15 @@ public class PhongChart {
         }
     }
     public List<PHONG> getListPhong() throws SQLException, ClassNotFoundException{
+        //Initialize a list to contain PHONG
         List<PHONG> list = new ArrayList<>();
         
         String sql = "SELECT MAPHONG,LOAIPHONG,SUCCHUA,MATOA,TRANGTHAI FROM PHONG";
-        
         try(
             Connection conn = (Connection) ConnectionUtils.getMyConnectionOracle();
+            //Compile sql to excute query
             PreparedStatement pstmt = conn.prepareStatement(sql);
+            //Contain result from excute query
             ResultSet rs = pstmt.executeQuery();
         ){
             while (rs.next()){
@@ -101,23 +105,33 @@ public class PhongChart {
         }
         return list;
     }
-   
     //Prepare Dataset
     public DefaultCategoryDataset prepareDataset() throws SQLException, ClassNotFoundException{
+        //DefaultCategoryDataset is a object that contains BarChart,LineChart,...
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         
         List<PHONG> phongList = getListPhong();
         
+        //HashMap to save data based Roomd, Numbers of Room (String,Integer)
         HashMap<String, Integer> roomType = new java.util.HashMap<>();
         
         for(PHONG phong : phongList){
             String loaiPhong = phong.getLoaiPhong();
-            roomType.put(loaiPhong, roomType.getOrDefault(loaiPhong, 0) + 1);
+            if(loaiPhong != null){
+               roomType.put(loaiPhong, roomType.getOrDefault(loaiPhong, 0) + 1);
+            }
+            else{
+                System.out.println("Loai phong khong ton tai !");
+            }
         }
+        //Delete old data
+        dataset.clear();
         //Add data to dataset
         for(java.util.Map.Entry<String, Integer> entry: roomType.entrySet()){
-            dataset.addValue(entry.getValue(),"Rooms", entry.getKey());
-            
+            String key = entry.getKey();
+            if(key != null){
+                dataset.addValue(entry.getValue(),"Rooms", entry.getKey()); 
+            }
         }
         return dataset;
     }
@@ -220,6 +234,21 @@ public class PhongChart {
 
         // Display the window
         frame.setVisible(true);
+        javax.swing.Timer timer;
+        timer = new javax.swing.Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    DefaultCategoryDataset dataset; // Cập nhật lại dữ liệu
+                    dataset = prepareDataset();
+                    plot.setDataset(dataset);
+                    chartPanel.repaint();
+                } catch (SQLException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+            timer.start();
     } catch (SQLException | ClassNotFoundException e) {
         System.err.println("Lỗi khi tạo biểu đồ: " + e.getMessage());
         e.printStackTrace();

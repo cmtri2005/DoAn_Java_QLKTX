@@ -21,6 +21,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.BasicStroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.BorderFactory;
 
@@ -37,7 +39,7 @@ public class PhongStatus {
                      "FROM PHONG p " +
                      "JOIN TOA t ON p.MATOA = t.MATOA " +
                      "GROUP BY t.TENTOA, p.TRANGTHAI";
-
+        dataset.clear();
         try (Connection conn = ConnectionUtils.getMyConnectionOracle();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
@@ -45,7 +47,7 @@ public class PhongStatus {
                 String tenToa = rs.getString("TENTOA");
                 String trangThai = rs.getString("TRANGTHAI");
                 int roomCount = rs.getInt("room_count");
-
+                
                 // Handle NULL values and normalize status
                 if (trangThai == null) {
                     trangThai = "Unknown";
@@ -53,7 +55,7 @@ public class PhongStatus {
                     trangThai = trangThai.trim(); // Remove leading/trailing spaces
                 }
                 if (tenToa == null) tenToa = "Unknown";
-
+                
                 // Add to dataset (status as series, building as category)
                 dataset.addValue(roomCount, trangThai, tenToa);
                 System.out.println("Adding to dataset: Building=" + tenToa + ", Status=" + trangThai + ", Count=" + roomCount);
@@ -199,6 +201,21 @@ public class PhongStatus {
 
             // Display the window
             frame.setVisible(true);
+            javax.swing.Timer timer;
+            timer = new javax.swing.Timer(5000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        DefaultCategoryDataset dataset; // Cập nhật lại dữ liệu
+                        dataset = prepareDataset();
+                        plot.setDataset(dataset);
+                        chartPanel.repaint();
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+                timer.start();
         } catch (SQLException | ClassNotFoundException e) {
             System.err.println("Lỗi khi tạo biểu đồ: " + e.getMessage());
             e.printStackTrace();

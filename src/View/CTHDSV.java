@@ -1,4 +1,4 @@
-package Student.View;
+package View;
 
 import ConnectDB.ConnectionUtils;
 import javax.swing.*;

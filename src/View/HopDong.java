@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import model.UserSession;
 /**
  *
  * @author NguyenTri
@@ -27,7 +28,7 @@ public class HopDong extends javax.swing.JFrame {
     }
     public HopDong(String cccd) throws SQLException{
         this.cccd=cccd;
-        System.out.println("cccd nhận được: "+ this.cccd);
+        System.out.println("cccd nhận được: "+ cccd);
         initComponents();
         loadThongTinHopDong(cccd);
     }
