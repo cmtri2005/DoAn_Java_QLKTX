@@ -81,7 +81,7 @@ class StudentPanel extends JPanel {
     private Connection connection;
     private DefaultTableModel tableModel;
     private JTable table;
-    private JTextField idField, nameField, dobField, cccdField, sdtField, roomIdField, searchField;
+    private JTextField idField, nameField, dobField, cccdField, sdtField, roomIdField,statusField, searchField;
     private JComboBox<String> searchCriteriaComboBox;
 
     public StudentPanel(Connection connection) {
@@ -103,7 +103,7 @@ class StudentPanel extends JPanel {
         // Search components
         JLabel searchLabel = new JLabel("Tìm kiếm:");
         searchField = new JTextField(15); // Sửa lỗi: gán vào biến instance
-        searchCriteriaComboBox = new JComboBox<>(new String[]{"Mã SV", "Họ Tên", "CCCD", "SĐT", "Mã Phòng"});
+        searchCriteriaComboBox = new JComboBox<>(new String[]{"Mã SV", "Họ Tên", "CCCD", "SĐT", "Mã Phòng", "Tình Trạng"});
         JButton searchButton = new JButton("Tìm");
 
         styleButton(addButton);
@@ -131,7 +131,7 @@ class StudentPanel extends JPanel {
         add(toolBar, BorderLayout.NORTH);
 
         // Table to display student data
-        String[] columns = {"Mã SV", "Họ Tên", "Ngày Sinh", "CCCD", "SĐT", "Mã Phòng"};
+        String[] columns = {"Mã SV", "Họ Tên", "Ngày Sinh", "CCCD", "SĐT", "Mã Phòng","Tình Trạng"};
         tableModel = new DefaultTableModel(columns, 0);
         table = new JTable(tableModel);
         table.setRowHeight(25);
@@ -163,19 +163,23 @@ class StudentPanel extends JPanel {
         sdtField = new JTextField(15);
         JLabel roomIdLabel = new JLabel("Mã Phòng:");
         roomIdField = new JTextField(15);
-
+        JLabel statusLabel = new JLabel("Tình Trang:");
+        statusField = new JTextField(15);
+        
         styleLabel(idLabel);
         styleLabel(nameLabel);
         styleLabel(dobLabel);
         styleLabel(cccdLabel);
         styleLabel(sdtLabel);
         styleLabel(roomIdLabel);
+        styleLabel(statusLabel);
         styleTextField(idField);
         styleTextField(nameField);
         styleTextField(dobField);
         styleTextField(cccdField);
         styleTextField(sdtField);
         styleTextField(roomIdField);
+        styleTextField(statusField);
 
         JButton saveButton = new JButton("Lưu");
         JButton cancelButton = new JButton("Hủy");
@@ -218,6 +222,11 @@ class StudentPanel extends JPanel {
         inputPanel.add(roomIdField, gbc);
         gbc.gridx = 0;
         gbc.gridy = 6;
+        inputPanel.add(statusLabel, gbc);
+        gbc.gridx = 1;
+        inputPanel.add(statusField, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 7;
         inputPanel.add(saveButton, gbc);
         gbc.gridx = 1;
         inputPanel.add(cancelButton, gbc);
@@ -288,6 +297,7 @@ class StudentPanel extends JPanel {
                 cccdField.setText(tableModel.getValueAt(selectedRow, 3).toString());
                 sdtField.setText(tableModel.getValueAt(selectedRow, 4).toString());
                 roomIdField.setText(tableModel.getValueAt(selectedRow, 5) != null ? tableModel.getValueAt(selectedRow, 5).toString() : "");
+                statusField.setText(tableModel.getValueAt(selectedRow, 6).toString());
             }
         });
     }
@@ -317,7 +327,7 @@ class StudentPanel extends JPanel {
 
     private void loadStudents(String searchCriteria, String searchValue) {
         tableModel.setRowCount(0);
-        String query = "SELECT MASV, HOTEN, NGAYSINH, CCCD, SĐT, MAPHONG FROM SINHVIEN";
+        String query = "SELECT MASV, HOTEN, NGAYSINH, CCCD, SĐT, MAPHONG, TINHTRANG FROM SINHVIEN";
         boolean isSearch = !searchValue.isEmpty();
 
         if (isSearch) {
@@ -339,6 +349,9 @@ class StudentPanel extends JPanel {
                 case "Mã Phòng":
                     searchColumn = "MAPHONG";
                     break;
+                case "Tình Trạng":
+                    searchColumn = "MAPHONG";
+                    break;
                 default:
                     searchColumn = "MASV";
             }
@@ -356,6 +369,7 @@ class StudentPanel extends JPanel {
                             rs.getString("CCCD"),
                             rs.getString("SĐT"),
                             rs.getString("MAPHONG"),
+                            rs.getString("TINHTRANG")
                         };
                         tableModel.addRow(row);
                     }
@@ -374,6 +388,7 @@ class StudentPanel extends JPanel {
                         rs.getString("CCCD"),
                         rs.getString("SĐT"),
                         rs.getString("MAPHONG"),
+                        rs.getString("TINHTRANG")
                     };
                     tableModel.addRow(row);
                 }
@@ -456,6 +471,7 @@ class StudentPanel extends JPanel {
             pstmt.setString(4, cccdField.getText());
             pstmt.setString(5, sdtField.getText());
             pstmt.setString(6, roomIdField.getText().isEmpty() ? null : roomIdField.getText());
+            pstmt.setString(7, statusField.getText().isEmpty() ? null : roomIdField.getText());
             pstmt.executeUpdate();
             JOptionPane.showMessageDialog(this, "Thêm sinh viên thành công!");
             loadStudents(searchCriteriaComboBox.getSelectedItem().toString(), searchField.getText().trim());
@@ -468,7 +484,7 @@ class StudentPanel extends JPanel {
     }
 
     private void editStudent() {
-        String query = "UPDATE SINHVIEN SET HOTEN = ?, NGAYSINH = ?, CCCD = ?, SĐT = ?, MAPHONG = ? WHERE MASV = ?";
+        String query = "UPDATE SINHVIEN SET HOTEN = ?, NGAYSINH = ?, CCCD = ?, SĐT = ?, MAPHONG = ?, TINHTRANG=? WHERE MASV = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, nameField.getText());
             // Parse and set NGAYSINH
@@ -484,7 +500,9 @@ class StudentPanel extends JPanel {
             pstmt.setString(3, cccdField.getText());
             pstmt.setString(4, sdtField.getText());
             pstmt.setString(5, roomIdField.getText().isEmpty() ? null : roomIdField.getText());
-            pstmt.setString(6, idField.getText());
+            pstmt.setString(6, statusField.getText());
+            pstmt.setString(7, idField.getText());
+            
             pstmt.executeUpdate();
             JOptionPane.showMessageDialog(this, "Sửa sinh viên thành công!");
             loadStudents(searchCriteriaComboBox.getSelectedItem().toString(), searchField.getText().trim());
@@ -538,6 +556,7 @@ class StudentPanel extends JPanel {
         cccdField.setText("");
         sdtField.setText("");
         roomIdField.setText("");
+        statusField.setText("");
     }
 }
 
