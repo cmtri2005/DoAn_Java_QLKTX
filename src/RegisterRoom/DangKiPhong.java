@@ -155,8 +155,10 @@ public class DangKiPhong extends javax.swing.JFrame {
         System.out.println("gioi tinh"+ this.gioiTinh);
         ChonChiTiet dkFrame=new ChonChiTiet(tenToa,loaiPhong,gioiTinh,cccd);
         dkFrame.setSize(1000, 600);
+        this.dispose();
         dkFrame.setVisible(true);
-        dkFrame.setLocationRelativeTo(null);        // TODO add your handling code here:
+        dkFrame.setLocationRelativeTo(null);    
+        ;// TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void loadToaToComboBox() {

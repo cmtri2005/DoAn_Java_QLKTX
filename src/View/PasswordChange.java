@@ -10,8 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import View.Login;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author trica
@@ -192,19 +195,28 @@ public class PasswordChange extends javax.swing.JFrame {
     private void showError(String message){
         JOptionPane.showMessageDialog(this,message,"Lỗi",JOptionPane.ERROR_MESSAGE);
     }
-    private String hashPassword(String password){
-        try{
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hashedBytes = md.digest(password.getBytes());
+//    private String hashPassword(String password){
+//        try{
+//            MessageDigest md = MessageDigest.getInstance("SHA-256");
+//            byte[] hashedBytes = md.digest(password.getBytes());
+//            StringBuilder sb = new StringBuilder();
+//            for(byte b : hashedBytes){
+//                sb.append(String.format("%02x",b));
+//            }
+//            return sb.toString();
+//        }catch(NoSuchAlgorithmException e){
+//            throw new RuntimeException("Lỗi khi băm mật khẩu",e);
+//        }
+//    }
+    private String hashPassword(String password) throws NoSuchAlgorithmException {
+         MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hash = md.digest(password.getBytes(StandardCharsets.UTF_8));
             StringBuilder sb = new StringBuilder();
-            for(byte b : hashedBytes){
-                sb.append(String.format("%02x",b));
-            }
-            return sb.toString();
-        }catch(NoSuchAlgorithmException e){
-            throw new RuntimeException("Lỗi khi băm mật khẩu",e);
-        }
-    }
+        for (byte b : hash) {
+            sb.append(String.format("%02x", b));
+         }
+        return sb.toString();
+}
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         //Confirm change password
@@ -222,12 +234,16 @@ public class PasswordChange extends javax.swing.JFrame {
         
         //
         try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
+            conn.setAutoCommit(false);
             String sql = "UPDATE ACCOUNT SET PASSWORD_HASH = ? WHERE USER_ID = ?";
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 
                 ps.setString(1, hashPassword(password)); // Consider hashing the password
                 ps.setInt(2, SessionManager.getCurrentUserId());
+                System.out.println("111111 "+hashPassword(password));
+                System.out.println("2222222 "+SessionManager.getCurrentUserId());
                 int rowsAffected = ps.executeUpdate();
+                conn.commit();
                 if (rowsAffected > 0) {
                     JOptionPane.showMessageDialog(this, "Password reset successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     Login login = new Login();
@@ -236,6 +252,8 @@ public class PasswordChange extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(this, "Failed to reset password!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(PasswordChange.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (SQLException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

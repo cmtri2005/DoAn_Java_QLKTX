@@ -141,18 +141,20 @@ menuDichVu2.addActionListener(new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
         DangKyGiuXe xeFrame=new DangKyGiuXe();
+        dispose();
         xeFrame.setVisible(true);
         xeFrame.setLocationRelativeTo(null);
-        dispose();
+        
     }
 });
 menuDichVu3.addActionListener(new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
         DangKyTheThao theThaoFrame=new DangKyTheThao();
+        dispose();
         theThaoFrame.setVisible(true);
         theThaoFrame.setLocationRelativeTo(null);
-        dispose();
+        
     }
 });
         JMenuItem menuSV = new JMenuItem("Thẻ KTX");
@@ -340,6 +342,7 @@ menuDichVu.addActionListener(new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
         DangKyInternetFrame internetFrame=new DangKyInternetFrame();
+        dispose();
         internetFrame.setVisible(true);
         internetFrame.setLocationRelativeTo(null);
         internetFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -349,6 +352,7 @@ menuDichVu2.addActionListener(new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
         DangKyGiuXe xeFrame=new DangKyGiuXe();
+        dispose();
         xeFrame.setVisible(true);
         xeFrame.setLocationRelativeTo(null);
         xeFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -358,6 +362,7 @@ menuDichVu3.addActionListener(new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
         DangKyTheThao theThaoFrame=new DangKyTheThao();
+        dispose();
         theThaoFrame.setVisible(true);
         theThaoFrame.setLocationRelativeTo(null);
         theThaoFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
