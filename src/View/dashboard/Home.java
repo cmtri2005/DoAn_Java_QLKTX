@@ -122,9 +122,10 @@ menuDichVu.addActionListener(new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
         DangKyInternetFrame internetFrame=new DangKyInternetFrame();
+        dispose();
         internetFrame.setVisible(true);
         internetFrame.setLocationRelativeTo(null);
-        dispose();
+//        dispose();
     }
 });
 menuDichVu2.addActionListener(new ActionListener() {

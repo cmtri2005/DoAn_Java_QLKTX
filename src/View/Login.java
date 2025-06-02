@@ -223,7 +223,9 @@ public class Login extends javax.swing.JFrame {
                 //String storedPasswordHash = rs.getString("PASSWORD_HASH");
                 long userId = rs.getLong("USER_ID");
                 String cccd=rs.getString("CCCD");
+                String mssv=rs.getString("MASV");
                 UserSession.setCccd(cccd);
+                UserSession.setMssv(mssv);
                 //Check if the user is a student
                 PreparedStatement pstmtStudent = conn.prepareStatement("SELECT USER_ID FROM SINHVIEN WHERE USER_ID = ?");
                 pstmtStudent.setLong(1, userId);
@@ -239,10 +241,10 @@ public class Login extends javax.swing.JFrame {
                 pstmtStudent.close();
 
                 // Open dashboard based on role
-                if ("Admin".equals(role)) {
+                if ("admin".equals(role)) {
                     openAdminDashboard(cccd);
                     this.dispose();
-                } else if ("Student".equals(role)) {
+                } else if ("student".equals(role)) {
                         openStudentDashboard(cccd);
                         this.dispose();
                 }
