@@ -1,3 +1,4 @@
+
 # Quản lý ký túc xá - 4T Dormitory
 
 ## Lời cảm ơn
@@ -65,4 +66,24 @@ Dự án xây dựng ứng dụng quản lý ký túc xá cần đáp ứng đư
 - Bước 4:
 - Bước 5:
 - Bước 6:
+=======
+# Quan ly ky tuc xa
+
+
+1. Clone the repository
+
+
+2. Install IDE NetBeans
+
+
+3. Install dependencies:
+```
+pip install --
+```
+
+4. Run the application locally
+```
+Start by run file "sigunup.java'
+```
+
 
