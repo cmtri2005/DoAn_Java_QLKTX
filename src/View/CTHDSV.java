@@ -1,4 +1,4 @@
-package Student.View;
+package View;
 
 import ConnectDB.ConnectionUtils;
 import javax.swing.*;
@@ -197,7 +197,11 @@ public class CTHDSV extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new CTHDSV().setVisible(true);
+            try {
+                new CTHDSV("SV001").setVisible(true);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(CTHDSV.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
 }

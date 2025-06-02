@@ -16,10 +16,13 @@ import org.jfree.data.general.DefaultPieDataset;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import javax.swing.JFrame;
 import javax.swing.BorderFactory;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  * Class to visualize the distribution of students by school as a pie chart.
@@ -34,7 +37,7 @@ public class SinhVienChart{
                      "FROM SINHVIEN s " +
                      "JOIN TRUONG t ON s.MATRUONG = t.MATRUONG " +
                      "GROUP BY t.TENTRUONG";
-
+        dataset.clear();
         try (Connection conn = ConnectionUtils.getMyConnectionOracle();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
@@ -168,6 +171,21 @@ public class SinhVienChart{
 
          
             frame.setVisible(true);
+            javax.swing.Timer timer;
+            timer = new javax.swing.Timer(5000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        DefaultPieDataset dataset; // Cập nhật lại dữ liệu
+                        dataset = prepareDataset();
+                        plot.setDataset(dataset);
+                        chartPanel.repaint();
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+                timer.start();
         } catch (SQLException | ClassNotFoundException e) {
             System.err.println("Lỗi khi tạo biểu đồ: " + e.getMessage());
             e.printStackTrace();

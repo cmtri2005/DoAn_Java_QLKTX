@@ -9,6 +9,7 @@ import View.DangKyGiuXe;
 import View.DangKyInternetFrame;
 import View.DangKyTheThao;
 import View.HopDong;
+import View.Login;
 import View.TheKTXSV;
 import Visualize.PhongChart;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -463,6 +464,7 @@ menuSV3.addActionListener(new ActionListener() {
         jPanel1 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         Picture = new javax.swing.JLabel();
 
@@ -474,8 +476,8 @@ menuSV3.addActionListener(new ActionListener() {
         btn_them.setBackground(new java.awt.Color(255, 255, 255));
         btn_them.setPreferredSize(new java.awt.Dimension(285, 60));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("Thêm");
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         javax.swing.GroupLayout btn_themLayout = new javax.swing.GroupLayout(btn_them);
         btn_them.setLayout(btn_themLayout);
@@ -508,8 +510,8 @@ menuSV3.addActionListener(new ActionListener() {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Icons8-Windows-8-Users-Guest.24.png"))); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setText("Sinh Viên");
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         javax.swing.GroupLayout btn_sinhvienLayout = new javax.swing.GroupLayout(btn_sinhvien);
         btn_sinhvien.setLayout(btn_sinhvienLayout);
@@ -539,8 +541,8 @@ menuSV3.addActionListener(new ActionListener() {
         btn_phong.setBackground(new java.awt.Color(255, 255, 255));
         btn_phong.setPreferredSize(new java.awt.Dimension(285, 60));
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setText("Phòng");
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel6MouseClicked(evt);
@@ -579,8 +581,8 @@ menuSV3.addActionListener(new ActionListener() {
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Steve-Zondicons-Home.24.png"))); // NOI18N
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setText("Trang Chủ");
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         javax.swing.GroupLayout btn_trangchuLayout = new javax.swing.GroupLayout(btn_trangchu);
         btn_trangchu.setLayout(btn_trangchuLayout);
@@ -612,8 +614,8 @@ menuSV3.addActionListener(new ActionListener() {
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Custom-Icon-Design-Mono-General-2-Search.24.png"))); // NOI18N
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel10.setText("Dịch Vụ");
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         javax.swing.GroupLayout btn_dichvuLayout = new javax.swing.GroupLayout(btn_dichvu);
         btn_dichvu.setLayout(btn_dichvuLayout);
@@ -658,11 +660,18 @@ menuSV3.addActionListener(new ActionListener() {
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 126));
 
-        jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel15.setText("Introduction ...");
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel17.setText("Welcome to 4T Dormitory");
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Ionic-Ionicons-Log-out-outline.48.png"))); // NOI18N
+        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel12MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -671,7 +680,11 @@ menuSV3.addActionListener(new ActionListener() {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(84, 84, 84)
                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(194, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel12)
+                .addGap(106, 106, 106))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(45, 45, 45)
@@ -681,7 +694,9 @@ menuSV3.addActionListener(new ActionListener() {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(103, Short.MAX_VALUE)
+                .addContainerGap(43, Short.MAX_VALUE)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addComponent(jLabel15)
                 .addGap(55, 55, 55))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -748,6 +763,13 @@ menuSV3.addActionListener(new ActionListener() {
        
     }//GEN-LAST:event_jLabel6MouseClicked
 
+    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
+        // TODO add your handling code here:
+        Login login = new Login();
+        this.dispose();
+        login.setVisible(true);
+    }//GEN-LAST:event_jLabel12MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -805,6 +827,7 @@ menuSV3.addActionListener(new ActionListener() {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;

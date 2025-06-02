@@ -52,7 +52,9 @@ public class EmailForm extends javax.swing.JFrame {
     private boolean sendOTPEmail(String recipientEmail, String otp) {
         final String username = "tri21723@gmail.com";
         final String password = "vout zvnv ruwi zjyj"; // Use app-specific password
-
+        
+        
+        //Configure SMTP SERVER
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
         prop.put("mail.smtp.port", "587");
@@ -62,6 +64,11 @@ public class EmailForm extends javax.swing.JFrame {
         prop.put("mail.smtp.ssl.protocols", "TLSv1.2");
         prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         System.out.println("Attempting to send email to: " + recipientEmail);
+        
+        //Create Session to send email - otp
+        
+        //Create objet sessions have prop method
+        //Use Authenticator to login by username and password
         Session session = Session.getInstance(prop, new javax.mail.Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -70,9 +77,13 @@ public class EmailForm extends javax.swing.JFrame {
         });
 
         try {
+            //Create an email from the session
             Message message = new MimeMessage(session);
+            //Initialize email sender
             message.setFrom(new InternetAddress(username)); // Fixed: Use sender's email
+            //Initialize emal receiver
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
+            //
             message.setSubject("VERIFY FORGET PASSWORD");
             message.setText("OTP To Reset Password: " + otp);
             Transport.send(message);
