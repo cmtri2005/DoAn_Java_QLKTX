@@ -56,6 +56,7 @@ public class KTXManagementSystem extends JFrame {
         tabbedPane.addTab("Phòng", new RoomPanel(connection));
         tabbedPane.addTab("Hợp Đồng", new ContractPanel(connection));
         tabbedPane.addTab("Dịch Vụ", new ServicePanel(connection));
+        tabbedPane.addTab("Đăng Ký Dịch Vụ", new RegisterServicePanel(connection));
         tabbedPane.addTab("Hóa Đơn", new InvoicePanel(connection));
         tabbedPane.addTab("Bãi Đỗ Xe", new ParkingPanel(connection));
         tabbedPane.addTab("Đăng Ký Xe", new RegisterVehiclePanel(connection));
@@ -1610,19 +1611,21 @@ class ContractPanel extends JPanel {
         roomIdField.setText("");
     }
 }
-
 class ServicePanel extends JPanel {
     private Connection connection;
     private DefaultTableModel tableModel;
     private JTable table;
     private JTextField serviceIdField, serviceNameField, priceField, descriptionField, searchField;
     private JComboBox<String> searchCriteriaComboBox;
-
+    private JComboBox<String> IsolationLevel;
     public ServicePanel(Connection connection) {
         this.connection = connection;
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setBackground(Color.WHITE);
+        //
+        IsolationLevel = new JComboBox<>(new String[]{"Read Committed","Serializable"});
+        IsolationLevel.setFont(new Font("Segoe UI",Font.PLAIN,14));
 
         // Toolbar for actions
         JToolBar toolBar = new JToolBar();
@@ -1633,7 +1636,7 @@ class ServicePanel extends JPanel {
         JButton editButton = new JButton("Sửa");
         JButton deleteButton = new JButton("Xóa");
         JButton refreshButton = new JButton("Làm mới");
-
+        JButton commitButton = new JButton("COMMIT");
         // Search components
         JLabel searchLabel = new JLabel("Tìm kiếm:");
         searchField = new JTextField(15);
@@ -1645,6 +1648,7 @@ class ServicePanel extends JPanel {
         styleButton(deleteButton);
         styleButton(refreshButton);
         styleButton(searchButton);
+        styleButton(commitButton);
         styleLabel(searchLabel);
         styleTextField(searchField);
 
@@ -1655,6 +1659,10 @@ class ServicePanel extends JPanel {
         toolBar.add(deleteButton);
         toolBar.addSeparator();
         toolBar.add(refreshButton);
+        toolBar.addSeparator();
+        toolBar.add(commitButton);
+        toolBar.addSeparator();
+        toolBar.add(IsolationLevel);
         toolBar.addSeparator();
         toolBar.add(Box.createHorizontalGlue());
         toolBar.add(searchLabel);
@@ -1792,7 +1800,34 @@ class ServicePanel extends JPanel {
         // Search action
         searchButton.addActionListener(e -> performSearch());
         searchField.addActionListener(e -> performSearch());
-
+        //
+        // COMMIT action
+        commitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirm = JOptionPane.showConfirmDialog(ServicePanel.this, "Bạn có muốn lưu thay đổi?", "Xác nhận", YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    try {
+                        connection.commit();
+                        JOptionPane.showMessageDialog(ServicePanel.this,"Lưu thay đổi thành công");
+                    } catch (SQLException e1) {
+                        JOptionPane.showMessageDialog(ServicePanel.this, "Lỗi khi lưu thay đổi" + e1.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
+        IsolationLevel.addActionListener(e -> {
+            try{
+                if(IsolationLevel.getSelectedItem().equals("Read Committed")){
+                    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+                }
+                else if(IsolationLevel.getSelectedItem().equals("Serializable")){
+                    connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+                }
+            }catch(SQLException e2){
+                JOptionPane.showMessageDialog(this,":Lỗi khi thay đổi mức cô lập:" + e2.getMessage(),"Lỗi",JOptionPane.ERROR_MESSAGE);
+            }
+        });
         // Table selection listener
         table.getSelectionModel().addListSelectionListener(e -> {
             int selectedRow = table.getSelectedRow();
@@ -2006,7 +2041,430 @@ class ServicePanel extends JPanel {
         descriptionField.setText("");
     }
 }
+class RegisterServicePanel extends JPanel {
+    private Connection connection;
+    private DefaultTableModel tableModel;
+    private JTable table;
+    private JTextField registerIdField, serviceIdField, studentIdField, dateRegisterField, statusField;
+    private JComboBox<String> searchCriteriaComboBox;
+    private JTextField searchField;
+    private JComboBox<String> IsolationLevel;
+    public RegisterServicePanel(Connection connection) {
+        this.connection = connection;
+        setLayout(new BorderLayout(10, 10));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setBackground(Color.WHITE);
+        
+        IsolationLevel = new JComboBox<>(new String[]{"Read Committed","Serializable"});
+        IsolationLevel.setFont(new Font("Segoe UI",Font.PLAIN,14));
 
+        // Toolbar for actions
+        JToolBar toolBar = new JToolBar();
+        toolBar.setFloatable(false);
+        toolBar.setBackground(new Color(236, 240, 241));
+
+        JButton addButton = new JButton("Thêm");
+        JButton editButton = new JButton("Sửa");
+        JButton deleteButton = new JButton("Xóa");
+        JButton refreshButton = new JButton("Làm mới");
+        JButton commitButton = new JButton("COMMIT");
+
+        // Search components
+        JLabel searchLabel = new JLabel("Tìm kiếm:");
+        searchField = new JTextField(15);
+        searchCriteriaComboBox = new JComboBox<>(new String[]{"Mã Đăng Ký", "Mã Dịch Vụ", "Mã Sinh Viên", "Ngày Đăng Ký", "Trạng Thái"});
+        JButton searchButton = new JButton("Tìm");
+
+        styleButton(addButton);
+        styleButton(editButton);
+        styleButton(deleteButton);
+        styleButton(refreshButton);
+        styleButton(commitButton);
+        styleButton(searchButton);
+        styleLabel(searchLabel);
+        styleTextField(searchField);
+
+        toolBar.add(addButton);
+        toolBar.addSeparator();
+        toolBar.add(editButton);
+        toolBar.addSeparator();
+        toolBar.add(deleteButton);
+        toolBar.addSeparator();
+        toolBar.add(refreshButton);
+        toolBar.addSeparator();
+        toolBar.add(commitButton);
+        toolBar.addSeparator();
+        toolBar.add(IsolationLevel);
+        toolBar.addSeparator();
+        toolBar.add(Box.createHorizontalGlue());
+        toolBar.add(searchLabel);
+        toolBar.add(searchCriteriaComboBox);
+        toolBar.add(searchField);
+        toolBar.add(searchButton);
+
+        add(toolBar, BorderLayout.NORTH);
+
+        // Table to display registration data
+        String[] columns = {"Mã Đăng Ký", "Mã Dịch Vụ", "Mã Sinh Viên", "Ngày Đăng Ký", "Trạng Thái"};
+        tableModel = new DefaultTableModel(columns, 0);
+        table = new JTable(tableModel);
+        table.setRowHeight(25);
+        table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+        table.setGridColor(new Color(200, 200, 200));
+        table.setSelectionBackground(new Color(52, 152, 219));
+        table.setSelectionForeground(Color.WHITE);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        add(scrollPane, BorderLayout.CENTER);
+
+        // Input panel for add/edit
+        JPanel inputPanel = new JPanel(new GridBagLayout());
+        inputPanel.setBackground(Color.WHITE);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        JLabel registerIdLabel = new JLabel("Mã Đăng Ký:");
+        registerIdField = new JTextField(15);
+        JLabel serviceIdLabel = new JLabel("Mã Dịch Vụ:");
+        serviceIdField = new JTextField(15);
+        JLabel studentIdLabel = new JLabel("Mã Sinh Viên:");
+        studentIdField = new JTextField(15);
+        JLabel dateRegisterLabel = new JLabel("Ngày Đăng Ký:");
+        dateRegisterField = new JTextField(15);
+        JLabel statusLabel = new JLabel("Trạng Thái:");
+        statusField = new JTextField(15);
+
+        styleLabel(registerIdLabel);
+        styleLabel(serviceIdLabel);
+        styleLabel(studentIdLabel);
+        styleLabel(dateRegisterLabel);
+        styleLabel(statusLabel);
+        styleTextField(registerIdField);
+        styleTextField(serviceIdField);
+        styleTextField(studentIdField);
+        styleTextField(dateRegisterField);
+        styleTextField(statusField);
+
+        JButton saveButton = new JButton("Lưu");
+        JButton cancelButton = new JButton("Hủy");
+        styleButton(saveButton);
+        styleButton(cancelButton);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        inputPanel.add(registerIdLabel, gbc);
+        gbc.gridx = 1;
+        inputPanel.add(registerIdField, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        inputPanel.add(serviceIdLabel, gbc);
+        gbc.gridx = 1;
+        inputPanel.add(serviceIdField, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        inputPanel.add(studentIdLabel, gbc);
+        gbc.gridx = 1;
+        inputPanel.add(studentIdField, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        inputPanel.add(dateRegisterLabel, gbc);
+        gbc.gridx = 1;
+        inputPanel.add(dateRegisterField, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        inputPanel.add(statusLabel, gbc);
+        gbc.gridx = 1;
+        inputPanel.add(statusField, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        inputPanel.add(saveButton, gbc);
+        gbc.gridx = 1;
+        inputPanel.add(cancelButton, gbc);
+
+        // Hide input panel by default
+        inputPanel.setVisible(false);
+        add(inputPanel, BorderLayout.SOUTH);
+
+        // Load initial data
+        loadRegistrations("Mã Đăng Ký", "");
+
+        // Button actions
+        addButton.addActionListener(e -> {
+            clearFields();
+            inputPanel.setVisible(true);
+            revalidate();
+            repaint();
+        });
+
+        editButton.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow < 0) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn một đăng ký để sửa!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            loadSelectedRowData();
+            inputPanel.setVisible(true);
+            revalidate();
+            repaint();
+        });
+
+        deleteButton.addActionListener(e -> deleteRegistration());
+
+        refreshButton.addActionListener(e -> {
+            searchField.setText("");
+            loadRegistrations("Mã Đăng Ký", "");
+            inputPanel.setVisible(false);
+        });
+        
+        saveButton.addActionListener(e -> {
+            if (validateInput()) {
+                if (table.getSelectedRow() >= 0) {
+                    editRegistration();
+                } else {
+                    addRegistration();
+                }
+                inputPanel.setVisible(false);
+            }
+        });
+
+        cancelButton.addActionListener(e -> {
+            clearFields();
+            inputPanel.setVisible(false);
+            revalidate();
+            repaint();
+        });
+        //
+
+
+        // COMMIT action
+        commitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirm = JOptionPane.showConfirmDialog(RegisterServicePanel.this, "Bạn có muốn lưu thay đổi?", "Xác nhận", YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    try {
+                        connection.commit();
+                        JOptionPane.showMessageDialog(RegisterServicePanel.this,"Lưu thay đổi thành công");
+                    } catch (SQLException e1) {
+                        JOptionPane.showMessageDialog(RegisterServicePanel.this, "Lỗi khi luu thay đổi" + e1.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
+        IsolationLevel.addActionListener(e -> {
+            try{
+                if(IsolationLevel.getSelectedItem().equals("Read Committed")){
+                    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+                }
+                else if(IsolationLevel.getSelectedItem().equals("Serializable")){
+                    connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+                }
+            }catch(SQLException e2){
+                JOptionPane.showMessageDialog(this,":Lỗi khi thay đổi mức cô lập:" + e2.getMessage(),"Lỗi",JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        
+        // Search action
+        searchButton.addActionListener(e -> performSearch());
+        searchField.addActionListener(e -> performSearch());
+        
+        // Table selection listener
+        table.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                loadSelectedRowData();
+            }
+        });
+    }
+
+    private void styleButton(JButton button) {
+        button.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        button.setBackground(new Color(41, 128, 185));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+    }
+
+    private void styleLabel(JLabel label) {
+        label.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+    }
+
+    private void styleTextField(JTextField textField) {
+        textField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        textField.setBorder(BorderFactory.createLineBorder(new Color(149, 165, 166)));
+    }
+
+    private void performSearch() {
+        String searchValue = searchField.getText().trim();
+        String searchCriteria = (String) searchCriteriaComboBox.getSelectedItem();
+        loadRegistrations(searchCriteria, searchValue);
+    }
+
+    private void loadRegistrations(String searchCriteria, String searchValue) {
+        tableModel.setRowCount(0);
+        String query = "SELECT MADK, MADV, MASV, TO_CHAR(NGAYDANGKY, 'YYYY-MM-DD') AS NGAYDANGKY, TRANGTHAI FROM DANGKYDICHVU";
+        boolean isSearch = !searchValue.isEmpty();
+
+        if (isSearch) {
+            String searchColumn;
+            switch (searchCriteria) {
+                case "Mã Đăng Ký":
+                    searchColumn = "MADK";
+                    break;
+                case "Mã Dịch Vụ":
+                    searchColumn = "MADV";
+                    break;
+                case "Mã Sinh Viên":
+                    searchColumn = "MASV";
+                    break;
+                case "Ngày Đăng Ký":
+                    searchColumn = "TO_CHAR(NGAYDANGKY, 'YYYY-MM-DD')";
+                    break;
+                case "Trạng Thái":
+                    searchColumn = "TRANGTHAI";
+                    break;
+                default:
+                    searchColumn = "MADK";
+            }
+            query += " WHERE UPPER(" + searchColumn + ") LIKE UPPER(?)";
+        }
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            if (isSearch) {
+                pstmt.setString(1, "%" + searchValue + "%");
+            }
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Object[] row = {
+                        rs.getString("MADK"),
+                        rs.getString("MADV"),
+                        rs.getString("MASV"),
+                        rs.getString("NGAYDANGKY"),
+                        rs.getString("TRANGTHAI")
+                    };
+                    tableModel.addRow(row);
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + getFriendlyErrorMessage(e), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void loadSelectedRowData() {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow >= 0) {
+            registerIdField.setText(tableModel.getValueAt(selectedRow, 0).toString());
+            serviceIdField.setText(tableModel.getValueAt(selectedRow, 1).toString());
+            studentIdField.setText(tableModel.getValueAt(selectedRow, 2).toString());
+            dateRegisterField.setText(tableModel.getValueAt(selectedRow, 3).toString());
+            statusField.setText(tableModel.getValueAt(selectedRow, 4).toString());
+        }
+    }
+
+    private boolean validateInput() {
+        // Check for empty required fields
+        if (registerIdField.getText().isEmpty() || serviceIdField.getText().isEmpty() ||
+            studentIdField.getText().isEmpty() || dateRegisterField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ các trường bắt buộc!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Validate date format (YYYY-MM-DD)
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            sdf.setLenient(false);
+            sdf.parse(dateRegisterField.getText().trim());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ngày đăng ký phải có định dạng YYYY-MM-DD!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Validate status
+        String status = statusField.getText().trim();
+        if (!status.equals("Đăng ký thành công") && !status.equals("Đăng ký thất bại")) {
+            JOptionPane.showMessageDialog(this, "Trạng thái phải là 'Đăng ký thành công' hoặc 'Đăng ký thất bại'!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return true;
+    }
+
+    private void addRegistration() {
+        String query = "INSERT INTO DANGKYDICHVU (MADK, MADV, MASV, NGAYDANGKY, TRANGTHAI) VALUES (?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, registerIdField.getText().trim());
+            pstmt.setString(2, serviceIdField.getText().trim());
+            pstmt.setString(3, studentIdField.getText().trim());
+            pstmt.setString(4, dateRegisterField.getText().trim());
+            pstmt.setString(5, statusField.getText().trim());
+            pstmt.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Thêm đăng ký thành công!");
+            loadRegistrations(searchCriteriaComboBox.getSelectedItem().toString(), searchField.getText().trim());
+            clearFields();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi thêm đăng ký: " + getFriendlyErrorMessage(e), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void editRegistration() {
+        String query = "UPDATE DANGKYDICHVU SET MADV = ?, MASV = ?, NGAYDANGKY = TO_DATE(?, 'YYYY-MM-DD'), TRANGTHAI = ? WHERE MADK = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, serviceIdField.getText().trim());
+            pstmt.setString(2, studentIdField.getText().trim());
+            pstmt.setString(3, dateRegisterField.getText().trim());
+            pstmt.setString(4, statusField.getText().trim());
+            pstmt.setString(5, registerIdField.getText().trim());
+            pstmt.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Sửa đăng ký thành công!");
+            loadRegistrations(searchCriteriaComboBox.getSelectedItem().toString(), searchField.getText().trim());
+            clearFields();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi sửa đăng ký: " + getFriendlyErrorMessage(e), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void deleteRegistration() {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một đăng ký để xóa!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa đăng ký này?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            String query = "DELETE FROM DANGKYDICHVU WHERE MADK = ?";
+            try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+                pstmt.setString(1, registerIdField.getText().trim());
+                pstmt.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Xóa đăng ký thành công!");
+                loadRegistrations(searchCriteriaComboBox.getSelectedItem().toString(), searchField.getText().trim());
+                clearFields();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Lỗi khi xóa đăng ký: " + getFriendlyErrorMessage(e), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private String getFriendlyErrorMessage(SQLException e) {
+        String message = e.getMessage();
+        if (e.getErrorCode() == 1) { // ORA-00001: unique constraint violation
+            return "Mã đăng ký đã tồn tại!";
+        } else if (e.getErrorCode() == 2291) { // ORA-02291: foreign key constraint violation
+            return "Mã dịch vụ hoặc mã sinh viên không hợp lệ!";
+        } else if (e.getErrorCode() == 2292) { // ORA-02292: foreign key constraint violation (child records)
+            return "Không thể xóa đăng ký này vì có dữ liệu liên quan!";
+        }
+        return message;
+    }
+
+    private void clearFields() {
+        registerIdField.setText("");
+        serviceIdField.setText("");
+        studentIdField.setText("");
+        dateRegisterField.setText("");
+        statusField.setText("");
+    }
+}
 class InvoicePanel extends JPanel {
     private Connection connection;
     private DefaultTableModel tableModel;
