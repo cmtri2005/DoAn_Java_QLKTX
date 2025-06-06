@@ -39,8 +39,11 @@ public class EmailForm extends javax.swing.JFrame {
 
     // Generate a secure 6-digit OTP
     private String generateOTP() {
+        //Create object SecureRandom thats more secure then Random
         SecureRandom random = new SecureRandom();
+        //StringBuilder is an object that can change string
         StringBuilder otp = new StringBuilder();
+        
         for (int i = 0; i < 6; i++) {
             otp.append(random.nextInt(10));
         }
@@ -49,12 +52,16 @@ public class EmailForm extends javax.swing.JFrame {
     }
 
     // Send OTP email
+    
+    //recipientEmail: email receiver OTP
     private boolean sendOTPEmail(String recipientEmail, String otp) {
         final String username = "tri21723@gmail.com";
         final String password = "vout zvnv ruwi zjyj"; // Use app-specific password
         
         
         //Configure SMTP SERVER
+        
+        //Properties: an object that save and handle configure under pair of key-value.
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
         prop.put("mail.smtp.port", "587");
@@ -86,6 +93,7 @@ public class EmailForm extends javax.swing.JFrame {
             //
             message.setSubject("VERIFY FORGET PASSWORD");
             message.setText("OTP To Reset Password: " + otp);
+            //Send email through configure SMTP server
             Transport.send(message);
             System.out.println("Email sent successfully.");
             return true;
@@ -313,10 +321,7 @@ public class EmailForm extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new EmailForm().setVisible(true));
     }
 
-//    private void setIconImage() {
-//        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icon/parking.png")));
-//    }
-
+    
     // Variables declaration
     private javax.swing.JLabel btnBackFormEmail;
     private javax.swing.JButton btnGetOTP;

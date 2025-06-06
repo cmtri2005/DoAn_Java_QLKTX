@@ -400,6 +400,8 @@ public class SignUp extends javax.swing.JFrame {
     }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        
+        //Get information user input in form
         String username = userNameInput.getText().trim();
         String password = new String(passwordInput.getPassword()).trim();
         String confirmPassword = new String(confirmPassWord.getPassword()).trim();
@@ -410,6 +412,7 @@ public class SignUp extends javax.swing.JFrame {
         String cccd = CCCDInput.getText().trim();
         String studentId = MSSVInput.getText().trim();
         
+        //Debug if user not input 
         if(schoolCode.equals("--Chọn trường--")){
             JOptionPane.showMessageDialog(this,"Vui lòng chọn mã trường","Lỗi",JOptionPane.ERROR_MESSAGE);
         }
@@ -450,19 +453,24 @@ public class SignUp extends javax.swing.JFrame {
         ResultSet rs = null;
         try{
             conn = ConnectDB.ConnectionUtils.getMyConnectionOracle();
+            //Set "manual commit" to measure integrity transaction
             conn.setAutoCommit(false);
             
             //1.Chèn vào bảng USER
             String sqlUser = "INSERT INTO USER_KTX(FULL_NAME, EMAIL, CREATED_AT) VALUES (?, ?, ?)";
+            
+            //new String[]{"USER_ID"}: talk to JDBC u want to get automated value (USER_ID) after insert a record
             pstmtUser = conn.prepareStatement(sqlUser, new String[]{"USER_ID"});
             pstmtUser.setString(1, fullname);
             pstmtUser.setString(2, email);
             pstmtUser.setDate(3, new java.sql.Date(System.currentTimeMillis()));
             pstmtUser.executeUpdate();
             
+            //Get primary key "USER_ID" insert into USER_KTX 
             rs = pstmtUser.getGeneratedKeys();
             long userId = 0;
             if(rs.next()){
+                //get value in first column - USER_ID
                 userId = rs.getLong(1);
             }else{
                 throw new SQLException("Không thể lấy USER_ID");
