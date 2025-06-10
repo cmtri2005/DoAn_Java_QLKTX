@@ -52,7 +52,7 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         
         // Tạo popup menu Đăng kí phòng
-Color menuBackground = new Color(153, 102, 255);  // tím nhạt
+Color menuBackground = new Color(255, 255, 255);  // tím nhạt
 Color textColor = Color.BLACK;
         Font menuFont = new Font("Segoe UI", Font.PLAIN, 18);
         Dimension menuSize = new Dimension(150, 40);

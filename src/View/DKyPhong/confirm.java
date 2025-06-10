@@ -61,7 +61,7 @@ public class confirm extends javax.swing.JFrame {
         jLabel18.setText(loaiPhong);
         jTextField1.setText(this.gioiTinh);
         try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
-        String sql = "SELECT s.hoten, s.ngaysinh, u.email, s.masv, s.sđt, s.matruong, t.tentruong " +
+        String sql = "SELECT s.hoten, s.ngaysinh, u.email, s.masv, s.sdt, s.matruong, t.tentruong " +
              "FROM sinhvien s " +
              "JOIN user_ktx u ON s.user_id = u.user_id " +
              "JOIN truong t ON s.matruong = t.matruong " +
@@ -78,7 +78,7 @@ public class confirm extends javax.swing.JFrame {
             tf_date.setText(rs.getString("ngaysinh"));
             tf_email.setText(rs.getString("email"));
             tf_mssv.setText(rs.getString("MASV"));
-            tf_sdt.setText(rs.getString("sđt"));
+            tf_sdt.setText(rs.getString("sdt"));
             tf_truong.setText(rs.getString("MATRUONG"));
             tf_tentruong.setText(rs.getString("TENTRUONG"));
             tf_date.setText(rs.getString("ngaysinh"));
@@ -434,10 +434,12 @@ public class confirm extends javax.swing.JFrame {
 
     private void confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmActionPerformed
         // TODO add your handling code here:
+        
         try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
-    String sql = "UPDATE SINHVIEN SET TINHTRANG = 'Xem xét' WHERE MASV = ?";
+    String sql = "UPDATE SINHVIEN SET TINHTRANG = 'Xem xét', MAPHONG=? WHERE MASV = ?";
     PreparedStatement stmt = conn.prepareStatement(sql);
-    stmt.setString(1, tf_mssv.getText());
+    stmt.setString(1, jLabel17.getText());
+    stmt.setString(2, tf_mssv.getText());
     int rowsUpdated = stmt.executeUpdate();
     
     if (rowsUpdated > 0) {

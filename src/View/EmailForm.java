@@ -52,8 +52,8 @@ public class EmailForm extends javax.swing.JFrame {
     private boolean sendOTPEmail(String recipientEmail, String otp) {
 //        final String username = "tri21723@gmail.com";
 //        final String password = "vout zvnv ruwi zjyj"; // Use app-specific password
-            final String username = "tricaominh2005@gmail.com";
-            final String password = "tuol exax cyij hemd"; // Use app-specific password
+        final String username = "nmt251005@gmail.com";
+        final String password = "ydgn ttgh ybmy hjuj"; // Use app-specific password
 
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");

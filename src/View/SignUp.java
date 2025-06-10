@@ -453,7 +453,7 @@ public class SignUp extends javax.swing.JFrame {
             conn.setAutoCommit(false);
             
             //1.Chèn vào bảng USER
-            String sqlUser = "INSERT INTO USER_KTX(FULL_NAME, EMAIL, CREATED_AT) VALUES (?, ?, ?)";
+            String sqlUser = "INSERT INTO USER_KTX (FULL_NAME, EMAIL, CREATED_AT) VALUES (?, ?, ?)";
             pstmtUser = conn.prepareStatement(sqlUser, new String[]{"USER_ID"});
             pstmtUser.setString(1, fullname);
             pstmtUser.setString(2, email);
@@ -481,14 +481,14 @@ public class SignUp extends javax.swing.JFrame {
             // 3. Chèn vào bảng SINHVIEN
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String ngaySinhStr = sdf.format(jDateChooser2.getDate());
-            String sqlSinhVien = "INSERT INTO SINHVIEN (MASV, HOTEN, CCCD, SĐT, MATRUONG, TINHTRANG, USER_ID,NGAYSINH) VALUES (?, ?, ?, ?, ?, ?, ?,TO_DATE(?, 'YYYY-MM-DD'))";
+            String sqlSinhVien = "INSERT INTO SINHVIEN (MASV, HOTEN, CCCD, SDT, MATRUONG, TINHTRANG, USER_ID,NGAYSINH) VALUES (?, ?, ?, ?, ?, ?, ?,TO_DATE(?, 'YYYY-MM-DD'))";
             pstmtSinhVien = conn.prepareStatement(sqlSinhVien);
             pstmtSinhVien.setString(1, studentId);
             pstmtSinhVien.setString(2, fullname);
             pstmtSinhVien.setString(3, cccd);
             pstmtSinhVien.setString(4, phone);
             pstmtSinhVien.setString(5, schoolCode);
-            pstmtSinhVien.setString(6, "Chưa đăng kí");
+            pstmtSinhVien.setString(6, "Chưa đăng ký");
             pstmtSinhVien.setLong(7, userId);
             pstmtSinhVien.setString(8, ngaySinhStr);
             pstmtSinhVien.executeUpdate();

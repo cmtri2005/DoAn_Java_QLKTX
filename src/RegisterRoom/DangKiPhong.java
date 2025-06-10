@@ -67,7 +67,8 @@ public class DangKiPhong extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tòa A", "Tòa B", "Tòa C" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tòa A" }));
+        jComboBox1.setToolTipText("");
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -163,7 +164,7 @@ public class DangKiPhong extends javax.swing.JFrame {
 
     private void loadToaToComboBox() {
     try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
-        String sql = "SELECT * FROM TOA";
+        String sql = "SELECT distinct * FROM TOA";
         PreparedStatement stmt = conn.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();
 

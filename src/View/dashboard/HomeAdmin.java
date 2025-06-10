@@ -8,7 +8,9 @@ import Database_View.KTXManagementSystem;
 import View.Login;
 import Visualize.PhongChart;
 import Visualize.PhongStatus;
+import Visualize.RevenueChart;
 import Visualize.SinhVienChart;
+import Visualize.StudentChurnRate;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -51,7 +53,7 @@ public class HomeAdmin extends javax.swing.JFrame {
     public HomeAdmin() {
         initComponents();
         // Tạo popup menu Đăng kí phòng
-Color menuBackground = new Color(153, 102, 255);  // tím nhạt
+Color menuBackground = new Color(255, 255, 255);  // tím nhạt
 Color textColor = Color.BLACK;
 Font menuFont = new Font("Segoe UI", Font.PLAIN, 18);
 Dimension menuSize = new Dimension(250, 35);
@@ -74,12 +76,26 @@ menuBaoCao3.setForeground(textColor);
 menuBaoCao3.setFont(menuFont);
 menuBaoCao3.setPreferredSize(menuSize);
 
+JMenuItem menuBaoCao4 = new JMenuItem("Thống kê doanh thu");
+menuBaoCao4.setBackground(menuBackground);
+menuBaoCao4.setForeground(textColor);
+menuBaoCao4.setFont(menuFont);
+menuBaoCao4.setPreferredSize(menuSize);
+
+JMenuItem menuBaoCao5 = new JMenuItem("Thống kê tỉ lệ SV rời KTX");
+menuBaoCao5.setBackground(menuBackground);
+menuBaoCao5.setForeground(textColor);
+menuBaoCao5.setFont(menuFont);
+menuBaoCao5.setPreferredSize(menuSize);
+
 JPopupMenu popupMenuBaoCao = new JPopupMenu();
 popupMenuBaoCao.setBackground(menuBackground);
 popupMenuBaoCao.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 popupMenuBaoCao.add(menuBaoCao);
 popupMenuBaoCao.add(menuBaoCao2);
 popupMenuBaoCao.add(menuBaoCao3);
+popupMenuBaoCao.add(menuBaoCao4);
+popupMenuBaoCao.add(menuBaoCao5);
 
 jLabel19.addMouseListener(new MouseAdapter() {
     @Override
@@ -112,6 +128,20 @@ menuBaoCao3.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
         SinhVienChart chart3= new SinhVienChart();
         chart3.displayChart();
+    }
+});
+menuBaoCao4.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        RevenueChart chart4= new RevenueChart();
+        chart4.displayChart();
+    }
+});
+menuBaoCao5.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        StudentChurnRate chart5= new StudentChurnRate();
+        chart5.displayChart();
     }
 });
 try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
@@ -141,7 +171,7 @@ try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
             initComponents();
         
         // Tạo popup menu Đăng kí phòng
-Color menuBackground = new Color(153, 102, 255);  // tím nhạt
+Color menuBackground = new Color(255, 255, 255);  // tím nhạt
 Color textColor = Color.BLACK;
 Font menuFont = new Font("Segoe UI", Font.PLAIN, 18);
 Dimension menuSize = new Dimension(250, 35);
@@ -164,12 +194,26 @@ menuBaoCao3.setForeground(textColor);
 menuBaoCao3.setFont(menuFont);
 menuBaoCao3.setPreferredSize(menuSize);
 
+JMenuItem menuBaoCao4 = new JMenuItem("Thống kê doanh thu");
+menuBaoCao4.setBackground(menuBackground);
+menuBaoCao4.setForeground(textColor);
+menuBaoCao4.setFont(menuFont);
+menuBaoCao4.setPreferredSize(menuSize);
+
+JMenuItem menuBaoCao5 = new JMenuItem("Thống kê tỉ lệ SV rời KTX");
+menuBaoCao5.setBackground(menuBackground);
+menuBaoCao5.setForeground(textColor);
+menuBaoCao5.setFont(menuFont);
+menuBaoCao5.setPreferredSize(menuSize);
+
 JPopupMenu popupMenuBaoCao = new JPopupMenu();
 popupMenuBaoCao.setBackground(menuBackground);
 popupMenuBaoCao.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 popupMenuBaoCao.add(menuBaoCao);
 popupMenuBaoCao.add(menuBaoCao2);
 popupMenuBaoCao.add(menuBaoCao3);
+popupMenuBaoCao.add(menuBaoCao4);
+popupMenuBaoCao.add(menuBaoCao5);
 
 jLabel19.addMouseListener(new MouseAdapter() {
     @Override
@@ -202,6 +246,20 @@ menuBaoCao3.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
         SinhVienChart chart3= new SinhVienChart();
         chart3.displayChart();
+    }
+});
+menuBaoCao4.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        RevenueChart chart4= new RevenueChart();
+        chart4.displayChart();
+    }
+});
+menuBaoCao5.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        StudentChurnRate chart5= new StudentChurnRate();
+        chart5.displayChart();
     }
 });
 try (Connection conn = ConnectDB.ConnectionUtils.getMyConnectionOracle()) {
