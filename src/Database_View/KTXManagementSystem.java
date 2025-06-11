@@ -2566,7 +2566,7 @@ class InvoicePanel extends JPanel {
     private Connection connection;
     private DefaultTableModel tableModel;
     private JTable table;
-    private JTextField invoiceIdField, buildingIdField, roomIdField, electricityUsageField, electricityPriceField, waterUsageField, waterPriceField, dueDateField, searchField;
+    private JTextField invoiceIdField, buildingIdField, roomIdField, electricityUsageField, electricityPriceField, waterUsageField, waterPriceField, dueDateField,tienField, searchField;
     private JComboBox<String> searchCriteriaComboBox;  
 
     public InvoicePanel(Connection connection) {
@@ -2593,7 +2593,7 @@ class InvoicePanel extends JPanel {
         // Search components
         JLabel searchLabel = new JLabel("Tìm kiếm:");
         searchField = new JTextField(15);
-        searchCriteriaComboBox = new JComboBox<>(new String[]{"Mã Hóa Đơn", "Mã Tòa", "Mã Phòng", "Hạn Thanh Toán"});
+        searchCriteriaComboBox = new JComboBox<>(new String[]{"Mã Hóa Đơn", "Mã Tòa", "Mã Phòng","Tổng Tiền Thanh Toán", "Hạn Thanh Toán"});
         JButton searchButton = new JButton("Tìm");
 
         styleButton(addButton);
@@ -2621,7 +2621,7 @@ class InvoicePanel extends JPanel {
         add(toolBar, BorderLayout.NORTH);
 
         // Table to display invoice data
-        String[] columns = {"Mã Hóa Đơn", "Mã Tòa", "Mã Phòng", "Chỉ Số Điện", "Đơn Giá Điện", "Chỉ Số Nước", "Đơn Giá Nước", "Hạn Thanh Toán"};
+        String[] columns = {"Mã Hóa Đơn", "Mã Tòa", "Mã Phòng", "Chỉ Số Điện", "Đơn Giá Điện", "Chỉ Số Nước", "Đơn Giá Nước","Tổng Tiền Thanh Toán", "Hạn Thanh Toán"};
         tableModel = new DefaultTableModel(columns, 0);
         table = new JTable(tableModel);
         table.setRowHeight(25);
@@ -2655,8 +2655,11 @@ class InvoicePanel extends JPanel {
         waterUsageField = new JTextField(15);
         JLabel waterPriceLabel = new JLabel("Đơn Giá Nước:");
         waterPriceField = new JTextField(15);
+        JLabel tienLabel = new JLabel("Tổng Tiền Thanh Toán:");
+        tienField = new JTextField(15);
         JLabel dueDateLabel = new JLabel("Hạn Thanh Toán (YYYY-MM-dd):");
         dueDateField = new JTextField(15);
+
 
         styleLabel(invoiceIdLabel);
         styleLabel(buildingIdLabel);
@@ -2666,6 +2669,7 @@ class InvoicePanel extends JPanel {
         styleLabel(waterUsageLabel);
         styleLabel(waterPriceLabel);
         styleLabel(dueDateLabel);
+        styleLabel(tienLabel);
         styleTextField(invoiceIdField);
         styleTextField(buildingIdField);
         styleTextField(roomIdField);
@@ -2674,7 +2678,7 @@ class InvoicePanel extends JPanel {
         styleTextField(waterUsageField);
         styleTextField(waterPriceField);
         styleTextField(dueDateField);
-
+        styleTextField(tienField);
         JButton saveButton = new JButton("Lưu");
         JButton cancelButton = new JButton("Hủy");
         saveButton.setBackground(new Color(255,255,255));
@@ -2719,11 +2723,16 @@ class InvoicePanel extends JPanel {
         inputPanel.add(waterPriceField, gbc);
         gbc.gridx = 0;
         gbc.gridy = 7;
+        inputPanel.add(tienLabel, gbc);
+        gbc.gridx = 1;
+        inputPanel.add(tienField, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 8;
         inputPanel.add(dueDateLabel, gbc);
         gbc.gridx = 1;
         inputPanel.add(dueDateField, gbc);
         gbc.gridx = 0;
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         inputPanel.add(saveButton, gbc);
         gbc.gridx = 1;
         inputPanel.add(cancelButton, gbc);
@@ -2792,7 +2801,8 @@ class InvoicePanel extends JPanel {
                 electricityPriceField.setText(tableModel.getValueAt(selectedRow, 4).toString());
                 waterUsageField.setText(tableModel.getValueAt(selectedRow, 5).toString());
                 waterPriceField.setText(tableModel.getValueAt(selectedRow, 6).toString());
-                dueDateField.setText(tableModel.getValueAt(selectedRow, 7) != null ? tableModel.getValueAt(selectedRow, 7).toString() : "");
+                tienField.setText(tableModel.getValueAt(selectedRow, 7).toString());
+                dueDateField.setText(tableModel.getValueAt(selectedRow, 8) != null ? tableModel.getValueAt(selectedRow, 7).toString() : "");
             }
         });
     }
@@ -2822,7 +2832,7 @@ class InvoicePanel extends JPanel {
 
     private void loadInvoices(String searchCriteria, String searchValue) {
         tableModel.setRowCount(0);
-        String query = "SELECT MAHOADON, MATOA, MAPHONG, CHISODIEN, DONGIADIEN, CHISONUOC, DONGIANUOC, HANTHANHTOAN FROM CTHD";
+        String query = "SELECT MAHOADON, MATOA, MAPHONG, CHISODIEN, DONGIADIEN, CHISONUOC, DONGIANUOC,TONGTIENTHANHTOAN, HANTHANHTOAN FROM CTHD";
         boolean isSearch = !searchValue.isEmpty();
 
         if (isSearch) {
@@ -2876,6 +2886,7 @@ class InvoicePanel extends JPanel {
                             rs.getDouble("DONGIADIEN"),
                             rs.getDouble("CHISONUOC"),
                             rs.getDouble("DONGIANUOC"),
+                            rs.getDouble("TONGTIENTHANHTOAN"),
                             rs.getDate("HANTHANHTOAN")
                         };
                         tableModel.addRow(row);
@@ -2896,6 +2907,7 @@ class InvoicePanel extends JPanel {
                         rs.getDouble("DONGIADIEN"),
                         rs.getDouble("CHISONUOC"),
                         rs.getDouble("DONGIANUOC"),
+                        rs.getDouble("TONGTIENTHANHTOAN"),
                         rs.getDate("HANTHANHTOAN")
                     };
                     tableModel.addRow(row);
@@ -2947,10 +2959,10 @@ class InvoicePanel extends JPanel {
         }
 
         // Kiểm tra mã tòa và mã phòng
-        if (!isValidBuilding(buildingIdField.getText()) || !isValidRoom(roomIdField.getText(), buildingIdField.getText())) {
-            JOptionPane.showMessageDialog(this, "Mã tòa hoặc mã phòng không tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
+//        if (!isValidBuilding(buildingIdField.getText()) || !isValidRoom(roomIdField.getText(), buildingIdField.getText())) {
+//            JOptionPane.showMessageDialog(this, "Mã tòa hoặc mã phòng không tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+//            return false;
+//        }
 
         return true;
     }
@@ -2987,7 +2999,7 @@ class InvoicePanel extends JPanel {
     }
 
     private void addInvoice() {
-        String query = "INSERT INTO CTHD (MAHOADON, MATOA, MAPHONG, CHISODIEN, DONGIADIEN, CHISONUOC, DONGIANUOC, HANTHANHTOAN) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO CTHD (MAHOADON, MATOA, MAPHONG, CHISODIEN, DONGIADIEN, CHISONUOC, DONGIANUOC,TONGTIENTHANHTOAN, HANTHANHTOAN) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, invoiceIdField.getText());
             pstmt.setString(2, buildingIdField.getText());
@@ -2996,11 +3008,13 @@ class InvoicePanel extends JPanel {
             pstmt.setDouble(5, Double.parseDouble(electricityPriceField.getText()));
             pstmt.setDouble(6, Double.parseDouble(waterUsageField.getText()));
             pstmt.setDouble(7, Double.parseDouble(waterPriceField.getText()));
+            pstmt.setDouble(8, Double.parseDouble(tienField.getText()));
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             sdf.setLenient(false);
             java.util.Date utilDate = sdf.parse(dueDateField.getText());
-            pstmt.setDate(8, new java.sql.Date(utilDate.getTime()));
+            pstmt.setDate(9, new java.sql.Date(utilDate.getTime()));
             pstmt.executeUpdate();
+            connection.commit();
             JOptionPane.showMessageDialog(this, "Thêm hóa đơn thành công!");
             loadInvoices(searchCriteriaComboBox.getSelectedItem().toString(), searchField.getText().trim());
             clearFields();
@@ -3012,7 +3026,7 @@ class InvoicePanel extends JPanel {
     }
 
     private void editInvoice() {
-        String query = "UPDATE CTHD SET MATOA = ?, MAPHONG = ?, CHISODIEN = ?, DONGIADIEN = ?, CHISONUOC = ?, DONGIANUOC = ?, HANTHANHTOAN = ? WHERE MAHOADON = ?";
+        String query = "UPDATE CTHD SET MATOA = ?, MAPHONG = ?, CHISODIEN = ?, DONGIADIEN = ?, CHISONUOC = ?, DONGIANUOC = ?,TONGTIENTHANHTOAN=?, HANTHANHTOAN = ? WHERE MAHOADON = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, buildingIdField.getText());
             pstmt.setString(2, roomIdField.getText());
@@ -3020,12 +3034,14 @@ class InvoicePanel extends JPanel {
             pstmt.setDouble(4, Double.parseDouble(electricityPriceField.getText()));
             pstmt.setDouble(5, Double.parseDouble(waterUsageField.getText()));
             pstmt.setDouble(6, Double.parseDouble(waterPriceField.getText()));
+            pstmt.setDouble(7, Double.parseDouble(tienField.getText()));
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             sdf.setLenient(false);
             java.util.Date utilDate = sdf.parse(dueDateField.getText());
-            pstmt.setDate(7, new java.sql.Date(utilDate.getTime()));
-            pstmt.setString(8, invoiceIdField.getText());
+            pstmt.setDate(8, new java.sql.Date(utilDate.getTime()));
+            pstmt.setString(9, invoiceIdField.getText());
             pstmt.executeUpdate();
+            connection.commit();
             JOptionPane.showMessageDialog(this, "Sửa hóa đơn thành công!");
             loadInvoices(searchCriteriaComboBox.getSelectedItem().toString(), searchField.getText().trim());
             clearFields();
@@ -3048,6 +3064,7 @@ class InvoicePanel extends JPanel {
             try (PreparedStatement pstmt = connection.prepareStatement(query)) {
                 pstmt.setString(1, invoiceIdField.getText());
                 pstmt.executeUpdate();
+                connection.commit();
                 JOptionPane.showMessageDialog(this, "Xóa hóa đơn thành công!");
                 loadInvoices(searchCriteriaComboBox.getSelectedItem().toString(), searchField.getText().trim());
                 clearFields();
@@ -3081,6 +3098,7 @@ class InvoicePanel extends JPanel {
         electricityPriceField.setText("");
         waterUsageField.setText("");
         waterPriceField.setText("");
+        tienField.setText("");
         dueDateField.setText("");
     }
 }
