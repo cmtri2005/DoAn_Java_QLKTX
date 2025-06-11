@@ -488,7 +488,7 @@ public class SignUp extends javax.swing.JFrame {
             pstmtSinhVien.setString(3, cccd);
             pstmtSinhVien.setString(4, phone);
             pstmtSinhVien.setString(5, schoolCode);
-            pstmtSinhVien.setString(6, "Chưa đăng ký");
+            pstmtSinhVien.setString(6, "Chưa đăng kí");
             pstmtSinhVien.setLong(7, userId);
             pstmtSinhVien.setString(8, ngaySinhStr);
             pstmtSinhVien.executeUpdate();
