@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 public class DangKyInternetFrame extends javax.swing.JFrame {
     public DangKyInternetFrame() {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color(153,204,255));
         txtTenSV.setText("");
         txtPhong.setText("");
         txtSoThang.setText("");

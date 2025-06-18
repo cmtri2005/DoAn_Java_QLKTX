@@ -12,6 +12,7 @@ public class DangKyGiuXe extends javax.swing.JFrame {
     private String soTien;
     public DangKyGiuXe() {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color(153,204,255)); // Light blue background
         txtHoTen.setText("");
         txtMSSV.setText("");
         txtBienSoXe.setText("");

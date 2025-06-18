@@ -22,6 +22,7 @@ import model.UserSession;
 public class DangKyTheThao extends javax.swing.JFrame {
     public DangKyTheThao() {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color(153,204,255));
         cmbDichVu.setSelectedIndex(0); 
         cmbDichVuItemStateChanged(null);
         pnlThangDangKy.setVisible(false);
@@ -232,6 +233,8 @@ public class DangKyTheThao extends javax.swing.JFrame {
             }
         });
 
+        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
+
         jLabel5.setText("Số tháng:");
 
         pnlThangDangKy.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
@@ -257,6 +260,8 @@ public class DangKyTheThao extends javax.swing.JFrame {
                     .addComponent(pnlThangDangKy))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel2.setBackground(new java.awt.Color(153, 204, 255));
 
         jLabel6.setText("Số tiếng: ");
 

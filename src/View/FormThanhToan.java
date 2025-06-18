@@ -20,7 +20,9 @@ public class FormThanhToan extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
+        Color backgroundColor = new Color(153,204,255);
         JPanel pnlThongTin = new JPanel(new BorderLayout());
+        pnlThongTin.setBackground(backgroundColor);
         lblThongTin = new JLabel();
         lblThongTin.setFont(new Font("Arial", Font.PLAIN, 16));
         lblThongTin.setVerticalAlignment(SwingConstants.TOP);
@@ -32,6 +34,7 @@ public class FormThanhToan extends JFrame {
         lblThongTin.setText(noiDung);
         pnlThongTin.add(lblThongTin, BorderLayout.CENTER);
         JPanel pnlQr = new JPanel();
+        pnlQr.setBackground(backgroundColor);
         lblQrCode = new JLabel();
         pnlQr.add(lblQrCode);
         try {
